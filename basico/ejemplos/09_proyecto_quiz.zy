@@ -1,0 +1,79 @@
+// Lección 09 — Quiz interactivo
+// Ejecutar: zymbol run 09_proyecto_quiz.zy
+
+// ─── Datos ────────────────────────────────────────────────
+
+preguntas = [
+    "¿De qué color es el cielo despejado?",
+    "¿Cuántos lados tiene un triángulo?",
+    "¿Cuál es el resultado de 7 × 8?",
+    "¿En qué planeta vivimos?",
+    "¿Cuántos meses tiene un año?"
+]
+
+respuestas_correctas = [
+    "azul",
+    "3",
+    "56",
+    "tierra",
+    "12"
+]
+
+// ─── Funciones ────────────────────────────────────────────
+
+es_correcta(respuesta, correcta) {
+    <~ respuesta == correcta
+}
+
+separador() {
+    >> "────────────────────────────────" ¶
+}
+
+bienvenida() {
+    >> "╔═══════════════════════════════╗" ¶
+    >> "║       Quiz de Zymbol          ║" ¶
+    >> "╚═══════════════════════════════╝" ¶
+    >> ¶
+    >> "Responde cada pregunta." ¶
+    >> "Escribe tu respuesta en minúsculas." ¶
+    >> "¡Buena suerte!" ¶
+    >> ¶
+}
+
+resultado_final(puntos, total) {
+    >> "════════════════════════════════" ¶
+    >> "  Resultado: " puntos " de " total " correctas" ¶
+    mensaje = ?? puntos {
+        _? puntos == total     : "¡Perfecto! Eres increíble."
+        _? puntos >= total - 1 : "¡Muy bien! Casi perfecto."
+        _? puntos >= total / 2 : "Bien. La práctica hace al maestro."
+        _                      : "¡Sigue intentando, tú puedes!"
+    }
+    >> "  " mensaje ¶
+    >> "════════════════════════════════" ¶
+}
+
+// ─── Programa principal ───────────────────────────────────
+
+bienvenida()
+
+puntos = 0
+total  = preguntas$#
+
+@ i:1..total {
+    separador()
+    >> "Pregunta " i " de " total ":" ¶
+    >> preguntas[i] ¶
+
+    << "> " respuesta
+
+    ? es_correcta(respuesta, respuestas_correctas[i]) {
+        >> "✓ ¡Correcto!" ¶
+        puntos++
+    } _ {
+        >> "✗ Incorrecto. La respuesta era: " respuestas_correctas[i] ¶
+    }
+    >> ¶
+}
+
+resultado_final(puntos, total)

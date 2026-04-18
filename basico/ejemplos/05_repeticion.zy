@@ -1,0 +1,54 @@
+// Lección 05 — Repetición
+// Ejecutar: zymbol run 05_repeticion.zy
+
+// --- Bucle mientras ---
+>> "=== Mientras ===" ¶
+cuenta = 1
+@ cuenta <= 5 {
+    >> cuenta " "
+    cuenta++
+}
+>> ¶
+
+// --- Rango ---
+>> "=== Rango 1..5 ===" ¶
+@ i:1..5 { >> i " " }
+>> ¶
+
+// --- Rango con paso ---
+>> "=== Pares 0..10 ===" ¶
+@ i:0..10:2 { >> i " " }
+>> ¶
+
+// --- Rango hacia atrás ---
+>> "=== Cuenta regresiva ===" ¶
+@ i:5..1:1 { >> i " " }
+>> ¶
+
+// --- Foreach lista ---
+>> "=== Lista de frutas ===" ¶
+frutas = ["manzana", "pera", "uva", "mango"]
+@ fruta:frutas { >> "  - " fruta ¶ }
+
+// --- Foreach string ---
+>> "=== Letras ===" ¶
+@ letra:"hola" { >> letra "-" }
+>> ¶
+
+// --- Break y continue ---
+>> "=== Impares hasta 7 ===" ¶
+@ i:1..10 {
+    ? i % 2 == 0 { @> }
+    ? i > 7      { @! }
+    >> i " "
+}
+>> ¶
+
+// --- Programa: tabla del 7 ---
+>> ¶
+>> "=== Tabla del 7 ===" ¶
+numero = 7
+@ i:1..10 {
+    resultado = numero * i
+    >> numero " × " i " = " resultado ¶
+}

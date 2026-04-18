@@ -1,0 +1,55 @@
+// Lección 08 — Funciones
+// Ejecutar: zymbol run 08_funciones.zy
+
+// --- Función básica ---
+saludar(nombre) {
+    >> "Hola, {nombre}" ¶
+}
+saludar("Ana")
+saludar("Luis")
+saludar("Sofía")
+
+// --- Función con retorno ---
+sumar(a, b) { <~ a + b }
+>> "4 + 6 = " sumar(4, 6) ¶
+
+// --- Retorno anticipado ---
+valor_absoluto(n) {
+    ? n < 0 { <~ -n }
+    <~ n
+}
+>> "|-8| = " valor_absoluto(-8) ¶
+>> "| 3| = " valor_absoluto(3)  ¶
+
+// --- Funciones compuestas ---
+cuadrado(n)            { <~ n * n }
+suma_de_cuadrados(a, b) { <~ cuadrado(a) + cuadrado(b) }
+>> "3² + 4² = " suma_de_cuadrados(3, 4) ¶
+
+// --- Recursión ---
+factorial(n) {
+    ? n <= 1 { <~ 1 }
+    <~ n * factorial(n - 1)
+}
+>> "5! = " factorial(5) ¶
+>> "6! = " factorial(6) ¶
+
+// --- Programa: calculadora de áreas ---
+area_rectangulo(base, altura) { <~ base * altura }
+area_triangulo(base, altura)  { <~ (base * altura) / 2 }
+area_circulo(radio) {
+    PI := 3.14159
+    <~ PI * radio * radio
+}
+separador() { >> "─────────────────" ¶ }
+
+>> ¶
+>> "=== Calculadora de áreas ===" ¶
+>> ¶
+separador()
+>> "Rectángulo 8×5:  " area_rectangulo(8, 5) ¶
+separador()
+>> "Triángulo 6×4:   " area_triangulo(6, 4)  ¶
+separador()
+>> "Círculo radio 3: " area_circulo(3)        ¶
+separador()

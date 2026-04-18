@@ -1,0 +1,87 @@
+// Lección 04 — Selector de Casos
+// Ejecutar: zymbol run 04_selector_de_casos.zy
+
+// --- Match básico sobre texto ---
+color = "verde"
+?? color {
+    "rojo"    : { >> "Detente"     ¶ }
+    "amarillo": { >> "Precaución"  ¶ }
+    "verde"   : { >> "Avanza"      ¶ }
+    _         : { >> "Desconocido" ¶ }
+}
+
+// --- Match que devuelve un valor (rangos) ---
+nota = 85
+calificacion = ?? nota {
+    90..100 : "Excelente"
+    80..89  : "Muy bien"
+    70..79  : "Bien"
+    60..69  : "Suficiente"
+    _       : "Reprobado"
+}
+>> "Calificación: " calificacion ¶
+
+// --- Match con patrones de comparación ---
+temperatura = -5
+estado = ?? temperatura {
+    < 0  : "Bajo cero"
+    < 15 : "Frío"
+    < 25 : "Agradable"
+    _    : "Caluroso"
+}
+>> "Estado: " estado ¶
+
+// --- Match escalar contra lista de valores (contenencia) ---
+n = 3
+nivel = ?? n {
+    [1, 2] : "bajo"
+    [3, 4] : "medio"
+    [5, 6] : "alto"
+    _      : "fuera de rango"
+}
+>> "Nivel: " nivel ¶
+
+// --- Match con variable lista (ident pattern) ---
+dias_habiles = ["lun", "mar", "mie", "jue", "vie"]
+hoy = "lun"
+tipo_dia = ?? hoy {
+    dias_habiles : "día hábil"
+    _            : "fin de semana"
+}
+>> "Hoy es: " tipo_dia ¶
+
+// --- Match estructural sobre lista ---
+comando = ["abrir", "archivo.zy"]
+?? comando {
+    ["abrir",  _] : { >> "Abriendo archivo..." ¶ }
+    ["cerrar", _] : { >> "Cerrando..."         ¶ }
+    _             : { >> "Comando desconocido"  ¶ }
+}
+
+// --- Match guardado en variable, usado en >> ---
+mes = 4
+nombre_mes = ?? mes {
+    1:"enero"  2:"febrero" 3:"marzo"    4:"abril"
+    5:"mayo"   6:"junio"   7:"julio"    8:"agosto"
+    9:"septiembre" 10:"octubre" 11:"noviembre" 12:"diciembre"
+    _:"inválido"
+}
+>> "El mes " mes " es " nombre_mes ¶
+
+// --- Programa: calculadora de descuentos ---
+calcular_precio(precio_base, categoria) {
+    descuento = ?? categoria {
+        "vip"     : 30
+        "regular" : 10
+        "nuevo"   : 5
+        _         : 0
+    }
+    ahorro       = precio_base * descuento / 100
+    precio_final = precio_base - ahorro
+    >> "Categoría: {categoria} | Descuento: {descuento}% | Total: ${precio_final}" ¶
+}
+
+>> ¶
+calcular_precio(1000, "vip")
+calcular_precio(1000, "regular")
+calcular_precio(1000, "visitante")

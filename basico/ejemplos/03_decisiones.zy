@@ -1,0 +1,46 @@
+// Lección 03 — Decisiones
+// Ejecutar: zymbol run 03_decisiones.zy
+
+// --- Condicional básico ---
+edad = 20
+? edad >= 18 {
+    >> "Puedes entrar" ¶
+} _ {
+    >> "Aún no puedes entrar" ¶
+}
+
+// --- Múltiples condiciones ---
+nota = 75
+? nota >= 90 {
+    >> "Excelente" ¶
+} _? nota >= 70 {
+    >> "Bien" ¶
+} _? nota >= 50 {
+    >> "Suficiente" ¶
+} _ {
+    >> "Reprobado" ¶
+}
+
+// --- Operadores lógicos ---
+llueve    = #0
+hace_frio = #1
+? llueve || hace_frio {
+    >> "Lleva abrigo" ¶
+}
+
+// --- Programa: calificaciones ---
+>> ¶
+nota2 = 85
+? nota2 < 0 || nota2 > 100 {
+    >> "Nota inválida" ¶
+} _? nota2 >= 90 {
+    >> "Calificación: A — Excelente" ¶
+} _? nota2 >= 80 {
+    >> "Calificación: B — Muy bien" ¶
+} _? nota2 >= 70 {
+    >> "Calificación: C — Bien" ¶
+} _? nota2 >= 60 {
+    >> "Calificación: D — Suficiente" ¶
+} _ {
+    >> "Calificación: F — Reprobado" ¶
+}

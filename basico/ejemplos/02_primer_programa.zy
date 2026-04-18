@@ -1,0 +1,23 @@
+// Lección 02 — Tu primer programa
+// Ejecutar: zymbol run 02_primer_programa.zy
+
+nombre  = "Ana"
+edad    = 25
+ciudad  = "Guadalajara"
+activa  = #1
+inicial = 'A'
+
+PAIS := "México"
+
+>> "=== Perfil ===" ¶
+>> "Nombre: {nombre}" ¶
+>> "Edad:   {edad} años" ¶
+>> "Ciudad: {ciudad}, {PAIS}" ¶
+>> "Activa: " activa ¶
+>> "Inicial: " inicial ¶
+
+puntos = 0
+>> ¶
+>> "Puntos iniciales: " puntos ¶
+puntos = 10
+>> "Puntos después:   " puntos ¶

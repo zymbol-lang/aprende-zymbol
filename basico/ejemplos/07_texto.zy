@@ -1,0 +1,68 @@
+// Lección 07 — Texto
+// Ejecutar: zymbol run 07_texto.zy
+
+// --- Longitud y acceso ---
+frase = "Buenos días"
+>> "Largo:    " (frase$#) ¶
+>> "Primera:  " frase[1]  ¶
+>> "Última:   " frase[-1] ¶
+
+// --- Interpolación ---
+nombre = "Ana"
+edad   = 28
+>> "Hola, soy {nombre}, tengo {edad} años." ¶
+>> "Llaves literales: \{nombre\}" ¶
+
+// --- Slice ---
+s = "Buenos días, mundo"
+>> "Inicio: " s$[1..6]   ¶
+>> "Final:  " s$[14..18] ¶
+
+// --- Contiene ---
+correo = "ana@ejemplo.com"
+>> "¿Tiene @? " (correo$? '@')    ¶
+>> "¿Tiene zz? " (correo$? "zz") ¶
+
+// --- Dividir ---
+fecha  = "2025-04-17"
+partes = fecha $/ '-'
+>> "Año: " partes[1] " Mes: " partes[2] " Día: " partes[3] ¶
+
+// --- Agregar ---
+msg = "Hola"
+msg = msg$+ ", mundo"
+msg = msg$+ "!"
+>> msg ¶
+
+// --- Eliminar ---
+fr = "la casa de la laguna"
+>> "Sin primera 'la': " (fr$-  "la") ¶
+>> "Sin todas las 'la': " (fr$-- "la") ¶
+
+// --- Reemplazar ---
+texto = "el gato y el perro"
+>> "Reemplazar todos: " (texto$~~["el":"un"])    ¶
+>> "Reemplazar uno:   " (texto$~~["el":"un":1]) ¶
+
+// --- Programa: validador de correos ---
+analizar_correo(correo2) {
+    >> "Analizando: {correo2}" ¶
+    ? !(correo2$? '@') {
+        >> "  ✗ Falta @" ¶
+        <~
+    }
+    partes2  = correo2 $/ '@'
+    usuario  = partes2[1]
+    dominio  = partes2[2]
+    ? !(dominio$? '.') {
+        >> "  ✗ Dominio inválido" ¶
+        <~
+    }
+    >> "  ✓ Usuario: {usuario}" ¶
+    >> "  ✓ Dominio: {dominio}" ¶
+}
+
+>> ¶
+analizar_correo("ana@ejemplo.com")
+>> ¶
+analizar_correo("esto-no-es-correo")

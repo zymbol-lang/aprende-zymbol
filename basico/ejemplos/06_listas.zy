@@ -1,0 +1,54 @@
+// Lección 06 — Listas
+// Ejecutar: zymbol run 06_listas.zy
+
+// --- Acceso por posición ---
+frutas = ["manzana", "pera", "uva", "mango"]
+>> "Primera: " frutas[1]  ¶
+>> "Última:  " frutas[-1] ¶
+>> "Total:   " (frutas$#)  ¶
+
+// --- Modificar elemento ---
+notas = [8, 7, 9, 6]
+notas[2] = 10
+>> "Notas: " notas ¶
+
+// --- Agregar ---
+lista = ["a", "b"]
+lista = lista$+ "c"
+lista = lista$+ "d"
+>> "Agregado: " lista ¶
+
+// --- Eliminar por valor y por posición ---
+nums = [1, 2, 3, 2, 4]
+>> "Sin primer 2: " (nums$- 2)    ¶
+>> "Sin pos 1:    " (nums$-[1])   ¶
+
+// --- Contiene ---
+>> "¿Tiene 3? " (nums$? 3) ¶
+>> "¿Tiene 9? " (nums$? 9) ¶
+
+// --- Ordenar ---
+desordenados = [5, 2, 8, 1, 9, 3]
+>> "Ascendente:  " (desordenados$^+) ¶
+>> "Descendente: " (desordenados$^-) ¶
+
+// --- Slice ---
+>> "Primeros 3: " ([10, 20, 30, 40, 50]$[1..3]) ¶
+
+// --- Programa: reporte de calificaciones ---
+calificaciones = [85, 92, 78, 96, 74, 88]
+suma = 0
+@ nota:calificaciones { suma = suma + nota }
+
+total     = calificaciones$#
+promedio  = suma / total
+ordenadas = calificaciones$^+
+mas_baja  = ordenadas[1]
+mas_alta  = ordenadas[-1]
+
+>> ¶
+>> "=== Reporte ===" ¶
+>> "Calificaciones: " calificaciones ¶
+>> "Promedio:       " promedio       ¶
+>> "Nota más baja:  " mas_baja       ¶
+>> "Nota más alta:  " mas_alta       ¶
