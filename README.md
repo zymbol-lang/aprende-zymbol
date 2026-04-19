@@ -58,6 +58,21 @@ Tipos compuestos, funciones de orden superior, errores y módulos.
 
 > El nivel intermedio está en desarrollo. Consulta [intermedio/README.md](intermedio/README.md) para el estado actual.
 
+### Nivel Avanzado
+
+Precisión, integración con el sistema y el ecosistema completo del lenguaje.
+
+| # | Lección | Tema |
+|---|---------|------|
+| 01 | Alcance y tiempo de vida | `_name`, `\ var`, visibilidad entre bloques |
+| 02 | Indexación multidimensional | `arr[i>j]`, rangos sobre ejes, extracción estructurada |
+| 03 | Integración con el sistema | `<\ cmd \>`, `</ script.zy />`, automatización |
+| 04 | Modos numéricos | `#d0d9#`, 69 sistemas de dígitos Unicode, i18n |
+| 05 | Herramientas del lenguaje | REPL, `check`, `fmt`, `build` |
+| 06 | Proyecto avanzado | Programa completo con todo lo aprendido |
+
+> El nivel avanzado está en desarrollo. Consulta [avanzado/README.md](avanzado/README.md) para el estado actual.
+
 ---
 
 ## Antes de empezar
