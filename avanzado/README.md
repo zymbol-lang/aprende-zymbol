@@ -26,6 +26,10 @@ Se recomienda completar el [nivel intermedio](../intermedio/README.md) antes de 
 
 ---
 
+Empieza por la [Lección 01 — Alcance y tiempo de vida](01_alcance.md) y sigue en orden. Los [ejemplos](ejemplos/) son archivos `.zy` listos para ejecutar, uno por lección.
+
+---
+
 ## Lecciones
 
 | # | Lección | Qué aprenderás |

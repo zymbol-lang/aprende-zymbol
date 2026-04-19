@@ -1,0 +1,52 @@
+// Lección 04 — Transformación de listas
+// Ejecutar: zymbol run 04_transformacion.zy
+
+numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+// $> — mapear
+dobles = numeros$> (x -> x * 2)
+>> "Dobles:  " dobles ¶
+
+// $| — filtrar
+pares = numeros$| (x -> x % 2 == 0)
+>> "Pares:   " pares ¶
+
+// $< — reducir
+suma = numeros$< (0, (acc, x) -> acc + x)
+>> "Suma:    " suma ¶
+
+// Encadenar con variables intermedias
+paso1 = numeros$| (x -> x > 3)
+paso2 = paso1$> (x -> x * x)
+>> "Cuadrados > 3: " paso2 ¶
+
+// Funciones con nombre dentro de HOF
+doble(x) { <~ x * 2 }
+es_grande(x) { <~ x > 5 }
+
+r = numeros$> (x -> doble(x))
+>> "Usando fn nombrada (doble): " r ¶
+
+filtrado = numeros$| (x -> es_grande(x))
+>> "Usando fn nombrada (es_grande): " filtrado ¶
+
+// Reduce con bloque lambda
+datos = [3, 1, 4, 1, 5, 9, 2, 6]
+maximo = datos$< (datos[1], (max, x) -> {
+    ? x > max { <~ x }
+    <~ max
+})
+>> "Máximo: " maximo ¶
+
+// Análisis de notas
+>> ¶
+notas = [85, 42, 91, 67, 38, 76, 55, 90, 29, 83]
+aprobadas  = notas$| (n -> n >= 60)
+reprobadas = notas$| (n -> n < 60)
+suma_notas = notas$< (0, (acc, n) -> acc + n)
+promedio   = suma_notas / (notas$#)
+
+>> "Total:      " (notas$#) ¶
+>> "Aprobados:  " (aprobadas$#) ¶
+>> "Reprobados: " (reprobadas$#) ¶
+>> "Promedio:   " promedio ¶

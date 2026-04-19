@@ -1,0 +1,85 @@
+// Lección 06 — Manejo de errores
+// Ejecutar: zymbol run 06_errores.zy
+
+// Try básico con catch tipificado
+>> "--- División por cero ---" ¶
+!? {
+    x = 10 / 0
+    >> "nunca llega aquí" ¶
+} :! ##Div {
+    >> "atrapado: división por cero" ¶
+}
+
+// Índice fuera de rango
+>> "--- Índice fuera de rango ---" ¶
+!? {
+    arr = [1, 2, 3]
+    v = arr[10]
+} :! ##Index {
+    >> "atrapado: índice fuera de rango" ¶
+}
+
+// Catch genérico con _err
+>> "--- Catch genérico ---" ¶
+!? {
+    x = 5 / 0
+} :! {
+    >> "error: " _err ¶
+}
+
+// Finally (:>)
+>> "--- Finally ---" ¶
+!? {
+    >> "dentro del try" ¶
+    x = 1 / 0
+} :! ##Div {
+    >> "dentro del catch" ¶
+} :> {
+    >> "dentro del finally (siempre corre)" ¶
+}
+
+// Propagación con $!!
+>> "--- Propagación ---" ¶
+procesar(valor) {
+    ? valor < 0 {
+        valor$!!
+    }
+    <~ valor * 2
+}
+
+!? {
+    r = procesar(-5)
+    >> r ¶
+} :! {
+    >> "error propagado: " _err ¶
+}
+
+r2 = procesar(10)
+>> "procesar(10) = " r2 ¶
+
+// Validador con manejo de errores
+>> ¶
+>> "--- Validador de notas ---" ¶
+convertir(texto) {
+    !? {
+        n = #|texto|
+        meta = n#?
+        tipo = meta[1]
+        ? tipo <> ### && tipo <> ##. {
+            n$!!
+        }
+        ? n < 0 || n > 100 { n$!! }
+        <~ n
+    } :! {
+        <~ -1
+    }
+}
+
+@ t:["85", "abc", "150", "60"] {
+    nota = convertir(t)
+    ? nota >= 0 {
+        >> t " → válida (" nota ")" ¶
+    } _ {
+        >> t " → inválida" ¶
+    }
+}

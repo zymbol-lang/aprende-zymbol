@@ -1,0 +1,44 @@
+// Lección 05 — Tuberías
+// Ejecutar: zymbol run 05_tuberias.zy
+
+doble = x -> x * 2
+inc   = x -> x + 1
+sumar = (a, b) -> a + b
+
+// Tubería básica
+r1 = 5 |> doble(_)
+>> "5 |> doble = " r1 ¶
+
+// _ como marcador de posición
+r2 = 10 |> sumar(_, 5)
+>> "10 |> sumar(_, 5) = " r2 ¶
+
+r3 = 5 |> sumar(2, _)
+>> "5 |> sumar(2, _) = " r3 ¶
+
+// Cadena de tuberías
+r4 = 5 |> doble(_) |> inc(_) |> doble(_)
+>> "5 → doble → inc → doble = " r4 ¶    // 5→10→11→22
+
+// Lambda inline en tubería
+r5 = 7 |> (x -> x * x)(_)
+>> "7 |> cuadrado = " r5 ¶
+
+// Cierre en tubería
+factor = 4
+r6 = 7 |> (x -> x * factor)(_)
+>> "7 |> *factor(4) = " r6 ¶
+
+// Comparar con y sin tuberías
+numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+>> ¶
+>> "Sin tuberías:" ¶
+paso1 = numeros$| (x -> x % 2 == 0)
+paso2 = paso1$> (x -> x * x)
+suma1 = paso2$< (0, (acc, x) -> acc + x)
+>> "  " suma1 ¶
+
+>> "Con tuberías:" ¶
+suma2 = numeros$| (x -> x % 2 == 0) |> (_$> (x -> x * x)) |> (_$< (0, (acc, x) -> acc + x))
+>> "  " suma2 ¶

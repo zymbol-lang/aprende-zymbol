@@ -1,0 +1,101 @@
+// Lección 04 — Modos numéricos
+// Ejecutar: zymbol run 04_numerales.zy
+
+// Salida en ASCII (modo por defecto)
+n = 42
+>> "--- ASCII (por defecto) ---" ¶
+>> n ¶           // → 42
+>> 3.14 ¶        // → 3.14
+>> #1 ¶          // → #1
+
+// Activar Devanagari
+>> ¶
+>> "--- Devanagari ---" ¶
+#०९#
+>> n ¶           // → ४२
+>> 3.14 ¶        // → ३.१४
+>> 1 + 2 ¶       // → ३
+>> #1 ¶          // → #१
+>> #0 ¶          // → #०
+
+// Activar Árabe-índico
+>> ¶
+#09#
+>> "--- Árabe-índico ---" ¶
+#٠٩#
+>> n ¶           // → ٤٢
+>> 100 ¶         // → ١٠٠
+>> #0 ¶          // → #٠
+
+// Activar Tailandés
+>> ¶
+#09#
+>> "--- Tailandés ---" ¶
+#๐๙#
+>> n ¶           // → ๔๒
+>> 1 + 1 ¶       // → ๒
+>> #1 ¶          // → #๑
+
+// Volver a ASCII
+#09#
+>> ¶
+>> "--- De vuelta a ASCII ---" ¶
+>> n ¶           // → 42
+
+// Literales numéricos en Devanagari en el fuente
+>> ¶
+>> "--- Literales Devanagari en código ---" ¶
+#०९#
+a = ४२
+b = १०
+>> a + b ¶       // → ५२
+
+// Bucle con dígitos devanagari
+@ i:१..५ {
+    >> i " "
+}
+>> ¶    // → १ २ ३ ४ ५
+
+// Condiciones bajo modo activo
+>> ¶
+#09#
+>> "--- Condiciones bajo modo activo ---" ¶
+#०९#
+? #१ {
+    >> "condición verdadera en Devanagari" ¶
+}
+
+x = ५ > ३
+?? x {
+    #१ : { >> "mayor" ¶ }
+    #०  : { >> "no mayor" ¶ }
+}
+
+// Conversión #|..| con dígitos Unicode
+#09#
+>> ¶
+>> "--- Conversión Unicode→número ---" ¶
+>> #|"๔๒"| ¶    // → 42
+>> #|"४२"| ¶    // → 42
+>> #|"٤٢"| ¶    // → 42
+
+// Modo Tibetano
+>> ¶
+>> "--- Tibetano ---" ¶
+#༠༩#
+>> 2026 ¶        // → ༢༠༢༦
+>> 3.14 ¶        // → ༣.༡༤
+
+// Modo Matemático Bold
+#09#
+>> ¶
+>> "--- Matemático Bold ---" ¶
+#𝟎𝟗#
+>> 42 ¶          // → 𝟒𝟐
+>> 100 ¶         // → 𝟏𝟎𝟎
+
+// Restaurar ASCII al final
+#09#
+>> ¶
+>> "--- Restaurado a ASCII ---" ¶
+>> 42 ¶

@@ -1,0 +1,41 @@
+// Lección 08 — Módulos
+// Ejecutar: zymbol run 08_modulos.zy
+//
+// Este ejemplo asume que existen los archivos:
+//   modulo_matematica.zy
+//   modulo_contador.zy
+//
+// Crea esos archivos primero y luego ejecuta este.
+
+// ---- modulo_matematica.zy ----
+// # matematica
+// #> { sumar, restar, PI }
+// PI := 3.14159
+// sumar(a, b)  { <~ a + b }
+// restar(a, b) { <~ a - b }
+
+// ---- modulo_contador.zy ----
+// # contador
+// #> { incrementar, obtener, reiniciar }
+// cuenta = 0
+// incrementar()  { cuenta = cuenta + 1 }
+// obtener()      { <~ cuenta }
+// reiniciar()    { cuenta = 0 }
+
+// ---- main (este archivo) ----
+<# ./modulo_matematica <= mat
+<# ./modulo_contador   <= cnt
+
+>> "=== Módulo matemática ===" ¶
+>> "sumar(5, 3)  = " mat::sumar(5, 3) ¶
+>> "restar(10, 4) = " mat::restar(10, 4) ¶
+>> "PI = " mat.PI ¶
+
+>> ¶
+>> "=== Módulo contador ===" ¶
+cnt::incrementar()
+cnt::incrementar()
+cnt::incrementar()
+>> "Después de 3 incrementos: " cnt::obtener() ¶
+cnt::reiniciar()
+>> "Después de reiniciar:      " cnt::obtener() ¶

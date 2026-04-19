@@ -1,0 +1,76 @@
+// Lección 01 — Alcance y tiempo de vida
+// Ejecutar: zymbol run 01_alcance.zy
+
+// Variable _nombre: alcance estrictamente local al bloque
+>> "--- Variable _nombre ---" ¶
+? #1 {
+    _temporal = 42
+    >> "Dentro del bloque: " _temporal ¶    // → 42
+}
+// _temporal ya no existe aquí
+
+// Variable regular vs _variable en bloques anidados
+>> ¶
+>> "--- Regular vs _ en bloques anidados ---" ¶
+? #1 {
+    visible = 100
+    _estricta = 200
+
+    ? #1 {
+        >> "visible desde bloque interno: " visible ¶       // → 100
+        // >> _estricta ¶  // ❌ error semántico si se descomenta
+    }
+}
+
+// Dos _temp independientes en bloques hermanos
+>> ¶
+>> "--- Bloques hermanos con _temp independientes ---" ¶
+? #1 {
+    _temp = 10
+    >> "_temp en bloque A: " _temp ¶
+}
+? #1 {
+    _temp = 20    // completamente independiente del anterior
+    >> "_temp en bloque B: " _temp ¶
+}
+
+// Variable _nombre dentro de funciones
+>> ¶
+>> "--- _nombre en funciones ---" ¶
+calcular(a, b) {
+    _suma = a + b
+    _producto = a * b
+    <~ (_suma + _producto)
+}
+
+>> "calcular(3, 4) = " calcular(3, 4) ¶    // → (3+4) + (3*4) = 7+12 = 19
+
+// Destrucción explícita con \
+>> ¶
+>> "--- Destrucción explícita ---" ¶
+? #1 {
+    datos = [1, 2, 3, 4, 5]
+    suma = datos$< (0, (acc, x) -> acc + x)
+    >> "Suma calculada: " suma ¶
+    \ datos              // liberada explícitamente aquí
+    >> "datos destruido, suma sigue disponible: " suma ¶
+}
+
+// \ con variable _recurso
+>> ¶
+>> "--- Destrucción de variable _nombre ---" ¶
+? #1 {
+    _buffer = [10, 20, 30]
+    resultado = _buffer[2]
+    \ _buffer
+    >> "resultado extraído antes de destruir: " resultado ¶
+}
+
+// Acumulador en bucle (debe ser variable regular, no _)
+>> ¶
+>> "--- Acumulador en bucle ---" ¶
+contador = 0
+@ i:1..5 {
+    contador = contador + i
+}
+>> "Suma 1..5 = " contador ¶    // → 15

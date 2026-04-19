@@ -1,0 +1,105 @@
+// Lección 06 — Proyecto avanzado: Analizador de Logs
+// Ejecutar: zymbol run 06_proyecto.zy
+//
+// Este archivo es una versión autocontenida del proyecto multi-módulo.
+// El proyecto completo (con módulos separados) está descrito en 06_proyecto.md:
+//   main.zy + parser.zy + metricas.zy + reporte.zy
+//
+// Aquí todo está en un solo archivo para poder ejecutarlo directamente.
+
+// ---- Datos de ejemplo ----
+// En el proyecto real, esto se lee de un archivo con:
+//   contenido = <\ "cat sistema.log" \>
+
+log_simulado = [
+    "2026-04-18 14:23:01 ERROR Tiempo de espera agotado",
+    "2026-04-18 14:23:05 INFO  Conexión establecida",
+    "2026-04-18 14:23:09 WARN  Reintento 2 de 3",
+    "2026-04-18 14:23:12 INFO  Datos recibidos",
+    "2026-04-18 14:23:15 ERROR Base de datos no responde",
+    "2026-04-18 14:23:18 INFO  Caché actualizado",
+    "2026-04-18 14:23:21 WARN  Memoria al 85%",
+    "2026-04-18 14:23:24 ERROR Conexión rechazada",
+    "2026-04-18 14:23:27 INFO  Tarea completada",
+    "2026-04-18 14:23:30 INFO  Sesión cerrada"
+]
+
+// ---- parser.zy — parsear líneas de log ----
+parsear_linea(linea) {
+    partes = linea$/" "
+    ? (partes$#) < 4 {
+        <~ (valida: #0)
+    }
+    <~ (
+        valida:   #1,
+        fecha:    partes[1],
+        hora:     partes[2],
+        nivel:    partes[3],
+        mensaje:  partes[4]
+    )
+}
+
+// ---- metricas.zy — calcular estadísticas ----
+calcular_metricas(entradas) {
+    total   = entradas$#
+    errores = entradas$| (e -> e.nivel == "ERROR")
+    warns   = entradas$| (e -> e.nivel == "WARN")
+    infos   = entradas$| (e -> e.nivel == "INFO")
+
+    <~ (
+        total:      total,
+        errores:    errores$#,
+        warnings:   warns$#,
+        infos:      infos$#,
+        tasa_error: errores$# * 100 / total
+    )
+}
+
+// ---- reporte.zy — formatear la salida ----
+imprimir_reporte(met, entradas) {
+    >> "==============================" ¶
+    >> "  Reporte de análisis de log" ¶
+    >> "==============================" ¶
+    >> ¶
+    >> "Total de entradas : " met.total ¶
+    >> "Errores           : " met.errores ¶
+    >> "Advertencias      : " met.warnings ¶
+    >> "Informativos      : " met.infos ¶
+    >> "Tasa de error     : " met.tasa_error "%" ¶
+    >> ¶
+
+    ? met.errores > 0 {
+        >> "--- Detalle de errores ---" ¶
+        errores_list = entradas$| (e -> e.nivel == "ERROR")
+        @ e:errores_list {
+            >> "  [" e.hora "] " e.mensaje ¶
+        }
+    }
+}
+
+// ---- main.zy — programa principal ----
+entradas = []
+
+@ linea:log_simulado {
+    ? (linea$#) == 0 { @> }    // saltar líneas vacías
+
+    entrada = parsear_linea(linea)
+    ? entrada.valida {
+        entradas = entradas$+ entrada
+    }
+}
+
+? (entradas$#) == 0 {
+    >> "No se encontraron entradas válidas" ¶
+} _ {
+    met = calcular_metricas(entradas)
+    imprimir_reporte(met, entradas)
+}
+
+// ---- Extensión: leer desde un archivo real ----
+>> ¶
+>> "--- Para usar con un archivo real ---" ¶
+>> "Crear sistema.log con entradas de log y ejecutar:" ¶
+>> "  zymbol run 06_proyecto.zy" ¶
+>> ¶
+>> "Para el proyecto multi-módulo completo, ver 06_proyecto.md" ¶

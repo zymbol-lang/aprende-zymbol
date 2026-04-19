@@ -1,0 +1,78 @@
+// Lección 05 — Herramientas del lenguaje
+// Este archivo demuestra el uso de las herramientas desde código Zymbol.
+// Las herramientas del CLI (check, fmt, build) se usan desde la terminal,
+// pero podemos invocarlas como subprocesos con <\ \>.
+//
+// Flujo de trabajo recomendado (ejecutar en la terminal):
+//   zymbol check  05_herramientas.zy       → verificar sin ejecutar
+//   zymbol fmt    05_herramientas.zy       → ver formato sugerido
+//   zymbol run    05_herramientas.zy       → árbol de sintaxis (desarrollo)
+//   zymbol run --vm 05_herramientas.zy     → VM (más rápido)
+//   zymbol build  05_herramientas.zy -o herramientas_bin → compilar
+
+// ---- Verificar un archivo con zymbol check desde código ----
+>> "--- Invocar zymbol check desde el programa ---" ¶
+
+propio = "05_herramientas.zy"
+resultado_check = <\ "zymbol check {propio} 2>&1 && echo OK || echo ERROR" \>
+>> "check resultado: " resultado_check ¶
+
+// ---- Ver version del intérprete ----
+>> ¶
+>> "--- Versión del intérprete ---" ¶
+version = <\ "zymbol --version 2>/dev/null || echo 'zymbol no encontrado en PATH'" \>
+>> version ¶
+
+// ---- Programa de ejemplo: verificar y formatear en un paso ----
+>> ¶
+>> "--- Pipeline de verificación ---" ¶
+
+verificar_archivo(ruta) {
+    check = <\ "zymbol check {ruta} 2>&1; echo $?" \>
+    lineas = check$/" \n"
+    codigo_salida = lineas[-1]
+
+    ? codigo_salida == "0" {
+        <~ (ok: #1, msg: "sin errores")
+    }
+    <~ (ok: #0, msg: check)
+}
+
+// Verificar este mismo archivo
+r = verificar_archivo(propio)
+? r.ok {
+    >> propio " → sin errores semánticos" ¶
+} _ {
+    >> propio " → " r.msg ¶
+}
+
+// ---- Demostración de características del lenguaje en acción ----
+>> ¶
+>> "--- Código que usa todas las herramientas conceptualmente ---" ¶
+
+// El mismo programa puede correr en árbol o en VM
+// y producir resultados idénticos
+
+datos = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3]
+
+maximo = datos$< (datos[1], (m, x) -> {
+    ? x > m { <~ x }
+    <~ m
+})
+
+minimo = datos$< (datos[1], (m, x) -> {
+    ? x < m { <~ x }
+    <~ m
+})
+
+suma   = datos$< (0, (acc, x) -> acc + x)
+>> "Datos:   " datos ¶
+>> "Máximo:  " maximo ¶    // → 9
+>> "Mínimo:  " minimo ¶    // → 1
+>> "Suma:    " suma ¶      // → 39
+
+// Verificar que check detecta errores semánticos
+// (este programa no tiene errores — check termina con código 0)
+>> ¶
+>> "Programa verificado, formateado y listo para distribución." ¶
+>> "Para compilar a binario: zymbol build 05_herramientas.zy -o herramientas_bin" ¶

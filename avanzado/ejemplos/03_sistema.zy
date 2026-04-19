@@ -1,0 +1,77 @@
+// Lección 03 — Integración con el sistema
+// Ejecutar: zymbol run 03_sistema.zy
+// Nota: requiere un sistema Unix con los comandos: date, ls, wc, echo, bc
+
+// Capturar salida de un comando
+>> "--- Fecha del sistema ---" ¶
+fecha = <\ "date +%Y-%m-%d" \>
+>> "Hoy es: " fecha ¶
+
+// Hora actual
+hora = <\ "date +%H:%M:%S" \>
+>> "Hora actual: " hora ¶
+
+// Contador de archivos
+>> ¶
+>> "--- Archivos en /tmp ---" ¶
+total_tmp = <\ "ls /tmp | wc -l" \>
+>> "Archivos en /tmp: " total_tmp ¶
+
+// Comando con bc para aritmética de alta precisión
+>> ¶
+>> "--- Cálculo con bc ---" ¶
+pi_aprox = <\ "echo 'scale=6; 355/113' | bc" \>
+>> "π ≈ " pi_aprox ¶
+
+raiz2 = <\ "echo 'scale=4; sqrt(2)' | bc -l" \>
+>> "√2 ≈ " raiz2 ¶
+
+// Verificar si un archivo existe
+>> ¶
+>> "--- Verificar archivo ---" ¶
+ruta = "/tmp"
+existe = <\ "test -d {ruta} && echo si || echo no" \>
+? existe == "si" {
+    >> ruta " existe en el sistema" ¶
+} _ {
+    >> ruta " no encontrado" ¶
+}
+
+// Construir comando dinámicamente
+>> ¶
+>> "--- Búsqueda dinámica ---" ¶
+buscar_en(directorio, patron) {
+    resultado = <\ "ls {directorio} | grep {patron} | wc -l" \>
+    <~ resultado
+}
+
+coincidencias = buscar_en("/tmp", ".")
+>> "Entradas en /tmp: " coincidencias ¶
+
+// Manejo de errores con comandos
+>> ¶
+>> "--- Manejo de error ##IO ---" ¶
+!? {
+    salida = <\ "comando_que_no_existe_zy123" \>
+    >> salida ¶
+} :! ##IO {
+    >> "El comando no existe o falló — error ##IO atrapado" ¶
+}
+
+// Encadenar herramientas del sistema
+>> ¶
+>> "--- Encadenamiento de herramientas ---" ¶
+// Top 3 directorios más grandes en /tmp (si hay contenido)
+grandes = <\ "du -sh /tmp/* 2>/dev/null | sort -rh | head -3" \>
+? (grandes$#) > 0 {
+    >> "Entradas más grandes en /tmp:" ¶
+    >> grandes ¶
+} _ {
+    >> "/tmp está vacío o sin permisos" ¶
+}
+
+// Uso de memoria
+>> ¶
+>> "--- Memoria del sistema ---" ¶
+mem = <\ "free -h 2>/dev/null | grep Mem | awk '{print $3\"/\"$2}' || echo 'no disponible'" \>
+>> "Memoria usada/total: " mem ¶

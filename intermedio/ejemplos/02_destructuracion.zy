@@ -1,0 +1,45 @@
+// Lección 02 — Desestructuración
+// Ejecutar: zymbol run 02_destructuracion.zy
+
+// Desestructuración de lista
+arr = [10, 20, 30, 40, 50]
+[a, b, c] = arr
+>> "a=" a "  b=" b "  c=" c ¶
+
+// Colector de resto
+[primero, *resto] = arr
+>> "primero=" primero "  resto=" resto ¶
+
+// Descartar con _
+[x, _, z] = [1, 2, 3]
+>> "x=" x "  z=" z ¶
+
+// Desestructuración de tupla posicional
+punto = (100, 200)
+(px, py) = punto
+>> "px=" px "  py=" py ¶
+
+// Desestructuración de tupla con nombres
+persona = (nombre: "Luis", edad: 30, ciudad: "Lima")
+(nombre: n, ciudad: donde) = persona
+>> n " vive en " donde ¶
+
+// En bucles
+contactos = [
+    (nombre: "Ana",  tel: "555-0001"),
+    (nombre: "Luis", tel: "555-0002"),
+    (nombre: "Mía",  tel: "555-0003")
+]
+>> ¶
+>> "=== Contactos ===" ¶
+@ c:contactos {
+    (nombre: nombre, tel: tel) = c
+    >> "  " nombre ": " tel ¶
+}
+
+// Valor de retorno de función
+division(a, b) { <~ (cociente: a / b, resto: a % b) }
+
+(cociente: q, resto: r) = division(23, 7)
+>> ¶
+>> "23 / 7: cociente=" q "  resto=" r ¶

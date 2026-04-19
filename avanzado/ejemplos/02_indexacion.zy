@@ -1,0 +1,70 @@
+// Lección 02 — Indexación multidimensional
+// Ejecutar: zymbol run 02_indexacion.zy
+
+m = [[1,2,3], [4,5,6], [7,8,9]]
+
+// Acceso escalar con i>j
+>> "--- Acceso escalar ---" ¶
+>> "m[1>1] = " m[1>1] ¶     // → 1
+>> "m[2>3] = " m[2>3] ¶     // → 6
+>> "m[3>2] = " m[3>2] ¶     // → 8
+>> "m[-1>-1] = " m[-1>-1] ¶ // → 9
+
+// Estructura 3D
+>> ¶
+>> "--- Acceso 3D ---" ¶
+cubo = [[[1,2],[3,4]], [[5,6],[7,8]]]
+>> "cubo[1>1>1] = " cubo[1>1>1] ¶    // → 1
+>> "cubo[1>2>1] = " cubo[1>2>1] ¶    // → 3
+>> "cubo[2>2>2] = " cubo[2>2>2] ¶    // → 8
+
+// Índices calculados
+>> ¶
+>> "--- Índices calculados ---" ¶
+n = 3
+mitad = 2
+>> "m[n>n] = " m[n>n] ¶              // → 9
+>> "m[(mitad+1)>n] = " m[(mitad+1)>n] ¶    // → 6
+
+// Extracción plana con ;
+>> ¶
+>> "--- Extracción plana ---" ¶
+diagonal = m[1>1 ; 2>2 ; 3>3]
+>> "Diagonal: " diagonal ¶    // → [1, 5, 9]
+
+esquina_fila1 = m[1>1 ; 1>3]
+>> "Esquinas fila 1: " esquina_fila1 ¶    // → [1, 3]
+
+// Extracción estructurada con grupos
+>> ¶
+>> "--- Extracción estructurada ---" ¶
+grupos = m[[1>1, 1>3] ; [3>1, 3>3]]
+>> "Esquinas: " grupos ¶           // → [[1, 3], [7, 9]]
+>> "Fila superior: " grupos[1] ¶   // → [1, 3]
+>> "Fila inferior: " grupos[2] ¶   // → [7, 9]
+
+// Rangos en columnas
+>> ¶
+>> "--- Rangos ---" ¶
+fila1_todo = m[[1>1..3]]
+>> "Fila 1 completa: " fila1_todo ¶    // → [1, 2, 3]
+
+dos_filas = m[[1>2..3] ; [2>2..3]]
+>> "Cols 2-3 de filas 1 y 2: " dos_filas ¶    // → [[2, 3], [5, 6]]
+
+// Rango con variable
+>> ¶
+>> "--- Rango con variables ---" ¶
+inicio = 1
+fin = 3
+rango = m[[2>inicio..fin]]
+>> "Fila 2, cols 1-3: " rango ¶    // → [4, 5, 6]
+
+// Manejo de errores de índice
+>> ¶
+>> "--- Manejo de errores ---" ¶
+!? {
+    _ = m[5>1]
+} :! ##Index {
+    >> "Error: índice fuera de rango atrapado correctamente" ¶
+}

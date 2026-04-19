@@ -1,0 +1,71 @@
+// Lección 07 — Inspección de tipos
+// Ejecutar: zymbol run 07_tipos.zy
+
+// #? — metadatos de tipo
+>> "--- Metadatos ---" ¶
+>> 42#?      ¶    // (###, 2, 42)
+>> 3.14#?    ¶    // (##., 4, 3.14)
+>> "hola"#?  ¶    // (##", 4, hola)
+>> 'A'#?     ¶    // (##', 1, A)
+>> #1#?      ¶    // (##?, 1, #1)
+>> [1,2,3]#? ¶    // (##], 3, [1, 2, 3])
+
+// Extraer el tipo
+meta = 42#?
+tipo = meta[1]
+>> "Tipo de 42: " tipo ¶    // ###
+
+// Decisión según tipo
+>> ¶
+>> "--- Selector por tipo ---" ¶
+verificar(x) {
+    meta = x#?
+    tipo = meta[1]
+    ?? tipo {
+        ### : { >> "  entero: " x ¶ }
+        ##. : { >> "  flotante: " x ¶ }
+        ##" : { >> "  texto (" (meta[2]) " chars): " x ¶ }
+        ##? : { >> "  booleano: " x ¶ }
+        ##] : { >> "  lista (" (meta[2]) " elementos)" ¶ }
+        _   : { >> "  otro tipo" ¶ }
+    }
+}
+
+verificar(42)
+verificar(3.14)
+verificar("hola mundo")
+verificar(#1)
+verificar([1, 2, 3])
+
+// #|..| — convertir texto a número
+>> ¶
+>> "--- Conversión texto→número ---" ¶
+>> #|"42"|   ¶    // → 42
+>> #|"3.14"| ¶    // → 3.14
+>> #|"abc"|  ¶    // → abc (falla silenciosamente)
+>> #|99|     ¶    // → 99 (ya era número)
+
+// Validación completa
+>> ¶
+>> "--- Validador ---" ¶
+validar(texto, min, max) {
+    valor = #|texto|
+    meta  = valor#?
+    tipo  = meta[1]
+    ? tipo <> ### && tipo <> ##. {
+        <~ (ok: #0, msg: "no es número")
+    }
+    ? valor < min || valor > max {
+        <~ (ok: #0, msg: "fuera de rango")
+    }
+    <~ (ok: #1, valor: valor)
+}
+
+@ t:["25", "xyz", "-5", "150", "75"] {
+    r = validar(t, 0, 100)
+    ? r.ok {
+        >> t " → " r.valor ¶
+    } _ {
+        >> t " → " r.msg ¶
+    }
+}
