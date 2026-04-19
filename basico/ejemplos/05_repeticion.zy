@@ -1,6 +1,11 @@
 // Lección 05 — Repetición
 // Ejecutar: zymbol run 05_repeticion.zy
 
+// --- Repite N veces ---
+>> "=== N veces ===" ¶
+@ 5 { >> "Zz" }
+>> ¶
+
 // --- Bucle mientras ---
 >> "=== Mientras ===" ¶
 cuenta = 1

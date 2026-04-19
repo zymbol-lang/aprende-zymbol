@@ -31,9 +31,31 @@ Se lee: *"Repite mientras cuenta sea menor o igual a 5. Dentro: muestra cuenta, 
 
 ---
 
-## Repetir un número fijo de veces — rango
+## Repetir exactamente N veces
 
-Cuando sabes exactamente cuántas veces quieres repetir algo, usa un rango con `..`. El número a la izquierda es el inicio, el de la derecha es el fin (ambos **incluidos**):
+La forma más directa cuando solo te importa cuántas veces: escribe el número después del `@`. El bloque se ejecuta exactamente ese número de veces y se detiene solo.
+
+```
+@ 5 {
+    >> "Zz"
+}
+>> ¶
+```
+
+Resultado:
+```
+ZzZzZzZzZz
+```
+
+No hay variable de contador, no hay condición que mantener. El lenguaje cuenta por ti.
+
+> El analizador muestra un aviso `loop condition should be Bool, got Int` porque internamente comparte la gramática con el while. El aviso es esperado e inofensivo — el intérprete reconoce la forma y ejecuta exactamente N veces.
+
+---
+
+## Repetir un número fijo de veces con contador — rango
+
+Cuando necesitas saber en qué vuelta estás, usa un rango con `..`. El número a la izquierda es el inicio, el de la derecha es el fin (ambos **incluidos**):
 
 ```
 @ i:1..5 {
@@ -241,7 +263,8 @@ Resultado:
 | Concepto | Sintaxis |
 |---|---|
 | Repite mientras... | `@ condición { }` |
-| Repite N veces (rango) | `@ i:1..N { }` |
+| Repite N veces (simple) | `@ N { }` |
+| Repite N veces con contador | `@ i:1..N { }` |
 | Rango con paso | `@ i:0..10:2 { }` |
 | Para cada elemento | `@ elemento:lista { }` |
 | Bucle infinito | `@ { }` |
