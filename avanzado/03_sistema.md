@@ -51,9 +51,9 @@ El operador captura todo lo que el comando imprime en stdout, incluyendo saltos 
 total = <\ "ls /tmp | wc -l" \>
 >> "Archivos en /tmp: " total ¶
 
-// Obtener uso de memoria
-memoria = <\ "free -h | grep Mem | awk '{print $3\"/\"$2}'" \>
->> "Memoria usada: " memoria ¶
+// Obtener memoria disponible (en KB)
+mem_kb = <\ "grep MemAvailable /proc/meminfo | tr -s ' ' | cut -d' ' -f2" \>
+>> "Memoria disponible (KB): " mem_kb ¶
 
 // Calcular con bc
 resultado = <\ "echo 'scale=4; 355/113' | bc" \>

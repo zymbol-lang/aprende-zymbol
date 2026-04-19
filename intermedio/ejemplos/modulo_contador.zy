@@ -1,0 +1,8 @@
+# contador
+#> { incrementar, obtener, reiniciar }
+
+cuenta = 0
+
+incrementar() { cuenta = cuenta + 1 }
+obtener()     { <~ cuenta }
+reiniciar()   { cuenta = 0 }

@@ -111,10 +111,10 @@ resultado_final(puntos, total) {
     >> "  Resultado: " puntos " de " total " correctas" ¶
 
     mensaje = ?? puntos {
-        _? puntos == total          : "¡Perfecto! Eres increíble."
-        _? puntos >= total - 1      : "¡Muy bien! Casi perfecto."
-        _? puntos >= total / 2      : "Bien. La práctica hace al maestro."
-        _                           : "¡Sigue intentando, tú puedes!"
+        == total          : "¡Perfecto! Eres increíble."
+        >= (total - 1)    : "¡Muy bien! Casi perfecto."
+        >= (total / 2)    : "Bien. La práctica hace al maestro."
+        _                 : "¡Sigue intentando, tú puedes!"
     }
 
     >> "  " mensaje ¶
@@ -204,10 +204,10 @@ resultado_final(puntos, total) {
     >> "  Resultado: " puntos " de " total " correctas" ¶
 
     mensaje = ?? puntos {
-        _? puntos == total     : "¡Perfecto! Eres increíble."
-        _? puntos >= total - 1 : "¡Muy bien! Casi perfecto."
-        _? puntos >= total / 2 : "Bien. La práctica hace al maestro."
-        _                      : "¡Sigue intentando, tú puedes!"
+        == total          : "¡Perfecto! Eres increíble."
+        >= (total - 1)    : "¡Muy bien! Casi perfecto."
+        >= (total / 2)    : "Bien. La práctica hace al maestro."
+        _                 : "¡Sigue intentando, tú puedes!"
     }
 
     >> "  " mensaje ¶

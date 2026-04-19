@@ -114,7 +114,9 @@ intentar_convertir(texto) {
     meta = resultado#?
     tipo = meta[1]
 
-    ? tipo == ### || tipo == ##. {
+    ri = 0#?   ;  ti = ri[1]
+    rf = 0.0#? ;  tf = rf[1]
+    ? (tipo == ti) || (tipo == tf) {
         >> "Convertido: " resultado ¶
     } _ {
         >> "'" texto "' no es un número" ¶

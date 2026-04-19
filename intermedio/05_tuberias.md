@@ -97,8 +97,8 @@ paso2 = paso1$> (x -> x * x)
 suma  = paso2$< (0, (acc, x) -> acc + x)
 >> suma ¶    // → 220
 
-// Con tuberías
-resultado = numeros$| (x -> x % 2 == 0) |> (_$> (x -> x * x)) |> (_$< (0, (acc, x) -> acc + x))
+// Con encadenamiento directo (equivalente, más legible)
+resultado = numeros $| (x -> x % 2 == 0) $> (x -> x * x) $< (0, (acc, x) -> acc + x)
 >> resultado ¶    // → 220
 ```
 

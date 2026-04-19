@@ -11,7 +11,7 @@ Para eso existen las **tuplas**: contenedores inmutables que pueden mezclar tipo
 La forma más directa: valores entre paréntesis separados por comas. Se acceden por índice (1-based, igual que las listas).
 
 ```
-punto = (10, 20)
+punto = (10, 20, 30)
 >> punto[1] ¶    // → 10
 >> punto[2] ¶    // → 20
 ```
