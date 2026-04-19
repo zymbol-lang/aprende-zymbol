@@ -1,9 +1,9 @@
 // Lección 01 — Tuplas
 // Ejecutar: zymbol run 01_tuplas.zy
 
-// Tupla posicional
-punto = (10, 20)
->> "Punto: (" punto[1] ", " punto[2] ")" ¶
+// Tupla posicional (con campos nombrados para acceso seguro)
+punto = (x: 10, y: 20)
+>> "Punto: (" punto.x ", " punto.y ")" ¶
 
 // Tupla con campos nombrados
 persona = (nombre: "Ana", edad: 25, activa: #1)

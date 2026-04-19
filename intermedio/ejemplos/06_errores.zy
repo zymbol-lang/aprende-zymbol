@@ -4,7 +4,7 @@
 // Try básico con catch tipificado
 >> "--- División por cero ---" ¶
 !? {
-    x = 10 / 0
+    _x = 10 / 0
     >> "nunca llega aquí" ¶
 } :! ##Div {
     >> "atrapado: división por cero" ¶
@@ -22,7 +22,7 @@
 // Catch genérico con _err
 >> "--- Catch genérico ---" ¶
 !? {
-    x = 5 / 0
+    _x = 5 / 0
 } :! {
     >> "error: " _err ¶
 }
@@ -31,31 +31,33 @@
 >> "--- Finally ---" ¶
 !? {
     >> "dentro del try" ¶
-    x = 1 / 0
+    _x = 1 / 0
 } :! ##Div {
     >> "dentro del catch" ¶
 } :> {
     >> "dentro del finally (siempre corre)" ¶
 }
 
-// Propagación con $!!
->> "--- Propagación ---" ¶
-procesar(valor) {
-    ? valor < 0 {
-        valor$!!
+// Propagación con $!! — solo funciona si el valor ya ES un error
+>> "--- Propagación con $!! ---" ¶
+buscar(arr, indice) {
+    resultado = arr[indice]    // puede fallar si índice fuera de rango
+    ? resultado$! {            // $! devuelve #1 si el valor es un error
+        resultado$!!           // $!! propaga el error al llamador
     }
-    <~ valor * 2
+    <~ resultado
 }
 
 !? {
-    r = procesar(-5)
-    >> r ¶
+    nums = [10, 20, 30]
+    v = buscar(nums, 99)    // índice fuera de rango → error
+    >> v ¶
 } :! {
-    >> "error propagado: " _err ¶
+    >> "error propagado desde buscar: " _err ¶
 }
 
-r2 = procesar(10)
->> "procesar(10) = " r2 ¶
+v2 = buscar([10, 20, 30], 2)
+>> "buscar([10,20,30], 2) = " v2 ¶
 
 // Validador con manejo de errores
 >> ¶
@@ -65,10 +67,16 @@ convertir(texto) {
         n = #|texto|
         meta = n#?
         tipo = meta[1]
-        ? tipo <> ### && tipo <> ##. {
-            n$!!
+        ri = 0#?
+        ti = ri[1]
+        rf = 0.0#?
+        tf = rf[1]
+        ? (tipo <> ti) && (tipo <> tf) {
+            _x = 1 / 0    // forzar error para salir al catch
         }
-        ? n < 0 || n > 100 { n$!! }
+        ? n < 0 || n > 100 {
+            _x = 1 / 0    // fuera de rango
+        }
         <~ n
     } :! {
         <~ -1

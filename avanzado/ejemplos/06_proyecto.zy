@@ -11,17 +11,18 @@
 // En el proyecto real, esto se lee de un archivo con:
 //   contenido = <\ "cat sistema.log" \>
 
+// Formato: fecha hora NIVEL mensaje (una sola palabra de mensaje para parseo simple)
 log_simulado = [
-    "2026-04-18 14:23:01 ERROR Tiempo de espera agotado",
-    "2026-04-18 14:23:05 INFO  Conexión establecida",
-    "2026-04-18 14:23:09 WARN  Reintento 2 de 3",
-    "2026-04-18 14:23:12 INFO  Datos recibidos",
-    "2026-04-18 14:23:15 ERROR Base de datos no responde",
-    "2026-04-18 14:23:18 INFO  Caché actualizado",
-    "2026-04-18 14:23:21 WARN  Memoria al 85%",
-    "2026-04-18 14:23:24 ERROR Conexión rechazada",
-    "2026-04-18 14:23:27 INFO  Tarea completada",
-    "2026-04-18 14:23:30 INFO  Sesión cerrada"
+    "2026-04-18 14:23:01 ERROR timeout",
+    "2026-04-18 14:23:05 INFO  conectado",
+    "2026-04-18 14:23:09 WARN  reintento",
+    "2026-04-18 14:23:12 INFO  recibido",
+    "2026-04-18 14:23:15 ERROR db-error",
+    "2026-04-18 14:23:18 INFO  cache-ok",
+    "2026-04-18 14:23:21 WARN  memoria-85pct",
+    "2026-04-18 14:23:24 ERROR rechazado",
+    "2026-04-18 14:23:27 INFO  completado",
+    "2026-04-18 14:23:30 INFO  sesion-cerrada"
 ]
 
 // ---- parser.zy — parsear líneas de log ----

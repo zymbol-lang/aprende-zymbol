@@ -33,11 +33,14 @@ sumar20 = hacer_sumador(20)
 >> sumar10(5) ¶    // → 15
 >> sumar20(5) ¶    // → 25
 
-// Lambda en lista
+// Lambda en lista (extraer a variable antes de llamar)
 operaciones = [x -> x + 1, x -> x * 2, x -> x * x]
->> operaciones[1](5) ¶    // → 6
->> operaciones[2](5) ¶    // → 10
->> operaciones[3](5) ¶    // → 25
+op1 = operaciones[1]
+op2 = operaciones[2]
+op3 = operaciones[3]
+>> op1(5) ¶    // → 6
+>> op2(5) ¶    // → 10
+>> op3(5) ¶    // → 25
 
 // Pasar lambda como argumento
 aplicar(f, x) { <~ f(x) }

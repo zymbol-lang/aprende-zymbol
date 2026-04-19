@@ -15,19 +15,38 @@ meta = 42#?
 tipo = meta[1]
 >> "Tipo de 42: " tipo ¶    // ###
 
-// Decisión según tipo
+// Decisión según tipo — comparando contra tipos de referencia
 >> ¶
 >> "--- Selector por tipo ---" ¶
+
 verificar(x) {
     meta = x#?
     tipo = meta[1]
-    ?? tipo {
-        ### : { >> "  entero: " x ¶ }
-        ##. : { >> "  flotante: " x ¶ }
-        ##" : { >> "  texto (" (meta[2]) " chars): " x ¶ }
-        ##? : { >> "  booleano: " x ¶ }
-        ##] : { >> "  lista (" (meta[2]) " elementos)" ¶ }
-        _   : { >> "  otro tipo" ¶ }
+
+    // Obtener tipos de referencia dentro de la función
+    ri = 0#?
+    ti = ri[1]      // tipo Int
+    rf = 0.0#?
+    tf = rf[1]      // tipo Float
+    rs = ""#?
+    ts = rs[1]      // tipo String
+    rb = #0#?
+    tb = rb[1]      // tipo Bool
+    rl = []#?
+    tl = rl[1]      // tipo List
+
+    ? (tipo == ti) {
+        >> "  entero: " x ¶
+    } _? (tipo == tf) {
+        >> "  flotante: " x ¶
+    } _? (tipo == ts) {
+        >> "  texto (" (meta[2]) " chars): " x ¶
+    } _? (tipo == tb) {
+        >> "  booleano: " x ¶
+    } _? (tipo == tl) {
+        >> "  lista (" (meta[2]) " elementos)" ¶
+    } _ {
+        >> "  otro tipo" ¶
     }
 }
 
@@ -42,7 +61,7 @@ verificar([1, 2, 3])
 >> "--- Conversión texto→número ---" ¶
 >> #|"42"|   ¶    // → 42
 >> #|"3.14"| ¶    // → 3.14
->> #|"abc"|  ¶    // → abc (falla silenciosamente)
+>> #|"abc"|  ¶    // → abc (falla silenciosamente, devuelve el texto)
 >> #|99|     ¶    // → 99 (ya era número)
 
 // Validación completa
@@ -52,7 +71,13 @@ validar(texto, min, max) {
     valor = #|texto|
     meta  = valor#?
     tipo  = meta[1]
-    ? tipo <> ### && tipo <> ##. {
+
+    ri = 0#?
+    ti = ri[1]
+    rf = 0.0#?
+    tf = rf[1]
+
+    ? (tipo <> ti) && (tipo <> tf) {
         <~ (ok: #0, msg: "no es número")
     }
     ? valor < min || valor > max {

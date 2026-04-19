@@ -48,21 +48,29 @@ El campo "tamaño" indica: para enteros, el número de dígitos; para texto, la 
 
 ## Usar `#?` para tomar decisiones según el tipo
 
+El tipo extraído por `#?` es un valor interno del lenguaje, no una cadena de texto. Para compararlo, hay que obtener el tipo de un literal conocido y usarlo como referencia:
+
 ```
 verificar(x) {
     meta = x#?
     tipo = meta[1]
 
-    ?? tipo {
-        ### : { >> "Es un entero: " x ¶ }
-        ##. : { >> "Es un flotante: " x ¶ }
-        ##" : { >> "Es texto de " (meta[2]) " caracteres" ¶ }
-        ##? : { >> "Es booleano" ¶ }
-        _   : { >> "Otro tipo" ¶ }
-    }
+    // Tipos de referencia extraídos de literales conocidos
+    ri = 0#?    ;  ti = ri[1]      // tipo Int
+    rf = 0.0#?  ;  tf = rf[1]      // tipo Float
+    rs = ""#?   ;  ts = rs[1]      // tipo String
+    rb = #0#?   ;  tb = rb[1]      // tipo Bool
+    rl = []#?   ;  tl = rl[1]      // tipo List
+
+    ? (tipo == ti) { >> "Es un entero: " x ¶ }
+    _? (tipo == tf) { >> "Es un flotante: " x ¶ }
+    _? (tipo == ts) { >> "Es texto de " (meta[2]) " caracteres" ¶ }
+    _? (tipo == tb) { >> "Es booleano" ¶ }
+    _? (tipo == tl) { >> "Es lista de " (meta[2]) " elementos" ¶ }
+    _ { >> "Otro tipo" ¶ }
 }
 
-verificar(42) ¶
+verificar(42)
 verificar(3.14)
 verificar("hola")
 verificar(#1)
@@ -153,7 +161,9 @@ validar_entrada(texto, minimo, maximo) {
     meta  = valor#?
     tipo  = meta[1]
 
-    ? tipo <> ### && tipo <> ##. {
+    ri = 0#?   ;  ti = ri[1]
+    rf = 0.0#? ;  tf = rf[1]
+    ? (tipo <> ti) && (tipo <> tf) {
         <~ (valido: #0, mensaje: "No es un número")
     }
 

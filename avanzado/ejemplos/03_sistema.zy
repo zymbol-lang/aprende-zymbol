@@ -48,14 +48,17 @@ buscar_en(directorio, patron) {
 coincidencias = buscar_en("/tmp", ".")
 >> "Entradas en /tmp: " coincidencias ¶
 
-// Manejo de errores con comandos
+// Detección de resultado fallido
+// <\ \> captura stdout+stderr como texto — no lanza ##IO para comandos fallidos
+// La forma de detectar fallo es examinar la salida o usar exit-code tricks
 >> ¶
->> "--- Manejo de error ##IO ---" ¶
-!? {
-    salida = <\ "comando_que_no_existe_zy123" \>
-    >> salida ¶
-} :! ##IO {
-    >> "El comando no existe o falló — error ##IO atrapado" ¶
+>> "--- Detección de comando fallido ---" ¶
+salida = <\ "comando_que_no_existe_zy123 2>&1; echo __EXIT__$?" \>
+? salida$? "__EXIT__0" {
+    resultado = salida$/"__EXIT__0"
+    >> "OK: " resultado[1] ¶
+} _ {
+    >> "Comando falló (stderr capturado): " salida ¶
 }
 
 // Encadenar herramientas del sistema
@@ -70,8 +73,10 @@ grandes = <\ "du -sh /tmp/* 2>/dev/null | sort -rh | head -3" \>
     >> "/tmp está vacío o sin permisos" ¶
 }
 
-// Uso de memoria
+// Información de memoria (usando /proc/meminfo para evitar interpolación con awk)
 >> ¶
 >> "--- Memoria del sistema ---" ¶
-mem = <\ "free -h 2>/dev/null | grep Mem | awk '{print $3\"/\"$2}' || echo 'no disponible'" \>
->> "Memoria usada/total: " mem ¶
+mem_total = <\ "grep MemTotal /proc/meminfo 2>/dev/null | tr -s ' ' | cut -d' ' -f2-3 || echo 'no disponible'" \>
+mem_libre = <\ "grep MemAvailable /proc/meminfo 2>/dev/null | tr -s ' ' | cut -d' ' -f2-3 || echo 'no disponible'" \>
+>> "Memoria total:     " mem_total ¶
+>> "Memoria disponible:" mem_libre ¶

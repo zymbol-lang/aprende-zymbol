@@ -113,26 +113,32 @@ x = 42
 
 ---
 
-## `$!!` — Propagar el error al llamador
+## `$!!` — Propagar un error al llamador
 
-Dentro de una función, `$!!` detiene la ejecución y reenvía el error al código que llamó la función. Es el equivalente de "no puedo manejar esto aquí, que lo maneje quien me llamó":
+`$!!` reenvía un valor de error al llamador de la función, pero **solo si el valor ya es un error** (resultado de una operación fallida). El operador `$!` comprueba si un valor es error antes de propagar:
 
 ```
-procesar(valor) {
-    ? valor < 0 {
-        valor$!!    // propaga el error al llamador
+buscar(arr, indice) {
+    resultado = arr[indice]    // puede producir ##Index si está fuera de rango
+    ? resultado$! {            // $! devuelve #1 si el valor es un error
+        resultado$!!           // propaga el error al llamador
     }
-    <~ valor * 2
+    <~ resultado
 }
 
 !? {
-    resultado = procesar(-5)
+    nums = [10, 20, 30]
+    v = buscar(nums, 99)    // índice fuera de rango
+    >> v ¶
 } :! {
-    >> "error en procesar: " _err ¶
+    >> "error propagado: " _err ¶
 }
+
+v2 = buscar([10, 20, 30], 2)
+>> v2 ¶    // → 20
 ```
 
-> `$!!` solo funciona dentro de **funciones con nombre**. No está soportado dentro de lambdas.
+> `$!!` propaga solo si el valor es un error producido por el runtime. No lanza errores desde valores normales. Solo funciona dentro de **funciones con nombre**.
 
 ---
 
@@ -205,7 +211,7 @@ entradas = ["85", "abc", "150", "60"]
 | Captura genérica | `:! { ... _err ... }` |
 | Bloque final | `:> { ... }` |
 | Comprobar si es error | `valor$!` |
-| Propagar al llamador | `valor$!!` |
+| Propagar al llamador | `? v$! { v$!! }` |
 
 ---
 

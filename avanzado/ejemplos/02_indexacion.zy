@@ -64,7 +64,7 @@ rango = m[[2>inicio..fin]]
 >> ¶
 >> "--- Manejo de errores ---" ¶
 !? {
-    _ = m[5>1]
+    _err_val = m[5>1]
 } :! ##Index {
     >> "Error: índice fuera de rango atrapado correctamente" ¶
 }
