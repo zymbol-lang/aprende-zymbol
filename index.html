@@ -62,12 +62,12 @@
       plugins: [
         function (hook) {
           hook.doneEach(function () {
-            /* Tag unlabelled code blocks as Zymbol and highlight them */
+            if (!window.zyHighlightCode) return;
             document.querySelectorAll('pre code').forEach(function (block) {
-              if (!block.className || block.className === '') {
-                block.className = 'language-zymbol';
-              }
-              if (window.Prism) Prism.highlightElement(block);
+              var raw = block.textContent || '';
+              if (!raw.trim()) return;
+              block.innerHTML = zyHighlightCode(raw);
+              block.className = 'language-zymbol';
             });
           });
         }
@@ -83,10 +83,8 @@
   <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@2/dist/docsify-copy-code.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
 
-  <!-- Syntax highlighting -->
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-core.min.js"></script>
+  <!-- Zymbol syntax highlighter (ported from playground) -->
   <script src="zymbol-highlight.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/autoloader/prism-autoloader.min.js"></script>
 
   <!-- Theme toggle -->
   <script src="theme.js"></script>

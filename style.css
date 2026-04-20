@@ -20,11 +20,11 @@
   --green-mid: #00e87a33;
   --str:       #c89a6e;
   --num:       #6aadce;
-  --cmt:       #3d3d3d;
+  --cmt:       #4a5568;
   --op:        #9ecbff;
   --fn:        #c792ea;
   --id:        #aaaaaa;
-  --punct:     #555555;
+  --punct:     #6b7a99;
   --kw:        #00e87a;
   --mono:      'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
   --radius:    6px;
@@ -57,7 +57,7 @@ html.light {
   --op:        #3a6fa8;
   --fn:        #7c3aed;
   --id:        #333333;
-  --punct:     #888888;
+  --punct:     #7a8598;
   --kw:        #008a48;
 
   /* Cover light mode — azul muy suave, textos oscuros */
@@ -371,19 +371,15 @@ blockquote {
 
 blockquote p { margin: 0; color: inherit; }
 
-/* ─── Zymbol syntax highlight tokens (PrismJS) ─── */
-.token.comment    { color: var(--cmt); font-style: italic; }
-.token.string     { color: var(--str); }
-.token.number     { color: var(--num); }
-.token.boolean,
-.token.bool       { color: var(--green); font-weight: 600; }
-.token.pilcrow    { color: var(--green); opacity: 0.75; }
-.token.operator   { color: var(--op); }
-.token.keyword    { color: var(--kw); font-weight: 600; }
-.token.builtin    { color: var(--green); font-weight: 600; }
-.token.function   { color: var(--fn); }
-.token.punctuation{ color: var(--punct); }
-.token.variable   { color: var(--id); }
+/* ─── Zymbol syntax highlight tokens (playground classes) ─── */
+.t-kw    { color: var(--kw);    font-weight: 600; }
+.t-op    { color: var(--op); }
+.t-str   { color: var(--str); }
+.t-num   { color: var(--num); }
+.t-cmt   { color: var(--cmt);   font-style: italic; }
+.t-fn    { color: var(--fn); }
+.t-id    { color: var(--id); }
+.t-punct { color: var(--punct); }
 
 /* ─── Search bar ─── */
 .search input {
