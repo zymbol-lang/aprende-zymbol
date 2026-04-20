@@ -13,12 +13,11 @@ Zymbol es un lenguaje de programación donde **los símbolos hacen el trabajo** 
 Al principio parece extraño. Después de un rato, se vuelve natural — como aprender un nuevo alfabeto.
 
 ```
-// Zymbol "hola mundo"
 >> "¡Hola, mundo!" ¶
 ```
 
-```
-// Python equivalente
+```python
+# Python equivalente
 print("¡Hola, mundo!")
 ```
 
@@ -40,6 +39,7 @@ Fundamentos del lenguaje, sin experiencia previa necesaria.
 | 06 | [Listas](basico/06_listas.md) | Arrays y cómo recorrerlos |
 | 07 | [Texto](basico/07_texto.md) | Cadenas, interpolación y caracteres |
 | 08 | [Funciones](basico/08_funciones.md) | Definir y llamar funciones |
+| 09 | [Proyecto básico](basico/09_proyecto.md) | Programa completo con todo lo aprendido |
 
 ### Nivel Intermedio
 
@@ -47,14 +47,14 @@ Tipos compuestos, funciones de orden superior, errores y módulos.
 
 | # | Lección | Tema |
 |---|---------|------|
-| 01 | Tuplas | Registros inmutables con campos nombrados |
-| 02 | Desestructuración | Desempacar listas y tuplas |
-| 03 | Lambdas y Cierres | Funciones anónimas y captura de entorno |
-| 04 | Transformación de listas | `$>` map, `$\|` filter, `$<` reduce |
-| 05 | Tuberías | Encadenar transformaciones con `\|>` |
-| 06 | Manejo de errores | `!?`, `:!`, `:>`, `$!!` |
-| 07 | Inspección de tipos | `#?` y `#\|..\|` en tiempo de ejecución |
-| 08 | Módulos | Organizar código con `# name`, `#>`, `<#` |
+| 01 | [Tuplas](intermedio/01_tuplas.md) | Registros inmutables con campos nombrados |
+| 02 | [Desestructuración](intermedio/02_destructuracion.md) | Desempacar listas y tuplas |
+| 03 | [Lambdas y Cierres](intermedio/03_lambdas.md) | Funciones anónimas y captura de entorno |
+| 04 | [Transformación de listas](intermedio/04_transformacion.md) | `$>` map, `$\|` filter, `$<` reduce |
+| 05 | [Tuberías](intermedio/05_tuberias.md) | Encadenar transformaciones con `\|>` |
+| 06 | [Manejo de errores](intermedio/06_errores.md) | `!?`, `:!`, `:>`, `$!!` |
+| 07 | [Inspección de tipos](intermedio/07_tipos.md) | `#?` y `#\|..\|` en tiempo de ejecución |
+| 08 | [Módulos](intermedio/08_modulos.md) | Organizar código con `# name`, `#>`, `<#` |
 
 > El nivel intermedio está en desarrollo. Consulta [intermedio/README.md](intermedio/README.md) para el estado actual.
 
@@ -64,12 +64,12 @@ Precisión, integración con el sistema y el ecosistema completo del lenguaje.
 
 | # | Lección | Tema |
 |---|---------|------|
-| 01 | Alcance y tiempo de vida | `_name`, `\ var`, visibilidad entre bloques |
-| 02 | Indexación multidimensional | `arr[i>j]`, rangos sobre ejes, extracción estructurada |
-| 03 | Integración con el sistema | `<\ cmd \>`, `</ script.zy />`, automatización |
-| 04 | Modos numéricos | `#d0d9#`, 69 sistemas de dígitos Unicode, i18n |
-| 05 | Herramientas del lenguaje | REPL, `check`, `fmt`, `build` |
-| 06 | Proyecto avanzado | Programa completo con todo lo aprendido |
+| 01 | [Alcance y tiempo de vida](avanzado/01_alcance.md) | `_name`, `\ var`, visibilidad entre bloques |
+| 02 | [Indexación multidimensional](avanzado/02_indexacion.md) | `arr[i>j]`, rangos sobre ejes, extracción estructurada |
+| 03 | [Integración con el sistema](avanzado/03_sistema.md) | `<\ cmd \>`, `</ script.zy />`, automatización |
+| 04 | [Modos numéricos](avanzado/04_numerales.md) | `#d0d9#`, 69 sistemas de dígitos Unicode, i18n |
+| 05 | [Herramientas del lenguaje](avanzado/05_herramientas.md) | REPL, `check`, `fmt`, `build` |
+| 06 | [Proyecto avanzado](avanzado/06_proyecto.md) | Programa completo con todo lo aprendido |
 
 > El nivel avanzado está en desarrollo. Consulta [avanzado/README.md](avanzado/README.md) para el estado actual.
 
@@ -86,6 +86,19 @@ Zymbol usa algunos símbolos que no están en el teclado español estándar. El 
 | `<<` | Entrada | Dos signos `<` seguidos |
 | `?` | Si (condicional) | Tecla normal |
 | `@` | Bucle | Tecla normal |
+| `->` | Lambda / retorno | Guion seguido de `>` |
+
+---
+
+## Características del sitio
+
+El curso incluye:
+
+- **Resaltado de sintaxis** idéntico al del [playground de Zymbol](https://zymbol-lang.github.io/) — mismos colores, mismos tokens.
+- **Modo claro y oscuro** con detección automática de la preferencia del sistema. El botón `🌙 / ☀️` está en la esquina inferior derecha.
+- **Navegación lateral** con los tres niveles del curso.
+- **Búsqueda integrada** en todos los documentos.
+- **Paginación** para avanzar y retroceder entre lecciones.
 
 ---
 
