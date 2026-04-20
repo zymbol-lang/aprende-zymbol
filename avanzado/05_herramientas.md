@@ -144,6 +144,6 @@ zymbol build mi_programa.zy -o mi_programa
 
 ---
 
-Siguiente lección: [06 — Proyecto avanzado](06_proyecto.md)
+Siguiente lección: [06 — Proyecto avanzado](avanzado/06_proyecto.md)
 
-[← Lección anterior](04_numerales.md) · [Índice](README.md)
+[← Lección anterior](avanzado/04_numerales.md) · [Índice](avanzado/README.md)

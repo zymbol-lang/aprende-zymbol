@@ -194,6 +194,6 @@ m = [[1,2,3], [4,5,6], [7,8,9]]
 
 ---
 
-Siguiente lección: [03 — Integración con el sistema](03_sistema.md)
+Siguiente lección: [03 — Integración con el sistema](avanzado/03_sistema.md)
 
-[← Lección anterior](01_alcance.md) · [Índice](README.md)
+[← Lección anterior](avanzado/01_alcance.md) · [Índice](avanzado/README.md)

@@ -295,6 +295,6 @@ Nota más alta:  96
 
 ---
 
-Siguiente lección: [07 — Texto](07_texto.md)
+Siguiente lección: [07 — Texto](basico/07_texto.md)
 
-[← Lección anterior](05_repeticion.md) · [Índice](README.md)
+[← Lección anterior](basico/05_repeticion.md) · [Índice](basico/README.md)

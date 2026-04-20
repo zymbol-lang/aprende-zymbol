@@ -24,8 +24,8 @@ La diferencia no está en aprender más sintaxis — está en cambiar cómo pien
 
 ---
 
-Empieza por la [Lección 01 — Tuplas](01_tuplas.md) y sigue en orden. Los [ejemplos](ejemplos/) son archivos `.zy` listos para ejecutar, uno por lección.
+Empieza por la [Lección 01 — Tuplas](intermedio/01_tuplas.md) y sigue en orden. Los [ejemplos](intermedio/ejemplos/) son archivos `.zy` listos para ejecutar, uno por lección.
 
 ---
 
-[← Nivel Básico](../basico/README.md) · [Índice general](../README.md) · [Siguiente nivel: Avanzado →](../avanzado/README.md)
+[← Nivel Básico](basico/README.md) · [Índice general](README.md) · [Siguiente nivel: Avanzado →](avanzado/README.md)

@@ -150,6 +150,6 @@ Todos los patrones se resuelven de izquierda a derecha. Si el patrón tiene más
 
 ---
 
-Siguiente lección: [03 — Lambdas y Cierres](03_lambdas.md)
+Siguiente lección: [03 — Lambdas y Cierres](intermedio/03_lambdas.md)
 
-[← Lección anterior](01_tuplas.md) · [Índice](README.md)
+[← Lección anterior](intermedio/01_tuplas.md) · [Índice](intermedio/README.md)

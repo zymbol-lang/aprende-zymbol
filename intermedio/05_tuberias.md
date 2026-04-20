@@ -133,6 +133,6 @@ Las variables intermedias son mejores cuando:
 
 ---
 
-Siguiente lección: [06 — Manejo de errores](06_errores.md)
+Siguiente lección: [06 — Manejo de errores](intermedio/06_errores.md)
 
-[← Lección anterior](04_transformacion.md) · [Índice](README.md)
+[← Lección anterior](intermedio/04_transformacion.md) · [Índice](intermedio/README.md)

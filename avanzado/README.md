@@ -22,11 +22,11 @@ El nivel avanzado no enseña más sintaxis — enseña a usarla con precisión. 
 
 Al terminar este nivel habrás cubierto la totalidad del lenguaje documentado en el manual. Lo que venga después no es aprender Zymbol — es usarlo.
 
-Se recomienda completar el [nivel intermedio](../intermedio/README.md) antes de continuar.
+Se recomienda completar el [nivel intermedio](intermedio/README.md) antes de continuar.
 
 ---
 
-Empieza por la [Lección 01 — Alcance y tiempo de vida](01_alcance.md) y sigue en orden. Los [ejemplos](ejemplos/) son archivos `.zy` listos para ejecutar, uno por lección.
+Empieza por la [Lección 01 — Alcance y tiempo de vida](avanzado/01_alcance.md) y sigue en orden. Los [ejemplos](avanzado/ejemplos/) son archivos `.zy` listos para ejecutar, uno por lección.
 
 ---
 
@@ -34,13 +34,13 @@ Empieza por la [Lección 01 — Alcance y tiempo de vida](01_alcance.md) y sigue
 
 | # | Lección | Qué aprenderás |
 |---|---------|----------------|
-| [01](01_alcance.md) | Alcance y tiempo de vida | `_name`, `\ var`, reglas de visibilidad entre bloques |
-| [02](02_indexacion.md) | Indexación multidimensional | `arr[i>j]`, rangos sobre ejes, extracciones estructuradas |
-| [03](03_sistema.md) | Integración con el sistema | `<\ cmd \>`, `</ script.zy />`, automatización |
-| [04](04_numerales.md) | Modos numéricos | `#d0d9#`, 69 sistemas de dígitos, i18n en código fuente |
-| [05](05_herramientas.md) | Herramientas del lenguaje | REPL, `check`, `fmt`, `build`, flujo de trabajo profesional |
-| [06](06_proyecto.md) | Proyecto avanzado | Programa completo de principio a fin |
+| [01](avanzado/01_alcance.md) | Alcance y tiempo de vida | `_name`, `\ var`, reglas de visibilidad entre bloques |
+| [02](avanzado/02_indexacion.md) | Indexación multidimensional | `arr[i>j]`, rangos sobre ejes, extracciones estructuradas |
+| [03](avanzado/03_sistema.md) | Integración con el sistema | `<\ cmd \>`, `</ script.zy />`, automatización |
+| [04](avanzado/04_numerales.md) | Modos numéricos | `#d0d9#`, 69 sistemas de dígitos, i18n en código fuente |
+| [05](avanzado/05_herramientas.md) | Herramientas del lenguaje | REPL, `check`, `fmt`, `build`, flujo de trabajo profesional |
+| [06](avanzado/06_proyecto.md) | Proyecto avanzado | Programa completo de principio a fin |
 
 ---
 
-[← Nivel Intermedio](../intermedio/README.md) · [Índice general](../README.md)
+[← Nivel Intermedio](intermedio/README.md) · [Índice general](README.md)

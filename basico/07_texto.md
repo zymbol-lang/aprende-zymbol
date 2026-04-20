@@ -325,6 +325,6 @@ Resultado:
 
 ---
 
-Siguiente lección: [08 — Funciones](08_funciones.md)
+Siguiente lección: [08 — Funciones](basico/08_funciones.md)
 
-[← Lección anterior](06_listas.md) · [Índice](README.md)
+[← Lección anterior](basico/06_listas.md) · [Índice](basico/README.md)

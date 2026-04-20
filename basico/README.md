@@ -28,10 +28,10 @@ Estas ocho lecciones están ordenadas para que ese ajuste sea gradual.
 
 Al terminar estas ocho lecciones tendrás las herramientas para escribir programas completos que hacen cosas reales. No serán simples ni triviales — serán programas con lógica, con datos, con estructura.
 
-El [proyecto final](09_proyecto.md) te propone construir uno de principio a fin. Los [ejercicios](ejercicios.md) te dan práctica progresiva lección por lección.
+El [proyecto final](basico/09_proyecto.md) te propone construir uno de principio a fin. Los [ejercicios](basico/ejercicios.md) te dan práctica progresiva lección por lección.
 
-Empieza por la [Lección 01 — Instalación](01_instalacion.md).
+Empieza por la [Lección 01 — Instalación](basico/01_instalacion.md).
 
 ---
 
-[Volver al índice general](../README.md) · [Siguiente nivel: Intermedio →](../intermedio/README.md)
+[Volver al índice general](README.md) · [Siguiente nivel: Intermedio →](intermedio/README.md)

@@ -162,6 +162,6 @@ queso — $4.75
 
 ---
 
-Siguiente lección: [02 — Desestructuración](02_destructuracion.md)
+Siguiente lección: [02 — Desestructuración](intermedio/02_destructuracion.md)
 
-[← Nivel Básico](../basico/README.md) · [Índice](README.md)
+[← Nivel Básico](basico/README.md) · [Índice](intermedio/README.md)

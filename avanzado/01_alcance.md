@@ -124,6 +124,6 @@ Funciona con variables regulares y con variables `_`:
 
 ---
 
-Siguiente lección: [02 — Indexación multidimensional](02_indexacion.md)
+Siguiente lección: [02 — Indexación multidimensional](avanzado/02_indexacion.md)
 
-[← Nivel Intermedio](../intermedio/README.md) · [Índice](README.md)
+[← Nivel Intermedio](intermedio/README.md) · [Índice](avanzado/README.md)

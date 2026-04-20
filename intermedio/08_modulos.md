@@ -245,6 +245,6 @@ Registrado: Luis (id=2)
 
 ---
 
-Siguiente nivel: [Avanzado →](../avanzado/README.md)
+Siguiente nivel: [Avanzado →](avanzado/README.md)
 
-[← Lección anterior](07_tipos.md) · [Índice](README.md)
+[← Lección anterior](intermedio/07_tipos.md) · [Índice](intermedio/README.md)

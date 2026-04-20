@@ -247,6 +247,6 @@ Activa: #1
 
 ---
 
-Siguiente lección: [03 — Decisiones](03_decisiones.md)
+Siguiente lección: [03 — Decisiones](basico/03_decisiones.md)
 
-[← Lección anterior](01_instalacion.md) · [Índice](README.md)
+[← Lección anterior](basico/01_instalacion.md) · [Índice](basico/README.md)

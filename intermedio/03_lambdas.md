@@ -153,6 +153,6 @@ No hay una regla rígida, pero esta guía cubre la mayoría de los casos:
 
 ---
 
-Siguiente lección: [04 — Transformación de listas](04_transformacion.md)
+Siguiente lección: [04 — Transformación de listas](intermedio/04_transformacion.md)
 
-[← Lección anterior](02_destructuracion.md) · [Índice](README.md)
+[← Lección anterior](intermedio/02_destructuracion.md) · [Índice](intermedio/README.md)

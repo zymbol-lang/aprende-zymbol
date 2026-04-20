@@ -274,6 +274,6 @@ Círculo radio 3: 28.27431
 
 
 
-Siguiente nivel: [Intermedio →](../intermedio/README.md)
+Siguiente nivel: [Intermedio →](intermedio/README.md)
 
-[← Lección anterior](07_texto.md) · [Índice](README.md)
+[← Lección anterior](basico/07_texto.md) · [Índice](basico/README.md)

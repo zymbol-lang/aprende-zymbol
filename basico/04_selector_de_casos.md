@@ -332,6 +332,6 @@ Resultado:
 
 ---
 
-Siguiente lección: [05 — Repetición](05_repeticion.md)
+Siguiente lección: [05 — Repetición](basico/05_repeticion.md)
 
-[← Lección anterior](03_decisiones.md) · [Índice](README.md)
+[← Lección anterior](basico/03_decisiones.md) · [Índice](basico/README.md)

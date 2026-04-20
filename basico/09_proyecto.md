@@ -291,4 +291,4 @@ Ya sabes hacer eso.
 
 ---
 
-[← Lección anterior](08_funciones.md) · [Índice](README.md)
+[← Lección anterior](basico/08_funciones.md) · [Índice](basico/README.md)

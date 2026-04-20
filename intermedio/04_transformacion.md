@@ -167,6 +167,6 @@ Promedio:   65
 
 ---
 
-Siguiente lección: [05 — Tuberías](05_tuberias.md)
+Siguiente lección: [05 — Tuberías](intermedio/05_tuberias.md)
 
-[← Lección anterior](03_lambdas.md) · [Índice](README.md)
+[← Lección anterior](intermedio/03_lambdas.md) · [Índice](intermedio/README.md)

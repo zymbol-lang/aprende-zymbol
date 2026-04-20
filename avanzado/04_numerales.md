@@ -182,6 +182,6 @@ Todos los sistemas Unicode soportados son intercambiables internamente.
 
 ---
 
-Siguiente lección: [05 — Herramientas del lenguaje](05_herramientas.md)
+Siguiente lección: [05 — Herramientas del lenguaje](avanzado/05_herramientas.md)
 
-[← Lección anterior](03_sistema.md) · [Índice](README.md)
+[← Lección anterior](avanzado/03_sistema.md) · [Índice](avanzado/README.md)

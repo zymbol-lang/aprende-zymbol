@@ -373,4 +373,4 @@ Intento 3: 63
 
 ¡Mucho éxito! Recuerda que no hay respuesta incorrecta mientras el programa haga lo que se pide. Hay muchas formas de llegar al mismo resultado — la tuya es válida.
 
-[← Volver al índice](README.md)
+[← Volver al índice](basico/README.md)

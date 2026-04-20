@@ -1,3 +1,5 @@
+![logo](logo.png)
+
 # Aprende Zymbol
 
 > Un lenguaje donde los símbolos hacen el trabajo de las palabras.

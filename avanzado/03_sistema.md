@@ -207,6 +207,6 @@ salida = <\ "ls /home/{nombre_usuario}" \>
 
 ---
 
-Siguiente lección: [04 — Modos numéricos](04_numerales.md)
+Siguiente lección: [04 — Modos numéricos](avanzado/04_numerales.md)
 
-[← Lección anterior](02_indexacion.md) · [Índice](README.md)
+[← Lección anterior](avanzado/02_indexacion.md) · [Índice](avanzado/README.md)

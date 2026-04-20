@@ -218,6 +218,6 @@ nota = 85
 
 ---
 
-Siguiente lección: [04 — Selector de Casos](04_selector_de_casos.md)
+Siguiente lección: [04 — Selector de Casos](basico/04_selector_de_casos.md)
 
-[← Lección anterior](02_primer_programa.md) · [Índice](README.md)
+[← Lección anterior](basico/02_primer_programa.md) · [Índice](basico/README.md)

@@ -215,6 +215,6 @@ entradas = ["85", "abc", "150", "60"]
 
 ---
 
-Siguiente lección: [07 — Inspección de tipos](07_tipos.md)
+Siguiente lección: [07 — Inspección de tipos](intermedio/07_tipos.md)
 
-[← Lección anterior](05_tuberias.md) · [Índice](README.md)
+[← Lección anterior](intermedio/05_tuberias.md) · [Índice](intermedio/README.md)

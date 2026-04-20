@@ -209,6 +209,6 @@ abc → inválido: No es un número
 
 ---
 
-Siguiente lección: [08 — Módulos](08_modulos.md)
+Siguiente lección: [08 — Módulos](intermedio/08_modulos.md)
 
-[← Lección anterior](06_errores.md) · [Índice](README.md)
+[← Lección anterior](intermedio/06_errores.md) · [Índice](intermedio/README.md)

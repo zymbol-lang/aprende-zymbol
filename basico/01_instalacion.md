@@ -117,6 +117,6 @@ Si ves `¡Hola, mundo!` en pantalla, todo está funcionando.
 
 ---
 
-Siguiente lección: [02 — Tu primer programa](02_primer_programa.md)
+Siguiente lección: [02 — Tu primer programa](basico/02_primer_programa.md)
 
-[← Volver al índice](README.md)
+[← Volver al índice](basico/README.md)

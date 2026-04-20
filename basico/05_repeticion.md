@@ -273,6 +273,6 @@ Resultado:
 
 ---
 
-Siguiente lección: [06 — Listas](06_listas.md)
+Siguiente lección: [06 — Listas](basico/06_listas.md)
 
-[← Lección anterior](04_selector_de_casos.md) · [Índice](README.md)
+[← Lección anterior](basico/04_selector_de_casos.md) · [Índice](basico/README.md)

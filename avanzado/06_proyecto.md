@@ -210,4 +210,4 @@ Has cubierto el lenguaje completo. Lo que sigue es usarlo.
 
 ---
 
-[← Lección anterior](05_herramientas.md) · [Índice](README.md)
+[← Lección anterior](avanzado/05_herramientas.md) · [Índice](avanzado/README.md)
