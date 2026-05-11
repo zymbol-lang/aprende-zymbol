@@ -17,7 +17,7 @@ zymbol run --vm programa.zy     # máquina virtual — más rápido para cálcul
 
 **Árbol de sintaxis** es el modo canónico. Produce los mensajes de error más claros y soporta todas las características del lenguaje. Úsalo mientras desarrollas.
 
-**Máquina virtual** es entre 1.1× y 1.5× más rápida que Python para la mayoría de los programas. Úsala cuando el rendimiento importa y el programa ya está probado. Ambos modos producen resultados idénticos en el 99% de los casos.
+**Máquina virtual** es entre 1.1× y 4.4× más rápida que el árbol de sintaxis para la mayoría de los programas. Úsala cuando el rendimiento importa y el programa ya está probado. Ambos modos producen resultados idénticos en el 99% de los casos.
 
 ---
 
@@ -87,21 +87,53 @@ zymbol fmt programa.zy --indent 2 --write    # indentación de 2 espacios
 
 ---
 
-## `zymbol build` — compilar a ejecutable standalone
+## `zymbol build` — empaquetar a ejecutable standalone
 
-`zymbol build` toma un archivo `.zy` y genera un ejecutable que corre sin tener Zymbol instalado en la máquina destino:
+`zymbol build` toma un archivo `.zy` y genera un ejecutable que corre sin tener Zymbol instalado en la máquina destino.
+
+> **¿Qué hace internamente?** No compila código Zymbol a código nativo. Genera un proyecto Rust temporal, embebe el código fuente `.zy` como constante, y ejecuta `cargo build` en ese proyecto. El binario resultante contiene el intérprete completo de Zymbol — al ejecutarse, interpreta el código embebido igual que `zymbol run`.
+
+### Requisitos
+
+Para poder usar `zymbol build` necesitas:
+
+1. **Rust y Cargo instalados** — el proceso ejecuta `cargo build` internamente.
+   Instala Rust desde [rustup.rs](https://rustup.rs):
+   ```bash
+   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+   ```
+
+2. **Checkout completo del repositorio** — el `Cargo.toml` generado referencia los crates de Zymbol por ruta local. No funciona con el binario descargado de una release.
+   ```bash
+   git clone https://github.com/zymbol-lang/zymbol-lang
+   cd zymbol-lang/interpreter
+   ```
+
+3. **Ejecutar desde el directorio `interpreter/`** — las rutas a los crates se resuelven desde el directorio de trabajo actual.
+
+### Pasos completos
 
 ```bash
-zymbol build programa.zy -o mi_programa
+# 1. Clonar el repositorio
+git clone https://github.com/zymbol-lang/zymbol-lang
+cd zymbol-lang/interpreter
+
+# 2. Compilar el intérprete
+cargo build --release
+
+# 3. Empaquetar el programa (desde interpreter/)
+./target/release/zymbol build mi_programa.zy -o mi_programa --release
 ```
 
-Esto produce un binario `mi_programa` que puede distribuirse y ejecutarse directamente:
+El flag `--release` activa optimizaciones (LTO, strip, opt-level 3) y reduce el tamaño del ejecutable considerablemente.
+
+### Usar el ejecutable generado
 
 ```bash
 ./mi_programa
 ```
 
-El ejecutable embebe el intérprete y el código fuente en un solo archivo. Es la forma de distribuir programas Zymbol a usuarios finales que no tienen el lenguaje instalado.
+El binario puede distribuirse a cualquier máquina con el mismo sistema operativo y arquitectura — no necesita Rust ni Zymbol instalados.
 
 ---
 
@@ -125,8 +157,8 @@ zymbol fmt mi_programa.zy --write
 # 5. Ejecutar en modo VM cuando el programa está listo
 zymbol run --vm mi_programa.zy
 
-# 6. Compilar a ejecutable para distribución
-zymbol build mi_programa.zy -o mi_programa
+# 6. Empaquetar a ejecutable para distribución (requiere Rust/Cargo y checkout del repo)
+./target/release/zymbol build mi_programa.zy -o mi_programa --release
 ```
 
 ---
@@ -140,7 +172,7 @@ zymbol build mi_programa.zy -o mi_programa
 | REPL interactivo | `zymbol repl` | Explorar, probar expresiones |
 | Verificar | `zymbol check archivo.zy` | CI, editor, detección temprana |
 | Formatear | `zymbol fmt archivo.zy --write` | Estilo consistente |
-| Compilar | `zymbol build archivo.zy -o ejecutable` | Distribución standalone |
+| Empaquetar | `zymbol build archivo.zy -o ejecutable` | Distribución standalone (empaqueta fuente + intérprete) |
 
 ---
 

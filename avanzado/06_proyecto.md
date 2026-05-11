@@ -173,7 +173,8 @@ zymbol fmt parser.zy --write
 zymbol fmt metricas.zy --write
 zymbol fmt reporte.zy --write
 
-# Compilar a ejecutable distribuible
+# Empaquetar a ejecutable distribuible (empaqueta fuente + intérprete; no es compilación nativa)
+# Requisitos: Rust/Cargo instalado, checkout completo del repo, ejecutar desde interpreter/
 zymbol build main.zy -o analizador-log
 ./analizador-log
 ```
