@@ -1,5 +1,7 @@
 # Lección 09 — Juntando todo
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 Llegaste a la última lección. En este punto ya conoces los bloques fundamentales de cualquier programa:
 
 - Variables y tipos de datos

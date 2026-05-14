@@ -67,8 +67,8 @@ b = १०
 
 x = ५ > ३
 ?? x {
-    #१ : { >> "mayor" ¶ }
-    #०  : { >> "no mayor" ¶ }
+    #१ => { >> "mayor" ¶ }
+    #०  => { >> "no mayor" ¶ }
 }
 
 // Conversión #|..| con dígitos Unicode

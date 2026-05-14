@@ -1,5 +1,7 @@
 # Lección 01 — Alcance y tiempo de vida
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 En las lecciones anteriores aprendiste que las variables viven dentro del bloque donde se declaran y desaparecen cuando ese bloque termina. Eso es el comportamiento predeterminado. Pero Zymbol ofrece dos mecanismos adicionales para controlar la vida de una variable con más precisión: el prefijo `_` y el operador de destrucción explícita `\`.
 
 ---

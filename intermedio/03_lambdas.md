@@ -1,5 +1,7 @@
 # Lección 03 — Lambdas y Cierres
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 En la lección de funciones aprendiste a definir bloques de código con nombre. Pero hay situaciones donde crear una función con nombre es excesivo: una operación de un solo uso, un comportamiento que se pasa como argumento, una transformación que varía según el contexto.
 
 Para eso existen las **lambdas**: funciones sin nombre que se definen en el lugar donde se usan.

@@ -1,5 +1,7 @@
 # Lección 06 — Proyecto avanzado
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 Esta lección no introduce sintaxis nueva. Es la oportunidad de aplicar todo lo aprendido en los tres niveles del curso en un programa real: con estructura de archivos, módulos, errores, integración con el sistema y datos compuestos.
 
 El proyecto es un **analizador de logs**. Lee un archivo de registro del sistema, extrae métricas, detecta errores y genera un reporte formateado. Es el tipo de herramienta que se escribe una vez y se usa muchas veces.

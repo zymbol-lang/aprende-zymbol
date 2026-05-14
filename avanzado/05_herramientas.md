@@ -1,5 +1,7 @@
 # Lección 05 — Herramientas del lenguaje
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 El intérprete de Zymbol no es solo `zymbol run`. Viene con un conjunto de herramientas que cambian la forma en que trabajas con el lenguaje en el día a día: un entorno interactivo para explorar, un verificador sin ejecución, un formateador automático y un compilador a ejecutable standalone.
 
 Esta lección cubre cada una de ellas.

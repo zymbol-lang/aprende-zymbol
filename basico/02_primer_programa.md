@@ -1,5 +1,7 @@
 # Lección 02 — Tu primer programa
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 En esta lección vas a escribir y ejecutar código real. Aprenderás a mostrar texto en pantalla, guardar valores en variables y trabajar con los tipos de datos básicos.
 
 ---

@@ -1,5 +1,7 @@
 # Aprende Zymbol
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 Bienvenido. Este es tu punto de partida para aprender a programar con **Zymbol**, un lenguaje diseñado desde cero para ser expresivo, limpio y diferente.
 
 No necesitas experiencia previa. Solo curiosidad.

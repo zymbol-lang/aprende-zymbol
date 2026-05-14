@@ -1,5 +1,7 @@
 # Lección 06 — Listas
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 Hasta ahora cada variable guarda un solo valor: un número, un texto, un booleano. Pero hay situaciones donde necesitas guardar varios valores juntos — los nombres de tus contactos, las calificaciones de un examen, los productos de un carrito de compras.
 
 Para eso existen las **listas** (en programación también llamadas *arrays*).

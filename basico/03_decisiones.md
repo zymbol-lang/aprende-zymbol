@@ -1,5 +1,7 @@
 # Lección 03 — Decisiones
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 Los programas no son líneas rectas — son caminos que se bifurcan. En cada bifurcación, el programa se detiene, observa una situación y decide qué hacer. Esa decisión es lo que vas a aprender en esta lección.
 
 ---

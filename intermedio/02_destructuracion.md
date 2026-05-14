@@ -1,5 +1,7 @@
 # Lección 02 — Desestructuración
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 Cuando una función devuelve una tupla o cuando recorres una lista de registros, frecuentemente necesitas extraer varios valores al mismo tiempo. Sin desestructuración, eso requiere una línea por campo:
 
 ```

@@ -1,5 +1,7 @@
 # Lección 05 — Repetición
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 Imagina que quieres mostrar los números del 1 al 100. Podrías escribir 100 líneas con `>>`, pero eso sería ridículo. Para eso existen los **bucles**: bloques de código que se repiten automáticamente.
 
 En Zymbol el símbolo de bucle es `@`. Obsérvalo un momento: es una espiral — una letra que da vueltas sobre sí misma hasta que algo la detiene. Eso es exactamente lo que hace un bucle: girar, repetir, volver al inicio, una y otra vez. Se lee como **"repite"**.

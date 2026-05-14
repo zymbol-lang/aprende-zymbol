@@ -1,5 +1,7 @@
 # Ejercicios
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 Aquí encontrarás ejercicios para practicar lo que aprendiste en cada lección. Están ordenados de menor a mayor dificultad dentro de cada sección.
 
 **Consejo:** intenta resolverlos sin releer la lección. Si te trabas, revísala — eso también es aprender. No existe el "hice trampa" cuando se trata de aprender a programar.

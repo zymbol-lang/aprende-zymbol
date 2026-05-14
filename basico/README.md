@@ -1,5 +1,7 @@
 # Aprende Zymbol — Nivel Básico
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 Aprender a programar no es aprender sintaxis. Es aprender a pensar de una manera que antes no usabas.
 
 Al principio el problema no es el lenguaje — es que la computadora hace exactamente lo que le dices, sin interpretar, sin suponer, sin adivinar. Eso es nuevo. Estás acostumbrado a comunicarte con personas que llenan los huecos, que entienden el contexto, que corrigen solos cuando algo no tiene sentido. La computadora no hace nada de eso. Y adaptarse a eso toma tiempo.

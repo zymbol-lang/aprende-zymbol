@@ -1,5 +1,7 @@
 # Lección 01 — Instalación
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 Antes de escribir código necesitas tener Zymbol instalado en tu computadora. Esta lección te lleva paso a paso dependiendo de tu sistema operativo.
 
 > Si no quieres instalar nada todavía, puedes usar el **playground en línea** y escribir código directamente desde el navegador:

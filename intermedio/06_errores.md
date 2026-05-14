@@ -1,5 +1,7 @@
 # Lección 06 — Manejo de errores
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 Hasta aquí todos los programas que has escrito asumen que todo saldrá bien: que la lista tiene elementos, que el número no es cero, que el archivo existe. En programas reales eso no se puede asumir.
 
 El **manejo de errores** no es una característica avanzada — es parte del diseño de cualquier programa que interactúa con el mundo real. Zymbol ofrece un mecanismo explícito y tipificado para atrapar, identificar y responder a errores sin que el programa termine abruptamente.

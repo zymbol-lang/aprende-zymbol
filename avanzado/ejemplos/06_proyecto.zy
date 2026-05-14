@@ -62,11 +62,11 @@ imprimir_reporte(met, entradas) {
     >> "  Reporte de análisis de log" ¶
     >> "==============================" ¶
     >> ¶
-    >> "Total de entradas : " met.total ¶
-    >> "Errores           : " met.errores ¶
-    >> "Advertencias      : " met.warnings ¶
-    >> "Informativos      : " met.infos ¶
-    >> "Tasa de error     : " met.tasa_error "%" ¶
+    >> "Total de entradas => " met.total ¶
+    >> "Errores           => " met.errores ¶
+    >> "Advertencias      => " met.warnings ¶
+    >> "Informativos      => " met.infos ¶
+    >> "Tasa de error     => " met.tasa_error "%" ¶
     >> ¶
 
     ? met.errores > 0 {

@@ -1,5 +1,7 @@
 # Lección 08 — Módulos
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 A medida que un programa crece, mantenerlo todo en un solo archivo se vuelve impráctico. El código se mezcla, las responsabilidades se difuminan, y modificar una parte sin afectar otra se convierte en un ejercicio de cuidado extremo.
 
 Los **módulos** son la respuesta: archivos `.zy` independientes, cada uno con su propia declaración de nombre, que exponen solo lo que deciden exponer y mantienen privado todo lo demás.

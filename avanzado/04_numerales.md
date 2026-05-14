@@ -1,5 +1,7 @@
 # Lección 04 — Modos numéricos
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 El sistema decimal que usamos en Occidente no es el único sistema de dígitos del mundo. El árabe-índico, el devanagari, el tailandés, el bengalí — decenas de culturas tienen sus propios sistemas de dígitos, todos igualmente válidos matemáticamente.
 
 Zymbol trata la internacionalización como parte del lenguaje, no como una capa encima. Con un token de activación puedes cambiar el sistema de dígitos que usa la salida del programa, y escribir literales numéricos directamente en el script que prefieras.

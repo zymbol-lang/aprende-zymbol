@@ -2,6 +2,8 @@
 
 # Aprende Zymbol
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 > Un lenguaje donde los símbolos hacen el trabajo de las palabras.
 
 Curso estructurado en tres niveles — básico, intermedio y avanzado.  

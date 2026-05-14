@@ -1,5 +1,7 @@
 # Aprende Zymbol — Nivel Avanzado
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 Llegaste aquí sabiendo escribir programas. Sabes declarar variables, controlar el flujo, definir funciones, transformar colecciones, manejar errores y organizar código en módulos. El lenguaje ya no es el obstáculo.
 
 El nivel avanzado no enseña más sintaxis — enseña a usarla con precisión. La diferencia entre un programa que funciona y uno que es correcto, predecible y mantenible está en los detalles que este nivel cubre.

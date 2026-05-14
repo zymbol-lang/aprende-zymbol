@@ -1,5 +1,7 @@
 # Lección 07 — Inspección de tipos
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 Zymbol es un lenguaje de tipado dinámico: el tipo de una variable no se declara, se infiere del valor que contiene. En la mayoría de los casos eso funciona sin necesidad de pensarlo. Pero hay situaciones donde el programa necesita saber en tiempo de ejecución con qué tipo está tratando — para validar entradas, para tomar decisiones según el tipo, o para convertir datos que llegan como texto.
 
 Para eso existen dos operadores: `#?` para inspeccionar el tipo de un valor, y `#|..|` para convertir texto a número.

@@ -1,5 +1,7 @@
 # Lección 04 — Transformación de listas
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 Con bucles puedes hacer cualquier cosa con una lista. Pero hay tres operaciones que aparecen tan frecuentemente que Zymbol les da operadores propios: transformar cada elemento, quedarse solo con los que cumplen una condición, y reducir toda la lista a un único valor.
 
 Estas operaciones se llaman **mapear**, **filtrar** y **reducir**. Son las herramientas fundamentales del procesamiento de datos.

@@ -1,5 +1,7 @@
 # Lección 08 — Funciones
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 Hasta ahora todo el código que has escrito corre de arriba hacia abajo, una sola vez. Pero ¿qué pasa cuando necesitas hacer la misma operación en varios lugares? ¿La copias y pegas? No — para eso existen las **funciones**.
 
 Una función es un bloque de código con nombre que puedes llamar cuantas veces quieras desde cualquier parte de tu programa.

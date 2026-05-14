@@ -23,8 +23,8 @@
 // reiniciar()    { cuenta = 0 }
 
 // ---- main (este archivo) ----
-<# ./modulo_matematica : mat
-<# ./modulo_contador   : cnt
+<# ./modulo_matematica => mat
+<# ./modulo_contador   => cnt
 
 >> "=== Módulo matemática ===" ¶
 >> "sumar(5, 3)  = " mat::sumar(5, 3) ¶

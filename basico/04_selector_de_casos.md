@@ -1,5 +1,7 @@
 # Lección 04 — Selector de Casos
 
+> **Revisado para v0.0.5 — 2026-05-12**
+
 En la lección 03 aprendiste a tomar decisiones con `?`, `_?` y `_`. Eso funciona muy bien cuando tienes dos o tres posibilidades. Pero imagina que necesitas hacer algo diferente para cada día de la semana, o para cada nota del 0 al 100, o para cada comando que escriba el usuario.
 
 Con `_?` encadenados el código se vuelve largo y difícil de leer. Para eso existe el **selector de casos**: una forma más limpia y expresiva de comparar un valor contra muchas posibilidades a la vez.
