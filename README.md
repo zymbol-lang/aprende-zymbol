@@ -1,6 +1,6 @@
 # Aprende Zymbol
 
-> **Revisado para v0.0.5 — 2026-05-12**
+> **Revisado para v0.0.7 — 2026-07-03**
 
 Bienvenido. Este es tu punto de partida para aprender a programar con **Zymbol**, un lenguaje diseñado desde cero para ser expresivo, limpio y diferente.
 
@@ -18,10 +18,7 @@ Al principio parece extraño. Después de un rato, se vuelve natural — como ap
 >> "¡Hola, mundo!" ¶
 ```
 
-```python
-# Python equivalente
-print("¡Hola, mundo!")
-```
+Esa línea se lee: *"muestra el texto ¡Hola, mundo! y baja de línea"*. El símbolo `>>` significa «mostrar» y `¶` marca el salto de línea.
 
 ---
 
@@ -56,9 +53,8 @@ Tipos compuestos, funciones de orden superior, errores y módulos.
 | 05 | [Tuberías](intermedio/05_tuberias.md) | Encadenar transformaciones con `\|>` |
 | 06 | [Manejo de errores](intermedio/06_errores.md) | `!?`, `:!`, `:>`, `$!!` |
 | 07 | [Inspección de tipos](intermedio/07_tipos.md) | `#?` y `#\|..\|` en tiempo de ejecución |
-| 08 | [Módulos](intermedio/08_modulos.md) | Organizar código con `# name`, `#>`, `<#` |
-
-> El nivel intermedio está en desarrollo. Consulta [intermedio/README.md](intermedio/README.md) para el estado actual.
+| 08 | [Módulos](intermedio/08_modulos.md) | Organizar código con `# name { }`, `#>`, `<#` |
+| 09 | [La biblioteca estándar](intermedio/09_biblioteca.md) | `std/math`, `std/random`, `std/io`, `std/json`, `std/net`, `std/db` |
 
 ### Nivel Avanzado
 
@@ -71,9 +67,8 @@ Precisión, integración con el sistema y el ecosistema completo del lenguaje.
 | 03 | [Integración con el sistema](avanzado/03_sistema.md) | `<\ cmd \>`, `</ script.zy />`, automatización |
 | 04 | [Modos numéricos](avanzado/04_numerales.md) | `#d0d9#`, 69 sistemas de dígitos Unicode, i18n |
 | 05 | [Herramientas del lenguaje](avanzado/05_herramientas.md) | REPL, `check`, `fmt`, `build` |
-| 06 | [Proyecto avanzado](avanzado/06_proyecto.md) | Programa completo con todo lo aprendido |
-
-> El nivel avanzado está en desarrollo. Consulta [avanzado/README.md](avanzado/README.md) para el estado actual.
+| 06 | [Programar en tu idioma](avanzado/06_multilingue.md) | Código 100% en español, adaptadores, `decode_map`, patrón de tres capas |
+| 07 | [Proyecto avanzado](avanzado/07_proyecto.md) | Programa completo con todo lo aprendido |
 
 ---
 

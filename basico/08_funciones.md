@@ -1,6 +1,6 @@
 # Lección 08 — Funciones
 
-> **Revisado para v0.0.5 — 2026-05-12**
+> **Revisado para v0.0.7 — 2026-07-03**
 
 Hasta ahora todo el código que has escrito corre de arriba hacia abajo, una sola vez. Pero ¿qué pasa cuando necesitas hacer la misma operación en varios lugares? ¿La copias y pegas? No — para eso existen las **funciones**.
 

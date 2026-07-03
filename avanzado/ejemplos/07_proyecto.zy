@@ -1,5 +1,5 @@
-// Lección 06 — Proyecto avanzado: Analizador de Logs
-// Ejecutar: zymbol run 06_proyecto.zy
+// Lección 07 — Proyecto avanzado: Analizador de Logs
+// Ejecutar: zymbol run 07_proyecto.zy
 //
 // Este archivo es una versión autocontenida del proyecto multi-módulo.
 // El proyecto completo (con módulos separados) está descrito en 06_proyecto.md:
@@ -8,21 +8,22 @@
 // Aquí todo está en un solo archivo para poder ejecutarlo directamente.
 
 // ---- Datos de ejemplo ----
-// En el proyecto real, esto se lee de un archivo con:
-//   contenido = <\ "cat sistema.log" \>
+// En el proyecto real, esto se lee de un archivo con la biblioteca estándar:
+//   <# std/io => io
+//   contenido = io::read("sistema.log")
 
-// Formato: fecha hora NIVEL mensaje (una sola palabra de mensaje para parseo simple)
+// Formato: fecha hora NIVEL mensaje
 log_simulado = [
-    "2026-04-18 14:23:01 ERROR timeout",
-    "2026-04-18 14:23:05 INFO  conectado",
-    "2026-04-18 14:23:09 WARN  reintento",
-    "2026-04-18 14:23:12 INFO  recibido",
-    "2026-04-18 14:23:15 ERROR db-error",
-    "2026-04-18 14:23:18 INFO  cache-ok",
-    "2026-04-18 14:23:21 WARN  memoria-85pct",
-    "2026-04-18 14:23:24 ERROR rechazado",
-    "2026-04-18 14:23:27 INFO  completado",
-    "2026-04-18 14:23:30 INFO  sesion-cerrada"
+    "2026-04-18 14:23:01 ERROR Tiempo de espera agotado",
+    "2026-04-18 14:23:05 INFO Conexión establecida",
+    "2026-04-18 14:23:09 WARN Reintento 2 de 3",
+    "2026-04-18 14:23:12 INFO Paquete recibido",
+    "2026-04-18 14:23:15 ERROR Falló la base de datos",
+    "2026-04-18 14:23:18 INFO Caché actualizada",
+    "2026-04-18 14:23:21 WARN Memoria al 85 por ciento",
+    "2026-04-18 14:23:24 ERROR Acceso rechazado",
+    "2026-04-18 14:23:27 INFO Proceso completado",
+    "2026-04-18 14:23:30 INFO Sesión cerrada"
 ]
 
 // ---- parser.zy — parsear líneas de log ----
@@ -31,12 +32,15 @@ parsear_linea(linea) {
     ? (partes$#) < 4 {
         <~ (valida: #0)
     }
+    // El mensaje son todas las palabras desde la cuarta en adelante:
+    // se parte de la cuarta y se le van uniendo las siguientes
+    mensaje = partes$[5..-1]$< (partes[4], (acc, p) -> "{acc} {p}")
     <~ (
         valida:   #1,
         fecha:    partes[1],
         hora:     partes[2],
         nivel:    partes[3],
-        mensaje:  partes[4]
+        mensaje:  mensaje
     )
 }
 
@@ -62,11 +66,11 @@ imprimir_reporte(met, entradas) {
     >> "  Reporte de análisis de log" ¶
     >> "==============================" ¶
     >> ¶
-    >> "Total de entradas => " met.total ¶
-    >> "Errores           => " met.errores ¶
-    >> "Advertencias      => " met.warnings ¶
-    >> "Informativos      => " met.infos ¶
-    >> "Tasa de error     => " met.tasa_error "%" ¶
+    >> "Total de entradas : " met.total ¶
+    >> "Errores           : " met.errores ¶
+    >> "Advertencias      : " met.warnings ¶
+    >> "Informativos      : " met.infos ¶
+    >> "Tasa de error     : " met.tasa_error "%" ¶
     >> ¶
 
     ? met.errores > 0 {
@@ -101,6 +105,6 @@ entradas = []
 >> ¶
 >> "--- Para usar con un archivo real ---" ¶
 >> "Crear sistema.log con entradas de log y ejecutar:" ¶
->> "  zymbol run 06_proyecto.zy" ¶
+>> "  zymbol run 07_proyecto.zy" ¶
 >> ¶
 >> "Para el proyecto multi-módulo completo, ver 06_proyecto.md" ¶

@@ -1,0 +1,15 @@
+// Adaptador en español para std/math — solo re-exporta, cero lógica
+# matematica_es {
+    <# std/math => _mat
+
+    #> {
+        _mat::sqrt  => raiz
+        _mat::pow   => potencia
+        _mat::round => redondear
+        _mat::floor => piso
+        _mat::ceil  => techo
+        _mat::abs   => absoluto
+        _mat::max   => maximo
+        _mat::min   => minimo
+    }
+}

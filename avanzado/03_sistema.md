@@ -1,6 +1,6 @@
 # Lección 03 — Integración con el sistema
 
-> **Revisado para v0.0.5 — 2026-05-12**
+> **Revisado para v0.0.7 — 2026-07-03**
 
 Un programa que solo calcula con datos que él mismo genera tiene un alcance limitado. En la práctica, los programas útiles leen archivos, consultan el sistema operativo, llaman a otras herramientas y encadenan procesos. Zymbol tiene dos operadores para esto: `<\ cmd \>` para ejecutar comandos del sistema, y `</ script.zy />` para ejecutar otros archivos Zymbol.
 
@@ -127,7 +127,7 @@ La forma más directa de pasar datos a un subscript es a través de argumentos d
 
 ```
 // procesador.zy
-entrada = << "Dame un número: "
+<< "Dame un número: " entrada
 n = #|entrada|
 >> n * 2 ¶
 ```

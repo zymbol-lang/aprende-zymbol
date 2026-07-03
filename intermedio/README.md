@@ -1,10 +1,10 @@
 # Aprende Zymbol — Nivel Intermedio
 
-> **Revisado para v0.0.5 — 2026-05-12**
+> **Revisado para v0.0.7 — 2026-07-03**
 
 El nivel básico te dio las herramientas para escribir programas que funcionan. Este nivel te da las herramientas para escribir programas que se pueden leer, modificar y ampliar sin que cada cambio rompa algo.
 
-La diferencia no está en aprender más sintaxis — está en cambiar cómo piensas el código. Las ocho lecciones de este nivel abordan problemas reales que aparecen en cuanto los programas crecen más allá de unos pocos archivos.
+La diferencia no está en aprender más sintaxis — está en cambiar cómo piensas el código. Las nueve lecciones de este nivel abordan problemas reales que aparecen en cuanto los programas crecen más allá de unos pocos archivos.
 
 ---
 
@@ -22,7 +22,9 @@ La diferencia no está en aprender más sintaxis — está en cambiar cómo pien
 
 **Inspección de tipos** permite que el programa examine sus propios datos en tiempo de ejecución. `#?` devuelve el tipo, el tamaño y el valor de cualquier expresión como una tupla. `#|..|` convierte texto a número de forma segura, devolviendo el original si la conversión falla en lugar de lanzar un error. Juntos, permiten escribir funciones que validan entradas antes de procesarlas.
 
-**Módulos** cierran el nivel con la respuesta a la pregunta que aparece en todo proyecto que crece: cómo dividir el código en archivos independientes, cada uno con responsabilidades claras. Un módulo declara su nombre, decide qué exporta, y oculta todo lo demás. El estado privado persiste entre llamadas sin ser accesible desde fuera. Las funciones exportadas son la única interfaz pública.
+**Módulos** dan la respuesta a la pregunta que aparece en todo proyecto que crece: cómo dividir el código en archivos independientes, cada uno con responsabilidades claras. Un módulo declara su nombre, decide qué exporta, y oculta todo lo demás. El estado privado persiste entre llamadas sin ser accesible desde fuera. Las funciones exportadas son la única interfaz pública.
+
+**La biblioteca estándar** cierra el nivel presentando los módulos que Zymbol trae ya hechos: matemáticas (`std/math`), números al azar (`std/random`), archivos (`std/io`), datos estructurados (`std/json`), red (`std/net`) y bases de datos (`std/db`). Se importan igual que tus propios módulos, y comparten una convención clara: los fallos del entorno devuelven errores suaves que se comprueban con `$!`, mientras que los errores de programación detienen el programa.
 
 ---
 

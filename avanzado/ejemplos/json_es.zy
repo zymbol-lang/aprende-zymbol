@@ -1,0 +1,10 @@
+// Adaptador en español para std/json — solo re-exporta, cero lógica
+# json_es {
+    <# std/json => _json
+
+    #> {
+        _json::decode     => decodificar
+        _json::encode     => codificar
+        _json::decode_map => decodificar_con
+    }
+}

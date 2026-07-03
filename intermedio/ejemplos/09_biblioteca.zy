@@ -1,0 +1,51 @@
+// Lección 09 — La biblioteca estándar
+// Ejecutar: zymbol run 09_biblioteca.zy
+//
+// Todas las importaciones van juntas al inicio del archivo.
+
+<# std/math   => mat
+<# std/random => azar
+<# std/io     => io
+<# std/json   => json
+
+// --- std/math: funciones matemáticas ---
+>> "raíz de 144:     " mat::sqrt(144) ¶
+>> "2 elevado a 10:  " mat::pow(2, 10) ¶
+>> "redondear 3.7:   " mat::round(3.7) ¶
+>> "valor absoluto:  " mat::abs(-5) ¶
+>> "el mayor de dos: " mat::max(3, 8) ¶
+>> "PI:              " mat.PI ¶
+
+// --- std/random: números al azar ---
+>> ¶
+dado = azar::entero(1, 6)          // entero entre 1 y 6, ambos incluidos
+>> "tirada de dado:  " dado ¶
+indice = azar::rango(10)           // entero entre 0 y 9
+>> "índice al azar:  " indice ¶
+
+// --- std/io: leer y escribir archivos ---
+>> ¶
+io::write("notas_demo.txt", "primera línea")
+io::append("notas_demo.txt", "\nsegunda línea")
+contenido = io::read("notas_demo.txt")
+>> "el archivo dice:" ¶
+>> contenido ¶
+>> "¿existe? " io::exists("notas_demo.txt") ¶
+io::delete("notas_demo.txt")
+>> "tras borrarlo: " io::exists("notas_demo.txt") ¶
+
+// Un fallo de archivo NO detiene el programa: devuelve un error suave
+perdido = io::read("no_existe.txt")
+? perdido$! {
+    >> "no se pudo leer no_existe.txt (error suave, el programa sigue)" ¶
+}
+
+// --- std/json: convertir datos a texto y de vuelta ---
+>> ¶
+texto = "\{\"nombre\": \"Ana\", \"edad\": 30}"
+persona = json::decode(texto)
+>> "nombre: " persona.nombre ¶
+>> "edad:   " persona.edad ¶
+
+de_vuelta = json::encode((ciudad: "Lima", habitantes: 10000000))
+>> "codificado: " de_vuelta ¶

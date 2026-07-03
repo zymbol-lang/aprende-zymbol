@@ -1,0 +1,30 @@
+// Lección 06 — Programar en tu idioma
+// Ejecutar: zymbol run 06_multilingue.zy
+//
+// Requiere en la misma carpeta los adaptadores:
+//   matematica_es.zy, archivos_es.zy, json_es.zy
+
+<# ./matematica_es => mate
+<# ./archivos_es   => arch
+<# ./json_es       => json
+
+// --- La biblioteca estándar, en español ---
+>> "raíz de 81:      " mate::raiz(81) ¶
+>> "3 a la cuarta:   " mate::potencia(3, 4) ¶
+>> "redondear 2.6:   " mate::redondear(2.6) ¶
+
+// --- Archivos, en español ---
+arch::escribir("bitacora.txt", "todo en orden")
+>> "la bitácora dice: " arch::leer("bitacora.txt") ¶
+arch::borrar("bitacora.txt")
+
+// --- Datos externos, en español: decode_map ---
+// Las claves de un JSON externo vienen en inglés.
+// decodificar_con las renombra al vuelo, a cualquier profundidad.
+respuesta = "\{\"name\": \"Río Amazonas\", \"length_km\": 6800}"
+
+diccionario = (name: "nombre", length_km: "longitud_km")
+rio = json::decodificar_con(respuesta, diccionario)
+
+>> "nombre:      " rio.nombre ¶
+>> "longitud km: " rio.longitud_km ¶

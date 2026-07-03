@@ -1,6 +1,6 @@
 # Lección 04 — Modos numéricos
 
-> **Revisado para v0.0.5 — 2026-05-12**
+> **Revisado para v0.0.7 — 2026-07-03**
 
 El sistema decimal que usamos en Occidente no es el único sistema de dígitos del mundo. El árabe-índico, el devanagari, el tailandés, el bengalí — decenas de culturas tienen sus propios sistemas de dígitos, todos igualmente válidos matemáticamente.
 
@@ -97,8 +97,8 @@ Los booleanos en modo activo se pueden usar en condiciones y selectores de la mi
 x = ५ > ३    // resultado: #१ (verdadero en Devanagari)
 
 ?? x {
-    #१ : { >> "mayor" ¶ }
-    #०  : { >> "no mayor" ¶ }
+    #१ => { >> "mayor" ¶ }
+    #० => { >> "no mayor" ¶ }
 }
 ```
 

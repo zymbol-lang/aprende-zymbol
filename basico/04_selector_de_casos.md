@@ -1,6 +1,6 @@
 # Lección 04 — Selector de Casos
 
-> **Revisado para v0.0.5 — 2026-05-12**
+> **Revisado para v0.0.7 — 2026-07-03**
 
 En la lección 03 aprendiste a tomar decisiones con `?`, `_?` y `_`. Eso funciona muy bien cuando tienes dos o tres posibilidades. Pero imagina que necesitas hacer algo diferente para cada día de la semana, o para cada nota del 0 al 100, o para cada comando que escriba el usuario.
 
@@ -18,10 +18,10 @@ Imagina que tienes un semáforo. Según el color, haces algo diferente:
 color = "verde"
 
 ?? color {
-    "rojo"    : { >> "Detente"  ¶ }
-    "amarillo": { >> "Precaución" ¶ }
-    "verde"   : { >> "Avanza"   ¶ }
-    _         : { >> "Color desconocido" ¶ }
+    "rojo" => { >> "Detente"  ¶ }
+    "amarillo" => { >> "Precaución" ¶ }
+    "verde" => { >> "Avanza"   ¶ }
+    _ => { >> "Color desconocido" ¶ }
 }
 ```
 
@@ -44,11 +44,11 @@ Hasta ahora el selector ejecutaba un bloque `{ }`. También puede **devolver un 
 nota = 85
 
 calificacion = ?? nota {
-    90..100 : "Excelente"
-    80..89  : "Muy bien"
-    70..79  : "Bien"
-    60..69  : "Suficiente"
-    _       : "Reprobado"
+    90..100 => "Excelente"
+    80..89 => "Muy bien"
+    70..79 => "Bien"
+    60..69 => "Suficiente"
+    _ => "Reprobado"
 }
 
 >> "Calificación: " calificacion ¶
@@ -69,8 +69,8 @@ Nota que aquí los casos usan rangos (`80..89`) — Zymbol verifica si el valor 
 
 | Estilo | Cuándo usarlo |
 |---|---|
-| `caso : valor` | cuando cada caso devuelve un resultado simple |
-| `caso : { ... }` | cuando cada caso necesita varias instrucciones |
+| `caso => valor` | cuando cada caso devuelve un resultado simple |
+| `caso => { ... }` | cuando cada caso necesita varias instrucciones |
 
 Puedes mezclarlos en el mismo selector si lo necesitas.
 
@@ -84,11 +84,11 @@ A veces no puedes expresar un caso como un valor exacto o un rango simple. Los *
 temperatura = -5
 
 estado = ?? temperatura {
-    < 0  : "Bajo cero — hielo"
-    < 15 : "Frío"
-    < 25 : "Agradable"
-    < 35 : "Caluroso"
-    _    : "Muy caluroso"
+    < 0 => "Bajo cero — hielo"
+    < 15 => "Frío"
+    < 25 => "Agradable"
+    < 35 => "Caluroso"
+    _ => "Muy caluroso"
 }
 
 >> estado ¶
@@ -104,9 +104,9 @@ Los patrones se evalúan de arriba hacia abajo. En cuanto uno coincide, los dem�
 ```
 n = 42
 ?? n {
-    == 0  : "cero"
-    < 0   : "negativo"
-    _     : "positivo"
+    == 0 => "cero"
+    < 0 => "negativo"
+    _ => "positivo"
 }
 ```
 
@@ -120,10 +120,10 @@ El selector funciona igual con cadenas:
 comando = "salir"
 
 ?? comando {
-    "ayuda"  : { >> "Comandos disponibles: ayuda, inicio, salir" ¶ }
-    "inicio" : { >> "Volviendo al menú principal..." ¶ }
-    "salir"  : { >> "Hasta luego." ¶ }
-    _        : { >> "Comando desconocido: '{comando}'" ¶ }
+    "ayuda" => { >> "Comandos disponibles: ayuda, inicio, salir" ¶ }
+    "inicio" => { >> "Volviendo al menú principal..." ¶ }
+    "salir" => { >> "Hasta luego." ¶ }
+    _ => { >> "Comando desconocido: '{comando}'" ¶ }
 }
 ```
 
@@ -140,9 +140,9 @@ Hasta luego.
 inicial = 'A'
 
 ?? inicial {
-    'A' : { >> "Empieza con A" ¶ }
-    'B' : { >> "Empieza con B" ¶ }
-    _   : { >> "Otra letra" ¶ }
+    'A' => { >> "Empieza con A" ¶ }
+    'B' => { >> "Empieza con B" ¶ }
+    _ => { >> "Otra letra" ¶ }
 }
 ```
 
@@ -158,11 +158,11 @@ El selector puede comparar el contenido de una lista de dos maneras, según el t
 comando = ["abrir", "archivo.zy"]
 
 ?? comando {
-    ["abrir",  _] : { >> "Abriendo archivo..." ¶ }
-    ["cerrar", _] : { >> "Cerrando archivo..." ¶ }
-    ["ayuda"]     : { >> "Mostrando ayuda..." ¶ }
-    []            : { >> "No ingresaste ningún comando" ¶ }
-    _             : { >> "Comando no reconocido" ¶ }
+    ["abrir",  _] => { >> "Abriendo archivo..." ¶ }
+    ["cerrar", _] => { >> "Cerrando archivo..." ¶ }
+    ["ayuda"] => { >> "Mostrando ayuda..." ¶ }
+    [] => { >> "No ingresaste ningún comando" ¶ }
+    _ => { >> "Comando no reconocido" ¶ }
 }
 ```
 
@@ -176,18 +176,18 @@ Abriendo archivo...
 ```
 n = 3
 ?? n {
-    [1, 2] : "bajo"
-    [3, 4] : "medio"
-    [5, 6] : "alto"
-    _      : "otro"
+    [1, 2] => "bajo"
+    [3, 4] => "medio"
+    [5, 6] => "alto"
+    _ => "otro"
 }
 // → medio
 
 dia = "lun"
 ?? dia {
-    ["lun", "mar", "mie", "jue", "vie"] : "día hábil"
-    ["sab", "dom"]                       : "fin de semana"
-    _                                    : "desconocido"
+    ["lun", "mar", "mie", "jue", "vie"] => "día hábil"
+    ["sab", "dom"] => "fin de semana"
+    _ => "desconocido"
 }
 // → día hábil
 ```
@@ -203,8 +203,8 @@ dias_habiles = ["lun", "mar", "mie", "jue", "vie"]
 hoy = "mar"
 
 tipo = ?? hoy {
-    dias_habiles : "día hábil"
-    _            : "fin de semana"
+    dias_habiles => "día hábil"
+    _ => "fin de semana"
 }
 >> tipo ¶    // → día hábil
 ```
@@ -219,19 +219,19 @@ El selector siempre devuelve su resultado a una variable. Desde ahí puedes usar
 mes = 4
 
 nombre_mes = ?? mes {
-    1  : "enero"
-    2  : "febrero"
-    3  : "marzo"
-    4  : "abril"
-    5  : "mayo"
-    6  : "junio"
-    7  : "julio"
-    8  : "agosto"
-    9  : "septiembre"
-    10 : "octubre"
-    11 : "noviembre"
-    12 : "diciembre"
-    _  : "inválido"
+    1 => "enero"
+    2 => "febrero"
+    3 => "marzo"
+    4 => "abril"
+    5 => "mayo"
+    6 => "junio"
+    7 => "julio"
+    8 => "agosto"
+    9 => "septiembre"
+    10 => "octubre"
+    11 => "noviembre"
+    12 => "diciembre"
+    _ => "inválido"
 }
 
 >> "El mes " mes " es " nombre_mes ¶
@@ -268,10 +268,10 @@ Una calculadora de descuentos según la categoría del cliente:
 ```
 calcular_precio(precio_base, categoria) {
     descuento = ?? categoria {
-        "vip"      : 30
-        "regular"  : 10
-        "nuevo"    : 5
-        _          : 0
+        "vip" => 30
+        "regular" => 10
+        "nuevo" => 5
+        _ => 0
     }
 
     ahorro      = precio_base * descuento / 100
@@ -322,15 +322,15 @@ Resultado:
 
 | Concepto | Sintaxis |
 |---|---|
-| Selector básico | `?? valor { caso : resultado }` |
-| Caso con bloque | `caso : { ... }` |
-| Rango de números | `80..89 : resultado` |
-| Comparación | `< 0 : resultado` |
-| Variable escalar | `nombre_var : resultado` |
-| Variable lista (contenencia) | `lista_var : resultado` |
-| Varios valores | `[1, 2] : resultado` |
-| Caso por defecto | `_ : resultado` |
-| Comodín en lista | `["abrir", _] : resultado` |
+| Selector básico | `?? valor { caso => resultado }` |
+| Caso con bloque | `caso => { ... }` |
+| Rango de números | `80..89 => resultado` |
+| Comparación | `< 0 => resultado` |
+| Variable escalar | `nombre_var => resultado` |
+| Variable lista (contenencia) | `lista_var => resultado` |
+| Varios valores | `[1, 2] => resultado` |
+| Caso por defecto | `_ => resultado` |
+| Comodín en lista | `["abrir", _] => resultado` |
 
 ---
 

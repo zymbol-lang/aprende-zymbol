@@ -1,6 +1,6 @@
 # Lección 08 — Módulos
 
-> **Revisado para v0.0.5 — 2026-05-12**
+> **Revisado para v0.0.7 — 2026-07-03**
 
 A medida que un programa crece, mantenerlo todo en un solo archivo se vuelve impráctico. El código se mezcla, las responsabilidades se difuminan, y modificar una parte sin afectar otra se convierte en un ejercicio de cuidado extremo.
 
@@ -10,41 +10,45 @@ Los **módulos** son la respuesta: archivos `.zy` independientes, cada uno con s
 
 ## Estructura de un módulo
 
-Un módulo es un archivo `.zy` que comienza con una declaración de nombre:
+Un módulo es un archivo `.zy` cuyo contenido completo va dentro de un bloque con nombre. El nombre debe coincidir con el nombre del archivo (sin la extensión):
 
 ```
-# matematica
-```
+// archivo: matematica.zy
+# matematica {
 
-Luego declara qué exporta con el bloque `#>`:
-
-```
-# matematica
-
-#> {
-    sumar
-    restar
-    PI
 }
-
-PI := 3.14159
-
-sumar(a, b)  { <~ a + b }
-restar(a, b) { <~ a - b }
-
-_privado(x) { <~ x * x }    // no está en #> — inaccesible desde fuera
 ```
 
-Lo que no está en `#>` es privado. Llamar a `_privado` desde otro archivo produce un error en tiempo de ejecución.
+Dentro del bloque, `#>` declara qué se exporta:
+
+```
+// archivo: matematica.zy
+# matematica {
+    #> {
+        sumar
+        restar
+        PI
+    }
+
+    PI := 3.14159
+
+    sumar(a, b)  { <~ a + b }
+    restar(a, b) { <~ a - b }
+
+    _privado(x) { <~ x * x }    // no está en #> — inaccesible desde fuera
+}
+```
+
+Lo que no está en `#>` es privado. Llamar a `_privado` desde otro archivo produce un error.
 
 ---
 
 ## Importar un módulo
 
-En el archivo que usa el módulo, `<#` importa y asigna un alias:
+En el archivo que usa el módulo, `<#` importa y asigna un alias con `=>`:
 
 ```
-<# ./matematica <= m
+<# ./matematica => m
 
 resultado = m::sumar(5, 3)
 >> resultado ¶    // → 8
@@ -63,12 +67,14 @@ El alias es obligatorio. A través de él accedes a todo lo exportado:
 ## Rutas de importación
 
 ```
-<# ./modulo <= m          // mismo directorio
-<# ../compartido <= s     // directorio padre
-<# ./sub/carpeta <= c     // subdirectorio
+<# ./modulo => m          // mismo directorio
+<# ../compartido => s     // directorio padre
+<# ./sub/carpeta => c     // subdirectorio
 ```
 
 La ruta es relativa al archivo que importa. No se incluye la extensión `.zy`.
+
+> Con la misma sintaxis se importan los módulos de la **biblioteca estándar**: `<# std/math => mat`. Los verás en la lección 09.
 
 ---
 
@@ -82,23 +88,23 @@ Hay una diferencia importante entre `:=` y `=` a nivel de módulo:
 | `contador = 0` | No | ✗ error | **Sí** — se mantiene entre llamadas |
 | `funcion()` | Sí (si está en `#>`) | `alias::funcion()` | — |
 
-Las variables con `=` a nivel de módulo son **estado privado mutable** que persiste entre llamadas. Solo son accesibles a través de funciones exportadas:
+Las variables con `=` a nivel de módulo son **estado privado mutable** que persiste entre llamadas. Solo son accesibles a través de funciones exportadas, y su valor inicial debe ser un literal simple (un número, un texto o un booleano — no una lista ni una expresión):
 
 ```
 // archivo: contador.zy
-# contador
+# contador {
+    #> { incrementar, obtener }
 
-#> { incrementar, obtener }
+    cuenta = 0    // privado — solo accesible por las funciones de abajo
 
-cuenta = 0    // privado — solo accesible por las funciones de abajo
-
-incrementar() { cuenta = cuenta + 1 }
-obtener()     { <~ cuenta }
+    incrementar() { cuenta = cuenta + 1 }
+    obtener()     { <~ cuenta }
+}
 ```
 
 ```
 // archivo: main.zy
-<# ./contador <= c
+<# ./contador => c
 
 c::incrementar()
 c::incrementar()
@@ -111,18 +117,19 @@ n = c::obtener()
 
 ## Alias de exportación
 
-Puedes exportar con un nombre diferente al interno:
+Puedes exportar con un nombre diferente al interno usando `=>`:
 
 ```
-# utilidades
+// archivo: utilidades.zy
+# utilidades {
+    #> {
+        _funcion_interna => publica
+        CONSTANTE_INTERNA => PUBLICA
+    }
 
-#> {
-    _funcion_interna <= publica
-    CONSTANTE_INTERNA <= PUBLICA
+    _funcion_interna(x) { <~ x * 2 }
+    CONSTANTE_INTERNA := 100
 }
-
-_funcion_interna(x) { <~ x * 2 }
-CONSTANTE_INTERNA := 100
 ```
 
 El llamador usa `alias::publica()` y `alias.PUBLICA` — los nombres internos son invisibles.
@@ -134,15 +141,18 @@ El llamador usa `alias::publica()` y `alias.PUBLICA` — los nombres internos so
 Un módulo puede importar funciones de otro y re-exportarlas:
 
 ```
-# paquete
+// archivo: paquete.zy
+# paquete {
+    <# ./core => c
 
-<# ./core <= c
-
-#> {
-    c::sumar           // re-exporta como es (callers usan alias::sumar)
-    c::sumar <= suma   // re-exporta con nombre diferente
+    #> {
+        c::sumar           // re-exporta como es (callers usan alias::sumar)
+        c::sumar => suma   // re-exporta con nombre diferente
+    }
 }
 ```
+
+Este mecanismo es más poderoso de lo que parece: permite publicar la misma biblioteca con nombres en **varios idiomas** sin duplicar ni una línea de lógica. Lo verás a fondo en la lección avanzada sobre programación multilingüe.
 
 ---
 
@@ -151,9 +161,9 @@ Un módulo puede importar funciones de otro y re-exportarlas:
 Un archivo puede importar tantos módulos como necesite, cada uno con su propio alias:
 
 ```
-<# ./matematica  <= mat
-<# ./texto       <= txt
-<# ./validacion  <= val
+<# ./matematica  => mat
+<# ./texto       => txt
+<# ./validacion  => val
 
 resultado = mat::sumar(10, 5)
 saludo    = txt::mayusculas("hola")
@@ -168,44 +178,44 @@ Un pequeño sistema de registro dividido en tres archivos:
 
 ```
 // archivo: validacion.zy
-# validacion
+# validacion {
+    #> { es_valido_usuario, es_valido_email }
 
-#> { es_valido_usuario, es_valido_email }
+    es_valido_usuario(nombre) {
+        <~ (nombre$#) >= 3 && (nombre$#) <= 20
+    }
 
-es_valido_usuario(nombre) {
-    <~ (nombre$#) >= 3 && (nombre$#) <= 20
-}
-
-es_valido_email(email) {
-    <~ email$? "@"
+    es_valido_email(email) {
+        <~ email$? "@"
+    }
 }
 ```
 
 ```
 // archivo: registro.zy
-# registro
+# registro {
+    <# ./validacion => v
 
-<# ./validacion <= v
+    #> { crear_usuario }
 
-#> { crear_usuario }
+    total = 0    // estado privado: cuántos usuarios se han registrado
 
-usuarios = []    // estado privado — lista de usuarios registrados
-
-crear_usuario(nombre, email) {
-    ? !v::es_valido_usuario(nombre) {
-        <~ (ok: #0, error: "Nombre inválido")
+    crear_usuario(nombre, email) {
+        ? !v::es_valido_usuario(nombre) {
+            <~ (ok: #0, error: "Nombre inválido")
+        }
+        ? !v::es_valido_email(email) {
+            <~ (ok: #0, error: "Email inválido")
+        }
+        total = total + 1
+        <~ (ok: #1, id: total)
     }
-    ? !v::es_valido_email(email) {
-        <~ (ok: #0, error: "Email inválido")
-    }
-    usuarios = usuarios$+ (nombre: nombre, email: email)
-    <~ (ok: #1, id: usuarios$#)
 }
 ```
 
 ```
 // archivo: main.zy
-<# ./registro <= reg
+<# ./registro => reg
 
 pruebas = [
     ("Ana", "ana@ejemplo.com"),
@@ -214,7 +224,7 @@ pruebas = [
 ]
 
 @ p:pruebas {
-    (nombre: n, email: e) = p
+    [n, e] = p
     r = reg::crear_usuario(n, e)
     ? r.ok {
         >> "Registrado: " n " (id=" r.id ")" ¶
@@ -237,16 +247,17 @@ Registrado: Luis (id=2)
 
 | Concepto | Sintaxis |
 |---|---|
-| Declarar módulo | `# nombre` (primera línea del archivo) |
+| Declarar módulo | `# nombre { ... }` (el nombre debe coincidir con el archivo) |
 | Exportar | `#> { funcion, CONSTANTE }` |
-| Importar | `<# ./ruta <= alias` |
+| Importar | `<# ./ruta => alias` |
 | Llamar función | `alias::funcion(args)` |
 | Leer constante | `alias.CONSTANTE` |
-| Exportar con alias | `interno <= publico` dentro de `#>` |
-| Estado privado | Variable `=` a nivel de módulo (no en `#>`) |
+| Exportar con alias | `interno => publico` dentro de `#>` |
+| Re-exportar | `alias::funcion` o `alias::funcion => nuevo` dentro de `#>` |
+| Estado privado | Variable `=` a nivel de módulo (no exportable, inicial literal) |
 
 ---
 
-Siguiente nivel: [Avanzado →](avanzado/README.md)
+Siguiente lección: [09 — La biblioteca estándar](intermedio/09_biblioteca.md)
 
 [← Lección anterior](intermedio/07_tipos.md) · [Índice](intermedio/README.md)
