@@ -1,6 +1,6 @@
 # Lección 01 — Tuplas
 
-> **Revisado para v0.0.5 — 2026-05-12**
+> **Revisado para v0.0.7 — 2026-07-03**
 
 Las listas guardan colecciones de valores del mismo tipo: una lista de números, una lista de textos. Pero hay situaciones donde necesitas agrupar valores de tipos distintos que describen una sola cosa: el nombre y la edad de una persona, las coordenadas x e y de un punto, el código y el precio de un producto.
 

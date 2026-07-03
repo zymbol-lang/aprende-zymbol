@@ -1,6 +1,6 @@
 # Aprende Zymbol — Nivel Básico
 
-> **Revisado para v0.0.5 — 2026-05-12**
+> **Revisado para v0.0.7 — 2026-07-03**
 
 Aprender a programar no es aprender sintaxis. Es aprender a pensar de una manera que antes no usabas.
 

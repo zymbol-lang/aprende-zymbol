@@ -1,6 +1,6 @@
 # Ejercicios
 
-> **Revisado para v0.0.5 — 2026-05-12**
+> **Revisado para v0.0.7 — 2026-07-03**
 
 Aquí encontrarás ejercicios para practicar lo que aprendiste en cada lección. Están ordenados de menor a mayor dificultad dentro de cada sección.
 

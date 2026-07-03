@@ -1,6 +1,6 @@
 # Aprende Zymbol — Nivel Avanzado
 
-> **Revisado para v0.0.5 — 2026-05-12**
+> **Revisado para v0.0.7 — 2026-07-03**
 
 Llegaste aquí sabiendo escribir programas. Sabes declarar variables, controlar el flujo, definir funciones, transformar colecciones, manejar errores y organizar código en módulos. El lenguaje ya no es el obstáculo.
 
@@ -17,6 +17,8 @@ El nivel avanzado no enseña más sintaxis — enseña a usarla con precisión. 
 **Modos numéricos** es la lección más inusual del curso. Zymbol soporta 69 sistemas de dígitos Unicode — Devanagari, árabe-índico, tailandés, bengalí, Klingon pIqaD y decenas más. Con un token de activación, todos los números en la salida se muestran en el sistema elegido, y los literales en el código fuente se pueden escribir directamente en ese sistema. No es un detalle cosmético: es parte del diseño del lenguaje, que trata la internacionalización como un ciudadano de primera clase.
 
 **Herramientas del lenguaje** cubre el resto del ecosistema que rodea al intérprete. El REPL permite explorar expresiones de forma interactiva sin crear archivos. `zymbol check` valida un programa sin ejecutarlo — útil en CI y en editores. `zymbol fmt` formatea el código automáticamente con indentación configurable. `zymbol build` compila un archivo `.zy` en un ejecutable standalone que corre sin tener Zymbol instalado. Conocer estas herramientas cambia cómo trabajas con el lenguaje en el día a día.
+
+**Programar en tu idioma** reúne lo que hace único a Zymbol: sin palabras clave en inglés, el código completo puede escribirse en español — o en cualquier idioma. La lección muestra adaptadores en español para la biblioteca estándar, el patrón de tres capas para compartir código entre equipos de idiomas distintos, y `json::decode_map` para leer en tu idioma los datos que llegan de servicios externos. El proyecto Serpiente — un juego completo escrito 100% en español — sirve de ejemplo real.
 
 **Proyecto avanzado** cierra el nivel con un programa que usa todo lo anterior: estructura de archivos real, módulos con estado privado, manejo de errores tipificado, integración con el sistema, y al menos una característica del lenguaje que en los niveles anteriores habrías evitado por complejidad.
 
@@ -41,7 +43,8 @@ Empieza por la [Lección 01 — Alcance y tiempo de vida](avanzado/01_alcance.md
 | [03](avanzado/03_sistema.md) | Integración con el sistema | `<\ cmd \>`, `</ script.zy />`, automatización |
 | [04](avanzado/04_numerales.md) | Modos numéricos | `#d0d9#`, 69 sistemas de dígitos, i18n en código fuente |
 | [05](avanzado/05_herramientas.md) | Herramientas del lenguaje | REPL, `check`, `fmt`, `build`, flujo de trabajo profesional |
-| [06](avanzado/06_proyecto.md) | Proyecto avanzado | Programa completo de principio a fin |
+| [06](avanzado/06_multilingue.md) | Programar en tu idioma | Adaptadores en español, patrón de tres capas, `decode_map` |
+| [07](avanzado/07_proyecto.md) | Proyecto avanzado | Programa completo de principio a fin |
 
 ---
 

@@ -1,6 +1,6 @@
 # Lección 05 — Repetición
 
-> **Revisado para v0.0.5 — 2026-05-12**
+> **Revisado para v0.0.7 — 2026-07-03**
 
 Imagina que quieres mostrar los números del 1 al 100. Podrías escribir 100 líneas con `>>`, pero eso sería ridículo. Para eso existen los **bucles**: bloques de código que se repiten automáticamente.
 
@@ -51,7 +51,7 @@ ZzZzZzZzZz
 
 No hay variable de contador, no hay condición que mantener. El lenguaje cuenta por ti.
 
-> El analizador muestra un aviso `loop condition should be Bool, got Int` porque internamente comparte la gramática con el while. El aviso es esperado e inofensivo — el intérprete reconoce la forma y ejecuta exactamente N veces.
+> El analizador muestra un aviso `loop condition should be Bool, got Int` porque internamente comparte la gramática con la repetición condicional. El aviso es esperado e inofensivo — el intérprete reconoce la forma y ejecuta exactamente N veces.
 
 ---
 

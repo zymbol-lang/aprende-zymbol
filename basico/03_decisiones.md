@@ -1,6 +1,6 @@
 # Lección 03 — Decisiones
 
-> **Revisado para v0.0.5 — 2026-05-12**
+> **Revisado para v0.0.7 — 2026-07-03**
 
 Los programas no son líneas rectas — son caminos que se bifurcan. En cada bifurcación, el programa se detiene, observa una situación y decide qué hacer. Esa decisión es lo que vas a aprender en esta lección.
 
@@ -55,7 +55,7 @@ Las llaves `{ }` son **obligatorias**, aunque solo haya una línea adentro. Func
 
 ## De lo contrario: `_`
 
-¿Qué pasa cuando la condición es Falsa y quieres hacer algo de todas formas? Para eso existe `_` — el bloque **"de lo contrario"**. En inglés se llama `else`.
+¿Qué pasa cuando la condición es Falsa y quieres hacer algo de todas formas? Para eso existe `_` — el bloque **"de lo contrario"**: lo que se ejecuta cuando la condición no se cumple.
 
 ```
 edad = 15
@@ -75,7 +75,7 @@ Siempre se ejecuta uno de los dos bloques — nunca los dos, nunca ninguno.
 
 ## De lo contrario, comprueba: `_?`
 
-Cuando hay más de dos posibilidades, `_?` permite seguir evaluando condiciones en cadena. En inglés se llama `else if`.
+Cuando hay más de dos posibilidades, `_?` permite seguir evaluando condiciones en cadena: *«de lo contrario, comprueba esta otra condición»*.
 
 ```
 nota = 75
@@ -211,9 +211,9 @@ nota = 85
 
 | Concepto | En español | Sintaxis |
 |---|---|---|
-| En caso de que (`if`) | en caso de que... | `? condición { }` |
-| De lo contrario (`else`) | de lo contrario... | `} _ { }` |
-| De lo contrario, comprueba (`else if`) | de lo contrario, en caso de que... | `} _? condición { }` |
+| En caso de que | en caso de que... | `? condición { }` |
+| De lo contrario | de lo contrario... | `} _ { }` |
+| De lo contrario, comprueba | de lo contrario, en caso de que... | `} _? condición { }` |
 | Igual / diferente | `==` / `<>` | |
 | Comparaciones | `<` `<=` `>` `>=` | |
 | Y / O / No | `&&` / `\|\|` / `!` | |

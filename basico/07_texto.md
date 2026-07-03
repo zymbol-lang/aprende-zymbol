@@ -1,6 +1,6 @@
 # Lección 07 — Texto
 
-> **Revisado para v0.0.5 — 2026-05-12**
+> **Revisado para v0.0.7 — 2026-07-03**
 
 El texto es uno de los tipos de datos que más vas a usar: nombres, mensajes, respuestas del usuario, resultados formateados. En esta lección vas a conocer las herramientas que Zymbol ofrece para trabajar con cadenas de texto en profundidad.
 

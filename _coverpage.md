@@ -2,7 +2,7 @@
 
 # Aprende Zymbol
 
-> **Revisado para v0.0.5 — 2026-05-12**
+> **Revisado para v0.0.7 — 2026-07-03**
 
 > Un lenguaje donde los símbolos hacen el trabajo de las palabras.
 

@@ -1,6 +1,6 @@
 # Lección 09 — Juntando todo
 
-> **Revisado para v0.0.5 — 2026-05-12**
+> **Revisado para v0.0.7 — 2026-07-03**
 
 Llegaste a la última lección. En este punto ya conoces los bloques fundamentales de cualquier programa:
 
@@ -113,10 +113,10 @@ resultado_final(puntos, total) {
     >> "  Resultado: " puntos " de " total " correctas" ¶
 
     mensaje = ?? puntos {
-        == total          : "¡Perfecto! Eres increíble."
-        >= (total - 1)    : "¡Muy bien! Casi perfecto."
-        >= (total / 2)    : "Bien. La práctica hace al maestro."
-        _                 : "¡Sigue intentando, tú puedes!"
+        == total => "¡Perfecto! Eres increíble."
+        >= (total - 1) => "¡Muy bien! Casi perfecto."
+        >= (total / 2) => "Bien. La práctica hace al maestro."
+        _ => "¡Sigue intentando, tú puedes!"
     }
 
     >> "  " mensaje ¶
@@ -206,10 +206,10 @@ resultado_final(puntos, total) {
     >> "  Resultado: " puntos " de " total " correctas" ¶
 
     mensaje = ?? puntos {
-        == total          : "¡Perfecto! Eres increíble."
-        >= (total - 1)    : "¡Muy bien! Casi perfecto."
-        >= (total / 2)    : "Bien. La práctica hace al maestro."
-        _                 : "¡Sigue intentando, tú puedes!"
+        == total => "¡Perfecto! Eres increíble."
+        >= (total - 1) => "¡Muy bien! Casi perfecto."
+        >= (total / 2) => "Bien. La práctica hace al maestro."
+        _ => "¡Sigue intentando, tú puedes!"
     }
 
     >> "  " mensaje ¶

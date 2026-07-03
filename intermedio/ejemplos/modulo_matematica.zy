@@ -1,7 +1,8 @@
-# matematica
-#> { sumar, restar, PI }
+# modulo_matematica {
+    #> { sumar, restar, PI }
 
-PI := 3.14159
+    PI := 3.14159
 
-sumar(a, b)  { <~ a + b }
-restar(a, b) { <~ a - b }
+    sumar(a, b)  { <~ a + b }
+    restar(a, b) { <~ a - b }
+}

@@ -5,7 +5,7 @@
 color = "verde"
 ?? color {
     "rojo"    => { >> "Detente"     ¶ }
-    "amarillo": { >> "Precaución"  ¶ }
+    "amarillo" => { >> "Precaución"  ¶ }
     "verde"   => { >> "Avanza"      ¶ }
     _         => { >> "Desconocido" ¶ }
 }
@@ -61,10 +61,10 @@ comando = ["abrir", "archivo.zy"]
 // --- Match guardado en variable, usado en >> ---
 mes = 4
 nombre_mes = ?? mes {
-    1:"enero"  2:"febrero" 3:"marzo"    4:"abril"
-    5:"mayo"   6:"junio"   7:"julio"    8:"agosto"
-    9:"septiembre" 10:"octubre" 11:"noviembre" 12:"diciembre"
-    _:"inválido"
+    1 => "enero"  2 => "febrero" 3 => "marzo"    4 => "abril"
+    5 => "mayo"   6 => "junio"   7 => "julio"    8 => "agosto"
+    9 => "septiembre" 10 => "octubre" 11 => "noviembre" 12 => "diciembre"
+    _ => "inválido"
 }
 >> "El mes " mes " es " nombre_mes ¶
 
