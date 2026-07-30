@@ -1,6 +1,6 @@
 # Lección 01 — Alcance y tiempo de vida
 
-> **Revisado para v0.0.7 — 2026-07-03**
+> **Revisado para v0.0.7 — 2026-07-12**
 
 En las lecciones anteriores aprendiste que las variables viven dentro del bloque donde se declaran y desaparecen cuando ese bloque termina. Eso es el comportamiento predeterminado. Pero Zymbol ofrece dos mecanismos adicionales para controlar la vida de una variable con más precisión: el prefijo `_` y el operador de destrucción explícita `\`.
 
@@ -104,6 +104,49 @@ Funciona con variables regulares y con variables `_`:
     continuar()
 }
 ```
+
+> ⚠️ **No uses `\` dentro de funciones sobre nombres que también existen afuera.**
+> En v0.0.7, destruir una variable dentro de una función marca el **nombre** como
+> destruido para todo el programa: si quien llamó a la función tiene su propia
+> variable con ese mismo nombre, al volver de la llamada la verá "destruida" y el
+> programa fallará con `use after destruction`:
+>
+> ```
+> limpiar() {
+>     x = 5
+>     \ x        // marca el nombre 'x' como muerto en todo el programa
+>     <~ 1
+> }
+>
+> x = 10
+> r = limpiar()
+> >> x ¶         // ❌ error: use after destruction — aunque este x nunca se tocó
+> ```
+>
+> Regla práctica: usa `\` solo en el nivel superior del programa o con nombres que
+> no se repitan fuera de la función (los nombres `_` ayudan a garantizarlo).
+
+---
+
+## La variable del bucle `@` y las variables externas
+
+La variable contadora de un `@` vive dentro del bucle y desaparece al terminar —
+**salvo que ya exista una variable con ese nombre afuera**. En ese caso el bucle
+la reutiliza, y después del bucle conserva el último valor de la iteración:
+
+```
+@ i:1..3 { >> i ¶ }
+>> i ¶            // ❌ error: 'i' no existe fuera del bucle
+```
+
+```
+i = 99
+@ i:1..3 { >> i ¶ }
+>> i ¶            // → 3  (el bucle reutilizó y sobrescribió la 'i' externa)
+```
+
+Si no quieres que un bucle pise una variable tuya, no uses el mismo nombre para
+el contador — o usa un contador con prefijo `_` cuando no lo necesites en el cuerpo.
 
 ---
 

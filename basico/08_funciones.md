@@ -1,6 +1,6 @@
 # Lección 08 — Funciones
 
-> **Revisado para v0.0.7 — 2026-07-03**
+> **Revisado para v0.0.7 — 2026-07-12**
 
 Hasta ahora todo el código que has escrito corre de arriba hacia abajo, una sola vez. Pero ¿qué pasa cuando necesitas hacer la misma operación en varios lugares? ¿La copias y pegas? No — para eso existen las **funciones**.
 
@@ -164,6 +164,32 @@ soy de afuera
 ```
 
 Esto es una ventaja: puedes usar el nombre `resultado`, `i`, `temp` adentro de cualquier función sin preocuparte de que choquen con variables del resto del programa.
+
+> ⚠️ **Excepción: las constantes sí entran.** El aislamiento aplica a las variables
+> normales (`=`), pero las **constantes** declaradas con `:=` sí son visibles dentro
+> de las funciones:
+>
+> ```
+> PI := 3.14
+>
+> area(radio) {
+>     <~ radio * radio * PI    // ✓ PI sí es visible aquí
+> }
+>
+> >> area(2) ¶    // → 12.56
+> ```
+>
+> **Con un límite en v0.0.7**: la constante llega a la función que llamas desde tu
+> programa, pero en el intérprete por defecto **no llega** a las funciones que esa
+> función llame a su vez (incluida la recursión). Si una función que es llamada por
+> otra función necesita el valor, pásalo como parámetro:
+>
+> ```
+> K := 5
+> interna() { <~ K * 2 }
+> externa() { <~ interna() + K }
+> >> externa() ¶    // ❌ error en v0.0.7: 'K' is undefined (dentro de 'interna')
+> ```
 
 ---
 
