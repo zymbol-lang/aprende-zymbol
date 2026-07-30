@@ -1,6 +1,6 @@
 # Lección 03 — Lambdas y Cierres
 
-> **Revisado para v0.0.7 — 2026-07-03**
+> **Revisado para v0.0.7 — 2026-07-12**
 
 En la lección de funciones aprendiste a definir bloques de código con nombre. Pero hay situaciones donde crear una función con nombre es excesivo: una operación de un solo uso, un comportamiento que se pasa como argumento, una transformación que varía según el contexto.
 
@@ -74,6 +74,21 @@ sumar20 = hacer_sumador(20)
 ```
 
 Cada llamada a `hacer_sumador` produce una lambda diferente que captura su propio valor de `n`.
+
+> ⚠️ **La captura es una foto, no un enlace.** La lambda copia el **valor** de cada
+> variable externa en el momento de su creación. Cambiar la variable después no afecta
+> a la lambda, y asignar a la variable capturada *dentro* de la lambda solo modifica
+> la copia interna — la variable de afuera queda intacta:
+>
+> ```
+> contador = 0
+> subir = (d -> { contador = contador + 1  <~ contador })
+> >> subir(0) ¶      // → 1  (modifica su copia interna)
+> >> contador ¶      // → 0  (el contador de afuera NO cambió)
+> ```
+>
+> Si necesitas estado que persista entre llamadas, usa una variable privada de módulo
+> (lección 08) — las lambdas no pueden modificar el mundo exterior.
 
 ---
 

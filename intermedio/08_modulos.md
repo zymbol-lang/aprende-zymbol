@@ -1,6 +1,6 @@
 # Lección 08 — Módulos
 
-> **Revisado para v0.0.7 — 2026-07-03**
+> **Revisado para v0.0.7 — 2026-07-12**
 
 A medida que un programa crece, mantenerlo todo en un solo archivo se vuelve impráctico. El código se mezcla, las responsabilidades se difuminan, y modificar una parte sin afectar otra se convierte en un ejercicio de cuidado extremo.
 
@@ -112,6 +112,32 @@ c::incrementar()
 n = c::obtener()
 >> n ¶    // → 3
 ```
+
+> ⚠️ **Muta el estado solo en la función llamada con `alias::`.** En v0.0.7, si una
+> función exportada delega la modificación del estado a otra función del mismo módulo
+> (una ayudante interna), ese cambio **se pierde** al terminar la llamada en el
+> intérprete por defecto:
+>
+> ```
+> # contador {
+>     #> { incrementar_mal, obtener }
+>     cuenta = 0
+>     sumar()           { cuenta = cuenta + 1 }   // ayudante interna
+>     incrementar_mal() { sumar() }               // ❌ el cambio de 'sumar' se pierde
+>     obtener()         { <~ cuenta }
+> }
+> ```
+>
+> Regla práctica: la función exportada que recibe la llamada `alias::` debe hacer la
+> asignación ella misma; las ayudantes internas pueden **leer** el estado y devolver
+> valores, pero no modificarlo.
+
+> ⚠️ **Nunca reasignes una constante del módulo dentro de sus funciones.** Los módulos
+> importados en tiempo de ejecución no pasan por el análisis semántico completo, así
+> que `MAX = 5` dentro de una función del módulo no da error — y deja el módulo en un
+> estado inconsistente: las funciones ven el valor nuevo pero `alias.MAX` sigue
+> mostrando el original. Ejecuta `zymbol check modulo.zy` sobre cada archivo de módulo
+> para detectar estas reasignaciones antes de ejecutar.
 
 ---
 
