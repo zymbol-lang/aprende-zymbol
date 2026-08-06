@@ -1,6 +1,6 @@
 # Aprende Zymbol — Nivel Avanzado
 
-> **Revisado para v0.0.7 — 2026-07-03**
+> **Revisado para v0.0.8 — 2026-08-05**
 
 Llegaste aquí sabiendo escribir programas. Sabes declarar variables, controlar el flujo, definir funciones, transformar colecciones, manejar errores y organizar código en módulos. El lenguaje ya no es el obstáculo.
 

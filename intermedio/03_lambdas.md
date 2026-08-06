@@ -1,6 +1,6 @@
 # Lección 03 — Lambdas y Cierres
 
-> **Revisado para v0.0.7 — 2026-07-12**
+> **Revisado para v0.0.8 — 2026-08-05**
 
 En la lección de funciones aprendiste a definir bloques de código con nombre. Pero hay situaciones donde crear una función con nombre es excesivo: una operación de un solo uso, un comportamiento que se pasa como argumento, una transformación que varía según el contexto.
 

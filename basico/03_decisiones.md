@@ -1,6 +1,6 @@
 # Lección 03 — Decisiones
 
-> **Revisado para v0.0.7 — 2026-07-03**
+> **Revisado para v0.0.8 — 2026-08-05**
 
 Los programas no son líneas rectas — son caminos que se bifurcan. En cada bifurcación, el programa se detiene, observa una situación y decide qué hacer. Esa decisión es lo que vas a aprender en esta lección.
 
@@ -204,6 +204,41 @@ nota = 85
     >> "Calificación: F — Reprobado" ¶
 }
 ```
+
+---
+
+## Así se usa `?` en un juego real
+
+Esto no es un ejemplo de curso: es `logica.zy` del juego [Serpiente](https://github.com/zymbol-lang/zySerpiente), corriendo hoy. Traduce la tecla pulsada a una dirección de movimiento:
+
+```
+// serpiente/logica.zy
+nueva_dir(tecla, dir) {
+    nueva = dir
+
+    ? tecla == 'w' || tecla == '↑' { nueva = '↑' }
+    ? tecla == 's' || tecla == '↓' { nueva = '↓' }
+    ? tecla == 'a' || tecla == '←' { nueva = '←' }
+    ? tecla == 'd' || tecla == '→' { nueva = '→' }
+
+    inverso = #0
+    ? dir == '↑' && nueva == '↓' { inverso = #1 }
+    ? dir == '↓' && nueva == '↑' { inverso = #1 }
+    ? dir == '←' && nueva == '→' { inverso = #1 }
+    ? dir == '→' && nueva == '←' { inverso = #1 }
+
+    ? inverso { <~ dir }
+    <~ nueva
+}
+```
+
+Fíjate en tres cosas:
+
+1. **Cuatro `?` seguidos, sin `_?`.** Son cuatro comprobaciones independientes: cada una mira una tecla distinta y como mucho una puede acertar. Encadenarlas con `_?` no cambiaría nada y leería peor.
+2. **`||` para aceptar dos teclas.** El juego se juega con WASD o con las flechas, indistintamente, y eso cuesta un `||` por línea.
+3. **`? inverso { ... }` sin comparar con nada.** `inverso` ya es un booleano (`#1` o `#0`). Escribir `? inverso == #1` sería redundante.
+
+Y una decisión de diseño escondida en el segundo bloque: una serpiente que va hacia la derecha **no puede** girar 180° de golpe, porque se comería a sí misma en el mismo tick. Esos cuatro `?` con `&&` son esa regla.
 
 ---
 

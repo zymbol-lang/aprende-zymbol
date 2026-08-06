@@ -37,3 +37,16 @@
   - [05 — Herramientas del lenguaje](avanzado/05_herramientas.md)
   - [06 — Programar en tu idioma](avanzado/06_multilingue.md)
   - [07 — Proyecto avanzado](avanzado/07_proyecto.md)
+
+- **Nivel Juegos**
+
+  - [Presentación](juegos/README.md)
+  - [01 — La terminal como lienzo](juegos/01_lienzo.md)
+  - [02 — El bucle de juego](juegos/02_bucle.md)
+  - [03 — El estado del juego](juegos/03_estado.md)
+  - [04 — Dibujar solo lo que cambió](juegos/04_dibujo.md)
+  - [05 — Azar reproducible](juegos/05_azar.md)
+  - [06 — Marcos que se miden](juegos/06_marcos.md)
+  - [07 — Un juego en varios idiomas](juegos/07_idiomas.md)
+  - [08 — La puerta de completitud](juegos/08_pruebas.md)
+  - [09 — Proyecto: Atrapa](juegos/09_proyecto.md)

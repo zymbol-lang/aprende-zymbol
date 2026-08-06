@@ -1,6 +1,6 @@
 # Lección 06 — Listas
 
-> **Revisado para v0.0.7 — 2026-07-03**
+> **Revisado para v0.0.8 — 2026-08-05**
 
 Hasta ahora cada variable guarda un solo valor: un número, un texto, un booleano. Pero hay situaciones donde necesitas guardar varios valores juntos — los nombres de tus contactos, las calificaciones de un examen, los productos de un carrito de compras.
 

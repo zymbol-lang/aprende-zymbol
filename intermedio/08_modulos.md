@@ -1,6 +1,6 @@
 # Lección 08 — Módulos
 
-> **Revisado para v0.0.7 — 2026-07-12**
+> **Revisado para v0.0.8 — 2026-08-05**
 
 A medida que un programa crece, mantenerlo todo en un solo archivo se vuelve impráctico. El código se mezcla, las responsabilidades se difuminan, y modificar una parte sin afectar otra se convierte en un ejercicio de cuidado extremo.
 
@@ -113,24 +113,25 @@ n = c::obtener()
 >> n ¶    // → 3
 ```
 
-> ⚠️ **Muta el estado solo en la función llamada con `alias::`.** En v0.0.7, si una
-> función exportada delega la modificación del estado a otra función del mismo módulo
-> (una ayudante interna), ese cambio **se pierde** al terminar la llamada en el
-> intérprete por defecto:
+> ℹ️ **Corregido en v0.0.8.** En v0.0.7, si una función exportada delegaba la
+> modificación del estado en una ayudante interna del mismo módulo, ese cambio **se
+> perdía** al terminar la llamada. Desde v0.0.8 una ayudante interna puede escribir el
+> estado del módulo con normalidad, en los dos motores:
 >
 > ```
 > # contador {
->     #> { incrementar_mal, obtener }
+>     #> { incrementar, obtener }
 >     cuenta = 0
->     sumar()           { cuenta = cuenta + 1 }   // ayudante interna
->     incrementar_mal() { sumar() }               // ❌ el cambio de 'sumar' se pierde
->     obtener()         { <~ cuenta }
+>     sumar()       { cuenta = cuenta + 1 }   // ayudante interna
+>     incrementar() { sumar() }               // ✓ el cambio persiste
+>     obtener()     { <~ cuenta }
 > }
 > ```
 >
-> Regla práctica: la función exportada que recibe la llamada `alias::` debe hacer la
-> asignación ella misma; las ayudantes internas pueden **leer** el estado y devolver
-> valores, pero no modificarlo.
+> Aun así, separar el cálculo del efecto sigue siendo buena forma. El despachador de
+> idioma de Serpiente mantiene esa separación a propósito, y explica por qué: el fallo
+> antiguo era **silencioso** —no daba error, simplemente dejaba el valor anterior— así
+> que un código escrito con esa separación funciona igual con un binario viejo.
 
 > ⚠️ **Nunca reasignes una constante del módulo dentro de sus funciones.** Los módulos
 > importados en tiempo de ejecución no pasan por el análisis semántico completo, así
@@ -269,11 +270,65 @@ Registrado: Luis (id=2)
 
 ---
 
+## Así se organiza un programa real
+
+Esta es la estructura completa de [Serpiente](https://github.com/zymbol-lang/zySerpiente), un juego de terminal escrito íntegramente en español:
+
+```
+serpiente/
+├── serpiente.zy    punto de entrada — preselecciona español
+├── snake.zy        punto de entrada — preselecciona inglés
+├── juego.zy        el bucle de partida
+├── logica.zy       movimiento, colisiones, azar — no dibuja nada
+├── dibujo.zy       todo el output — no sabe ninguna regla
+├── marco.zy        paneles construidos midiendo el contenido
+├── texto.zy        capa en español sobre std/term
+├── idioma/
+│   ├── despacho.zy despachador de i18n — guarda el idioma como estado de módulo
+│   ├── español.zy  idioma base
+│   └── english.zy  inglés
+└── pruebas/
+    └── verificación_idioma.zy
+```
+
+Tres cosas que aprender de aquí:
+
+**1. La regla que ordena los archivos.** `logica.zy` no sabe dibujar; `dibujo.zy` no sabe las reglas; `juego.zy` es el único que conoce a los dos. Eso permite probar `logica.zy` entero sin abrir una terminal, y traducir `dibujo.zy` sin tocar una regla.
+
+**2. Un módulo dentro de un subdirectorio lleva su ruta en el nombre, con un punto delante:**
+
+```
+// archivo: idioma/despacho.zy
+# .idioma_despacho {
+```
+
+Sin el punto, `zymbol check idioma/despacho.zy` exige que se llame `despacho` y el importador exige `idioma_despacho`; con el punto valen los dos.
+
+**3. El estado privado del módulo es lo que hace útil todo esto.** El despachador guarda el idioma activo en una variable de módulo:
+
+```
+// serpiente/idioma/despacho.zy
+idioma_actual = "es"
+
+fijar(código) { idioma_actual = código }
+texto(clave) {
+    ? idioma_actual == "en" { <~ en::texto(clave) }
+    <~ es::texto(clave)
+}
+```
+
+Y por eso **ninguna función de dibujo lleva un parámetro de idioma**. El juego puede cambiar de idioma en mitad de una partida llamando a `idioma::fijar("en")` y volviendo a dibujar: nadie más se entera.
+
+El [nivel Juegos](juegos/README.md) construye esta estructura entera, archivo por archivo.
+
+---
+
 ## Resumen
 
 | Concepto | Sintaxis |
 |---|---|
 | Declarar módulo | `# nombre { ... }` (el nombre debe coincidir con el archivo) |
+| Módulo en subdirectorio | `# .carpeta_archivo { ... }` — con punto inicial |
 | Exportar | `#> { funcion, CONSTANTE }` |
 | Importar | `<# ./ruta => alias` |
 | Llamar función | `alias::funcion(args)` |

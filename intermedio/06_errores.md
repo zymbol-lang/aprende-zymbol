@@ -1,6 +1,6 @@
 # Lección 06 — Manejo de errores
 
-> **Revisado para v0.0.7 — 2026-07-03**
+> **Revisado para v0.0.8 — 2026-08-05**
 
 Hasta aquí todos los programas que has escrito asumen que todo saldrá bien: que la lista tiene elementos, que el número no es cero, que el archivo existe. En programas reales eso no se puede asumir.
 

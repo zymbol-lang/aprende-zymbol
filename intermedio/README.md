@@ -1,6 +1,6 @@
 # Aprende Zymbol — Nivel Intermedio
 
-> **Revisado para v0.0.7 — 2026-07-03**
+> **Revisado para v0.0.8 — 2026-08-05**
 
 El nivel básico te dio las herramientas para escribir programas que funcionan. Este nivel te da las herramientas para escribir programas que se pueden leer, modificar y ampliar sin que cada cambio rompa algo.
 

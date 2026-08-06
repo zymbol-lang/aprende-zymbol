@@ -1,6 +1,6 @@
 # Lección 01 — Instalación
 
-> **Revisado para v0.0.7 — 2026-07-03**
+> **Revisado para v0.0.8 — 2026-08-05**
 
 Antes de escribir código necesitas tener Zymbol instalado en tu computadora. Esta lección te lleva paso a paso dependiendo de tu sistema operativo.
 
@@ -32,7 +32,7 @@ Ahí encontrarás todo lo necesario para Windows, macOS y Linux. Las instruccion
 zymbol --version
 ```
 
-Deberías ver algo como `zymbol 0.0.7`. Si eso aparece, estás lista.
+Deberías ver algo como `zymbol 0.0.8`. Si eso aparece, estás lista.
 
 ---
 
@@ -45,8 +45,8 @@ Deberías ver algo como `zymbol 0.0.7`. Si eso aparece, estás lista.
 3. Abre la Terminal y ejecuta estos comandos (cambia el nombre del archivo si descargaste la versión Intel):
 
 ```bash
-chmod +x zymbol_lang_v0.0.7_aarch64_macos
-sudo install -m755 zymbol_lang_v0.0.7_aarch64_macos /usr/local/bin/zymbol
+chmod +x zymbol_lang_v0.0.8_aarch64_macos
+sudo install -m755 zymbol_lang_v0.0.8_aarch64_macos /usr/local/bin/zymbol
 ```
 
 4. Si macOS dice "desarrollador no identificado", haz clic derecho en el archivo → Abrir → Abrir
@@ -74,13 +74,13 @@ zymbol --version
 
 ```bash
 # Ubuntu / Debian
-sudo dpkg -i zymbol_lang_v0.0.7_x86_64.deb
+sudo dpkg -i zymbol_lang_v0.0.8_x86_64.deb
 
 # Fedora / RHEL
-sudo rpm -i zymbol_lang_v0.0.7_x86_64.rpm
+sudo rpm -i zymbol_lang_v0.0.8_x86_64.rpm
 
 # Arch Linux
-sudo pacman -U zymbol_lang_v0.0.7_x86_64.pkg.tar.zst
+sudo pacman -U zymbol_lang_v0.0.8_x86_64.pkg.tar.zst
 ```
 
 **Verifica que funciona:**

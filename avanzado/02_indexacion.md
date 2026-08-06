@@ -1,6 +1,6 @@
 # Lección 02 — Indexación multidimensional
 
-> **Revisado para v0.0.7 — 2026-07-03**
+> **Revisado para v0.0.8 — 2026-08-05**
 
 Las listas de una dimensión se acceden con un índice: `arr[3]`. Pero cuando los datos tienen estructura jerárquica — matrices, cubos de datos, tablas de tablas — necesitas navegar varios niveles en una sola operación.
 
