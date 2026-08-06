@@ -1,0 +1,11 @@
+// ============================================================
+// catch.zy — entry point, starts in English
+//
+// The whole file. Its only job is to choose the language the
+// first screen comes up in; from there the game lives in juego.zy
+// and the language can be switched with L from inside.
+// ============================================================
+
+<# ./juego => juego
+
+juego::iniciar("en")

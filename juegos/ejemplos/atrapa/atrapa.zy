@@ -1,0 +1,18 @@
+// ============================================================
+// atrapa.zy — punto de entrada, arranca en español
+//
+// El archivo entero. Su único trabajo es elegir el idioma con el
+// que sale la primera pantalla; a partir de ahí el juego vive en
+// juego.zy y el idioma se puede cambiar con L desde dentro.
+//
+//   zymbol run atrapa.zy    → español
+//   zymbol run catch.zy     → inglés
+//
+// Que existan dos archivos es una comodidad, no el único camino:
+// quien arranque el que no entiende puede cambiar de idioma sin
+// saber que el otro existe.
+// ============================================================
+
+<# ./juego => juego
+
+juego::iniciar("es")

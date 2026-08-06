@@ -1,0 +1,83 @@
+// ============================================================
+// marco.zy — paneles que caben en cualquier idioma
+//
+// El contenido llega como lista de líneas YA TRADUCIDAS. Se mide
+// la más ancha en columnas de terminal y el marco se construye
+// alrededor. Todas las filas que salen miden exactamente lo mismo,
+// en el idioma que sea.
+//
+// Igual que el de la lección 06. Un proyecto es autocontenido:
+// aquí vive su propia copia, no un enlace a la del curso.
+// ============================================================
+
+# marco {
+
+    <# ./texto => txt
+
+    #> { SEPARADOR, CENTRADO, construir, ancho_de, fila_menú }
+
+    // Una línea igual a esto se convierte en una regla horizontal
+    // del ancho del marco. Es un glifo de control que no aparece en
+    // ningún texto de interfaz, así que ninguna traducción puede
+    // chocar con él por accidente.
+    SEPARADOR := "␟"
+
+    // Prefijo que pide centrar la línea. Tiene que ser un prefijo y
+    // no un parámetro: el ancho del marco no se conoce hasta haber
+    // medido TODAS las líneas, así que una línea centrada contra un
+    // ancho supuesto queda descentrada en cuanto otra línea del
+    // mismo panel resulta ser más larga.
+    CENTRADO := "␝"
+
+    // La línea más ancha de una lista, en columnas de terminal.
+    ancho_de(líneas) {
+        w = 0
+        @ l : líneas {
+            ? l <> SEPARADOR {
+                c = txt::ancho(_desnudo(l))
+                ? c > w { w = c }
+            }
+        }
+        <~ w
+    }
+
+    // Quita el prefijo de centrado si lo lleva.
+    _desnudo(l) {
+        ? (l$#) == 0 { <~ l }
+        ? l$[1..1] == CENTRADO { <~ l$[2..] }
+        <~ l
+    }
+
+    // Enmarca una lista de líneas. `hueco` es el número de espacios
+    // entre el borde y el texto, a cada lado.
+    construir(líneas, hueco) {
+        w = ancho_de(líneas)
+        borde = "─" $* (w + hueco * 2)
+        margen = " " $* hueco
+        filas = ["╭" $+ borde $+ "╮"]
+        @ l : líneas {
+            ? l == SEPARADOR {
+                filas = filas $+ ("├" $+ borde $+ "┤")
+            } _ {
+                cuerpo = _desnudo(l)
+                ? cuerpo <> l {
+                    filas = filas $+ ("│" $+ margen $+ txt::centrar(cuerpo, w) $+ margen $+ "│")
+                } _ {
+                    filas = filas $+ ("│" $+ margen $+ txt::derecha(l, w) $+ margen $+ "│")
+                }
+            }
+        }
+        filas = filas $+ ("╰" $+ borde $+ "╯")
+        <~ filas
+    }
+
+    // Una entrada de menú con su marca de selección. La marca se
+    // pone ANTES de medir, y las filas no seleccionadas llevan dos
+    // espacios en su lugar: así el marco reserva sitio para ella en
+    // todos los idiomas y las filas no se mueven al mover el cursor.
+    fila_menú(número, etiqueta, seleccionada) {
+        marca = "  "
+        ? seleccionada { marca = "► " }
+        <~ "{marca}[{número}]  {etiqueta}"
+    }
+}

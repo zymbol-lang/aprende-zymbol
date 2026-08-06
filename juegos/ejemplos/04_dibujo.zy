@@ -1,0 +1,168 @@
+// ============================================================
+// 04_dibujo.zy — repintado completo contra delta rendering
+//
+// Un gusano recorre la pantalla. La tecla `m` cambia entre los dos
+// modos de dibujo y el contador de arriba dice cuántas celdas
+// escribió el último tick.
+//
+//   modo COMPLETO — borra la pantalla y redibuja todo:  ~N celdas
+//   modo DELTA    — solo las celdas que cambiaron:       2 celdas
+//
+// El parpadeo del modo completo no es un defecto de este ejemplo:
+// es lo que se ve siempre que un juego de terminal borra la
+// pantalla en cada fotograma.
+//
+// Teclas:  m = cambiar de modo   ·   q = salir
+// Ejecutar:  zymbol run juegos/ejemplos/04_dibujo.zy
+// ============================================================
+
+MARCO   := 8
+CUERPO  := 10
+CABEZA  := 2
+AVISO   := 11
+
+LARGO := 12
+
+// Dibuja el gusano entero. Devuelve cuántas celdas escribió, para
+// poder comparar los dos modos con un número y no de memoria.
+pintar_todo(cuerpo, filas, cols) {
+    >>!
+    n = 0
+
+    i = 1
+    @ i <= cols {
+        >>~ (1, i, 0, MARCO) > "─"
+        >>~ (filas, i, 0, MARCO) > "─"
+        i++
+        n = n + 2
+    }
+
+    i = 1
+    @ i <= (cuerpo$#) {
+        [f, c] = cuerpo[i]
+        color = CUERPO
+        ? i == 1 { color = CABEZA }
+        >>~ (f, c, 0, color) > "●"
+        i++
+        n = n + 1
+    }
+
+    <~ n
+}
+
+// Solo las dos celdas que dejaron de ser lo que eran: la cabeza
+// nueva, y la casilla que la cola acaba de abandonar.
+// `cola_vieja` tiene que venir de fuera porque, una vez movido el
+// gusano, esa posición ya no existe en ninguna parte.
+pintar_delta(cuerpo, cola_vieja) {
+    [tf, tc] = cola_vieja
+    >>~ (tf, tc, 0, 0) > " "          // borrar SIEMPRE va primero
+
+    [hf, hc] = cuerpo[1]
+    >>~ (hf, hc, 0, CABEZA) > "●"
+
+    // el segundo segmento deja de ser cabeza y pasa a ser cuerpo
+    ? (cuerpo$#) >= 2 {
+        [sf, sc] = cuerpo[2]
+        >>~ (sf, sc, 0, CUERPO) > "●"
+        <~ 3
+    }
+    <~ 2
+}
+
+>>!
+[filas, cols] = >>?
+
+? filas < 10 || cols < 40 {
+    >> "Necesito al menos 40x10 — tu terminal mide {cols}x{filas}" ¶
+} _ {
+
+    >>| {
+        // El gusano arranca en horizontal, la cabeza en el índice 1.
+        cuerpo = []
+        @ n : 1..LARGO {
+            cuerpo = cuerpo $+ (filas / 2, cols / 2 - n + 1)
+        }
+
+        completo = #1        // se empieza en el modo malo, a propósito
+        df = 0
+        dc = 1
+        celdas = pintar_todo(cuerpo, filas, cols)
+
+        @:juego {
+            <<|? tecla
+
+            ? tecla == 'q' || tecla == 'Q' { @:juego! }
+
+            ? tecla == 'm' || tecla == 'M' {
+                completo = !completo
+                celdas = pintar_todo(cuerpo, filas, cols)
+            }
+
+            ? tecla == '↑' {
+                df = -1
+                dc = 0
+            }
+            ? tecla == '↓' {
+                df = 1
+                dc = 0
+            }
+            ? tecla == '←' {
+                df = 0
+                dc = -1
+            }
+            ? tecla == '→' {
+                df = 0
+                dc = 1
+            }
+
+            // ── guardar lo viejo ANTES de actualizar ───────────
+            cola_vieja = cuerpo[cuerpo$#]
+
+            // ── actualizar ────────────────────────────────────
+            [hf, hc] = cuerpo[1]
+            nf = hf + df
+            nc = hc + dc
+            // rebota contra las paredes en vez de morir
+            ? nf < 2 {
+                nf = 2
+                df = 1
+            }
+            ? nf > filas - 1 {
+                nf = filas - 1
+                df = -1
+            }
+            ? nc < 1 {
+                nc = 1
+                dc = 1
+            }
+            ? nc > cols {
+                nc = cols
+                dc = -1
+            }
+
+            cuerpo = cuerpo$+[1] (nf, nc)
+            cuerpo = cuerpo$-[-1]
+
+            // ── dibujar ───────────────────────────────────────
+            ? completo {
+                celdas = pintar_todo(cuerpo, filas, cols)
+            } _ {
+                celdas = pintar_delta(cuerpo, cola_vieja)
+            }
+
+            modo = "DELTA   "
+            color = CUERPO
+            ? completo {
+                modo = "COMPLETO"
+                color = AVISO
+            }
+            >>~ (1, 3, 1, color) > " modo {modo}  celdas este tick: {celdas}   m = cambiar · q = salir "
+
+            @~ 70
+        }
+    }
+
+    >> "Dos modos, el mismo gusano." ¶
+    >> "El parpadeo del modo COMPLETO es el motivo de existir del delta." ¶
+}

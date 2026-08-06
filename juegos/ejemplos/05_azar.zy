@@ -1,0 +1,154 @@
+// ============================================================
+// 05_azar.zy — un generador con la semilla a la vista
+//
+// No dibuja nada: imprime, para que puedas leer los números y
+// comprobar tú mismo que la misma semilla da la misma secuencia.
+//
+// Ejecútalo dos veces seguidas: las secciones sembradas a mano
+// salen idénticas, la sembrada desde el reloj no.
+//
+// Ejecutar:  zymbol run juegos/ejemplos/05_azar.zy
+//            zymbol run --vm juegos/ejemplos/05_azar.zy
+// ============================================================
+
+// Constantes de Numerical Recipes. Las mismas que usan Serpiente y
+// Hov veS — dos juegos que comparten generador se pueden comparar.
+A := 1664525
+C := 1013904223
+M := 2147483647
+
+// El generador entero: multiplicar, sumar, sacar el resto.
+lcg_sig(semilla) {
+    <~ (A * semilla + C) % M
+}
+
+// Entero en [min, max]. Devuelve el valor Y la semilla avanzada:
+// quien llama TIENE que recoger las dos cosas, o el generador se
+// queda clavado y devuelve siempre el mismo número.
+rango_aleatorio(semilla, min, max) {
+    sig = lcg_sig(semilla)
+    val = sig % (max - min + 1) + min
+    <~ (val, sig)
+}
+
+fruta_aleatoria(semilla) {
+    frutas = ["🍎", "🍊", "🍋", "🍇", "🍓", "🫐", "🍑", "🥝", "🍒", "🍉"]
+    [ind, s1] = rango_aleatorio(semilla, 1, frutas$#)
+    <~ (frutas[ind], s1)
+}
+
+// ¿La posición cae encima del cuerpo?
+en_cuerpo(cuerpo, pos) {
+    i = 1
+    @ i <= (cuerpo$#) {
+        ? cuerpo[i] == pos { <~ #1 }
+        i++
+    }
+    <~ #0
+}
+
+// Un hueco libre para la comida. UN solo reintento, no un bucle:
+// sobre un tablero casi lleno, un bucle «hasta encontrar sitio»
+// puede no terminar nunca. Mejor un fallo rarísimo y visible que
+// un cuelgue.
+nueva_comida(cuerpo, AN, AL, semilla) {
+    [r, s1] = rango_aleatorio(semilla, 2, AL + 1)
+    [c, s2] = rango_aleatorio(s1,     2, AN)
+    pos = (r, c)
+    ? en_cuerpo(cuerpo, pos) {
+        [r, s1] = rango_aleatorio(s2, 2, AL + 1)
+        [c, s2] = rango_aleatorio(s1, 2, AN)
+        pos = (r, c)
+    }
+    <~ (pos, s2)
+}
+
+// ═════════════════════════════════════════════════════════════
+
+>> "── la misma semilla da la misma secuencia ────────" ¶
+
+s = 12345
+tirada = ""
+@ _i : 1..8 {
+    [v, s] = rango_aleatorio(s, 1, 6)
+    tirada = tirada "{v} "
+}
+>> "  semilla 12345 → {tirada}" ¶
+
+// Se repone la semilla al valor de partida y sale exactamente lo
+// mismo. Esto es lo que permite reproducir una partida entera.
+s = 12345
+tirada = ""
+@ _i : 1..8 {
+    [v, s] = rango_aleatorio(s, 1, 6)
+    tirada = tirada "{v} "
+}
+>> "  semilla 12345 → {tirada}  ← idéntica" ¶
+
+s = 999
+tirada = ""
+@ _i : 1..8 {
+    [v, s] = rango_aleatorio(s, 1, 6)
+    tirada = tirada "{v} "
+}
+>> "  semilla 999   → {tirada}" ¶
+
+>> ¶
+>> "── el fallo silencioso: no recoger la semilla ────" ¶
+
+// Aquí se ignora la semilla que devuelve la función. No da error.
+// Simplemente sale el mismo número ocho veces.
+s = 12345
+tirada = ""
+@ _i : 1..8 {
+    [v, _basura] = rango_aleatorio(s, 1, 6)
+    tirada = tirada "{v} "
+}
+>> "  sin reponer  → {tirada}  ← el generador está clavado" ¶
+
+>> ¶
+>> "── sembrar desde fuera del programa ──────────────" ¶
+
+// Tres fuentes de entropía independientes, UNA sola vez al
+// arrancar. <\ cmd \> devuelve texto, así que hace falta #|…|
+// para convertirlo a número.
+_ns  = <\ "date +%N" \>
+_pid = <\ "echo $$" \>
+_rnd = <\ "od -An -N2 -tu2 /dev/urandom | tr -d ' \n'" \>
+
+semilla = (#|_ns| + #|_pid| * 31337 + #|_rnd| * 65537) % M
+>> "  semilla del reloj: {semilla}   ← distinta en cada ejecución" ¶
+
+[fruta, semilla] = fruta_aleatoria(semilla)
+>> "  fruta sorteada:    " fruta ¶
+
+>> ¶
+>> "── ¿reparte bien? ────────────────────────────────" ¶
+
+// 6000 tiradas de un dado. Si el generador sirve, las seis barras
+// salen parecidas.
+conteo = [0, 0, 0, 0, 0, 0]
+s = 2024
+@ _i : 1..6000 {
+    [cara, s] = rango_aleatorio(s, 1, 6)
+    conteo[cara] = conteo[cara] + 1
+}
+
+@ cara : 1..6 {
+    veces = conteo[cara]
+    barra = "█" $* (veces / 25)
+    >> "  {cara} │ {barra} {veces}" ¶
+}
+
+>> ¶
+>> "── el reintento de nueva_comida ──────────────────" ¶
+
+cuerpo = [(5, 5), (5, 6), (5, 7), (6, 7), (7, 7)]
+s = 777
+@ _i : 1..5 {
+    [pos, s] = nueva_comida(cuerpo, 20, 10, s)
+    choca = en_cuerpo(cuerpo, pos)
+    marca = "libre"
+    ? choca { marca = "OCUPADA — el reintento también falló" }
+    >> "  comida en " pos "  {marca}" ¶
+}

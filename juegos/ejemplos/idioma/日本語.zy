@@ -1,0 +1,50 @@
+// ============================================================
+// 日本語.zy — japonés (ja)
+//
+// El nombre del archivo está en japonés porque Zymbol admite
+// identificadores y rutas Unicode. No hay ninguna razón para que
+// el archivo de un idioma se llame en otro.
+//
+// Está aquí sobre todo para probar los marcos: los ideogramas
+// ocupan dos columnas cada uno, así que si el panel se construye
+// midiendo, este idioma cuadra igual que los otros dos; si se
+// construye contando caracteres, aquí se rompe.
+// ============================================================
+
+# .idioma_日本語 {
+
+    #> { texto, marcador, frase_partida }
+
+    texto(clave) {
+        <~ ?? clave {
+            "idioma.nombre"     => "日本語"
+
+            "menú.título"       => "つかまえろ"
+            "menú.velocidad"    => "速さを選んでください:"
+            "menú.lento"        => "遅い"
+            "menú.normal"       => "普通"
+            "menú.rápido"       => "速い"
+            "menú.idioma"       => "言語"
+            "menú.empezar"      => "開始"
+
+            "juego.puntos"      => "得点"
+            "juego.vidas"       => "残機"
+
+            "fin.título"        => "終 了"
+            "fin.puntaje"       => "得点"
+            "fin.récord"        => "最高記録"
+            "fin.nuevo"         => "もう一度"
+            "fin.salir"         => "終わる"
+
+            _                   => clave
+        }
+    }
+
+    marcador(puntos) { <~ " ✦ 得点 {puntos} ✦ " }
+
+    // El japonés no marca el plural, así que no hay rama: una sola
+    // forma cubre los dos casos. Que la función exista igualmente
+    // es lo que permite que el despachador no sepa nada de
+    // gramática.
+    frase_partida(n) { <~ "今回は{n}局目" }
+}

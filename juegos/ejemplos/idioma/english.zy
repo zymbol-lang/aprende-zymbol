@@ -1,0 +1,50 @@
+// ============================================================
+// english.zy — inglés (en)
+//
+// Mismo contrato que el idioma base: texto · marcador ·
+// frase_partida. Las claves siguen siendo las españolas, porque el
+// programa está escrito en español; lo que cambia es el otro lado
+// de la flecha.
+//
+// Falta una clave a propósito ("fin.récord"): la puerta de
+// completitud de la lección 08 tiene que encontrarla.
+// ============================================================
+
+# .idioma_english {
+
+    #> { texto, marcador, frase_partida }
+
+    texto(clave) {
+        <~ ?? clave {
+            "idioma.nombre"     => "English"
+
+            "menú.título"       => "C A T C H"
+            "menú.velocidad"    => "Choose your speed:"
+            "menú.lento"        => "Slow"
+            "menú.normal"       => "Normal"
+            "menú.rápido"       => "Fast"
+            "menú.idioma"       => "Language"
+            "menú.empezar"      => "Start"
+
+            "juego.puntos"      => "SCORE"
+            "juego.vidas"       => "Lives"
+
+            "fin.título"        => "G A M E   O V E R"
+            "fin.puntaje"       => "Score"
+            // "fin.récord"     ← ausente a propósito
+            "fin.nuevo"         => "New game"
+            "fin.salir"         => "Quit"
+
+            _                   => clave
+        }
+    }
+
+    marcador(puntos) { <~ " ✦ SCORE {puntos} ✦ " }
+
+    // El inglés reparte el plural de otra forma que el español.
+    // Por eso esto es una función y no una fila de una tabla.
+    frase_partida(n) {
+        ? n == 1 { <~ "First game of this session" }
+        <~ "Game {n} of this session"
+    }
+}

@@ -1,0 +1,136 @@
+// ============================================================
+// 06_marcos.zy — el mismo panel en tres idiomas
+//
+// Construye el mismo menú en español, inglés y japonés. Los tres
+// cuadran, y ninguno lleva un ancho tecleado en ninguna parte.
+//
+// Al final, la versión rota: el mismo menú con el relleno contado
+// a mano, que es lo que hacía Serpiente antes de la v0.0.8.
+//
+// Ejecutar:  zymbol run juegos/ejemplos/06_marcos.zy
+//            zymbol run --vm juegos/ejemplos/06_marcos.zy
+// ============================================================
+
+<# ./marco => marco
+<# ./texto => txt
+
+// Los tres catálogos. Cada uno es solo texto: ningún ancho, ningún
+// relleno, ningún espacio contado a mano.
+etiquetas_es() { <~ ["Z Y M B O L", "Elige tu velocidad:", "Lento", "Normal", "Rápido", "Infernal", "Demencial"] }
+etiquetas_en() { <~ ["Z Y M B O L", "Choose your speed:", "Slow", "Normal", "Fast", "Infernal", "Insane"] }
+etiquetas_ja() { <~ ["Z Y M B O L", "速さを選んでください:", "遅い", "普通", "速い", "地獄", "狂気"] }
+
+// Construye el panel a partir de un catálogo. La misma función
+// para los tres idiomas — no hay ninguna rama por idioma.
+panel(cat, sel) {
+    retardos = [160, 130, 100, 70, 40]
+
+    líneas = [
+        marco.CENTRADO $+ cat[1],
+        marco.SEPARADOR,
+        cat[2],
+        ""
+    ]
+
+    i = 1
+    @ i <= 5 {
+        fila = marco::fila_menú(i, cat[i + 2], i == sel)
+        ms = retardos[i]
+        // txt::derecha alinea la columna de los milisegundos sin
+        // saber cuántas columnas ocupa la etiqueta.
+        líneas = líneas $+ (txt::derecha(fila, 22) $+ " {ms} ms")
+        i++
+    }
+
+    <~ marco::construir(líneas, 3)
+}
+
+mostrar(título, filas) {
+    >> título ¶
+    @ f : filas { >> "   " f ¶ }
+    >> ¶
+}
+
+// ═════════════════════════════════════════════════════════════
+
+>> "── medir no es contar ────────────────────────────" ¶
+>> ¶
+>> "  \"手番\"$#          → " "手番"$# "   (grafemas)" ¶
+>> "  txt::ancho(\"手番\") → " txt::ancho("手番") "   (columnas de terminal)" ¶
+>> ¶
+>> "  Construir un panel con el primer número es lo que" ¶
+>> "  deja los marcos torcidos." ¶
+>> ¶
+
+es = panel(etiquetas_es(), 1)
+en = panel(etiquetas_en(), 1)
+ja = panel(etiquetas_ja(), 1)
+
+mostrar("── español ──────────────────────────────────────", es)
+mostrar("── inglés ───────────────────────────────────────", en)
+mostrar("── japonés ──────────────────────────────────────", ja)
+
+>> "── la comprobación ──────────────────────────────" ¶
+>> ¶
+
+// Un panel está bien construido si TODAS sus filas miden lo mismo.
+// Esta es, en miniatura, la puerta de completitud de la lección 08.
+revisar(nombre, filas) {
+    esperado = txt::ancho(filas[1])
+    malas = 0
+    @ f : filas {
+        ? txt::ancho(f) <> esperado { malas = malas + 1 }
+    }
+    n = filas$#
+    ? malas == 0 {
+        >> "  {nombre}: PASA — {n} filas, todas de {esperado} columnas" ¶
+    } _ {
+        >> "  {nombre}: FALLA — {malas} filas descuadradas" ¶
+    }
+}
+
+revisar("español", es)
+revisar("inglés ", en)
+revisar("japonés", ja)
+
+>> ¶
+w_es = txt::ancho(es[1])
+w_en = txt::ancho(en[1])
+w_ja = txt::ancho(ja[1])
+>> "  Anchos: es={w_es}  en={w_en}  ja={w_ja}" ¶
+>> ¶
+>> "  Los tres salen del mismo ancho, y eso NO es la" ¶
+>> "  gracia: es que la línea más ancha resulta medir lo" ¶
+>> "  mismo en los tres. Lo que importa es que ese 37 no" ¶
+>> "  lo escribió nadie. Alarga una etiqueta y cambia solo:" ¶
+>> ¶
+
+// Una sola etiqueta más larga, sin tocar ni una línea del marco.
+largo = ["Z Y M B O L", "Elige tu velocidad:", "Lento", "Normal",
+         "Rápido", "Infernal", "Absolutamente demencial"]
+xl = panel(largo, 1)
+w_xl = txt::ancho(xl[1])
+mostrar("── una etiqueta más larga ───────────────────────", xl)
+revisar("largo  ", xl)
+>> "  Ancho: {w_xl} columnas — el marco creció solo." ¶
+>> ¶
+
+>> "── y así se hacía antes ──────────────────────────" ¶
+>> ¶
+>> "  El menú con el relleno tecleado a mano. Cuadra en" ¶
+>> "  español, porque se contó en español:" ¶
+>> ¶
+>> "   ╭───────────────────────────────╮" ¶
+>> "   │   ► [1]  Lento       160 ms   │" ¶
+>> "   │     [2]  Normal      130 ms   │" ¶
+>> "   ╰───────────────────────────────╯" ¶
+>> ¶
+>> "  Y lo mismo tras traducir «Lento» → «Slow», sin" ¶
+>> "  tocar el relleno, que vive dentro de la cadena:" ¶
+>> ¶
+>> "   ╭───────────────────────────────╮" ¶
+>> "   │   ► [1]  Slow       160 ms   │" ¶
+>> "   │     [2]  Normal      130 ms   │" ¶
+>> "   ╰───────────────────────────────╯" ¶
+>> ¶
+>> "  Por eso un marco no se teclea: se mide." ¶

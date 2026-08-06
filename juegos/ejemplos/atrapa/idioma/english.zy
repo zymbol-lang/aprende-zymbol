@@ -1,0 +1,54 @@
+// ============================================================
+// idioma/english.zy — inglés (en)
+// Contrato: texto · marcador · frase_partida
+//
+// Las claves siguen siendo españolas: son las del idioma base, y
+// pedirlas es pedir un concepto. Lo que cambia es el otro lado de
+// la flecha.
+// ============================================================
+
+# .idioma_english {
+
+    #> { texto, marcador, frase_partida }
+
+    texto(clave) {
+        <~ ?? clave {
+            "idioma.nombre"     => "English"
+
+            "menú.título1"      => "C A T C H"
+            "menú.título2"      => "Z Y M B O L"
+            "menú.velocidad"    => "Choose your speed:"
+            "menú.lento"        => "Slow"
+            "menú.normal"       => "Normal"
+            "menú.rápido"       => "Fast"
+            "menú.demencial"    => "Insane"
+            "menú.idioma"       => "L = language"
+            "menú.empezar"      => "↑↓ select · ↵ start"
+
+            "juego.vidas"       => "lives"
+            "juego.salir"       => "Q = quit · P = pause"
+
+            "pausa.título"      => "P A U S E D"
+            "pausa.continuar"   => "P to resume"
+
+            "fin.título1"       => "G A M E   O V E R"
+            "fin.puntaje"       => "Score"
+            "fin.récord"        => "Best"
+            "fin.nuevo"         => "New game"
+            "fin.salir"         => "Quit"
+
+            "marcador.puntos"   => "SCORE"
+
+            _                   => clave
+        }
+    }
+
+    marcador(puntos) { <~ " ✦ SCORE {puntos} ✦ " }
+
+    // El inglés reparte el plural de otra forma que el español.
+    // Por eso esto es una función y no una fila de una tabla.
+    frase_partida(n) {
+        ? n == 1 { <~ "First game of this session" }
+        <~ "Game {n} of this session"
+    }
+}

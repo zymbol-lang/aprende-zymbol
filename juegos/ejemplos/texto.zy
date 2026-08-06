@@ -1,0 +1,24 @@
+// ============================================================
+// texto.zy — std/term, en español
+//
+// El archivo entero. Cero lógica: solo vuelve a publicar cada
+// función de std/term con su nombre en español. No cuesta nada en
+// ejecución — al cargar el módulo, cada nombre nuevo queda
+// apuntando directamente a la función original.
+//
+// A partir de aquí el resto del programa escribe txt::ancho(…) y
+// txt::centrar(…), y se lee entero en un solo idioma.
+// ============================================================
+
+# texto {
+
+    #> {
+        t::width      => ancho
+        t::pad_left   => izquierda
+        t::pad_right  => derecha
+        t::center     => centrar
+        t::truncate   => recortar
+    }
+
+    <# std/term => t
+}

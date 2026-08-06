@@ -1,0 +1,115 @@
+// ============================================================
+// 03_estado.zy — los cinco sitios donde puede vivir el estado
+//
+// No dibuja nada: escribe en la terminal normal para que puedas
+// leer los valores. Cada bloque demuestra un tipo de estado de la
+// tabla de la lección.
+//
+// Ejecutar:  zymbol run juegos/ejemplos/03_estado.zy
+//            zymbol run --vm juegos/ejemplos/03_estado.zy
+// ============================================================
+
+<# ./sesion => ses
+
+// (5) Constante: visible desde cualquier función de este archivo,
+//     sin pasarla como parámetro.
+ANCHO := 20
+
+// ── (1) estado que va y viene por parámetros ─────────────────
+//
+// La función no ve nada de fuera. Todo lo que necesita entra por
+// la firma, y todo lo que cambia sale en la tupla de retorno.
+// `nave` y `puntos` están a los dos lados de la asignación: entra
+// el estado viejo, sale el nuevo.
+paso(nave, dir, puntos) {
+    nueva = nave + dir
+    ? nueva < 1     { nueva = 1 }
+    ? nueva > ANCHO { nueva = ANCHO }
+    ? nueva == 7 || nueva == 13 { puntos = puntos + 10 }
+    <~ (nueva, puntos)
+}
+
+// ── (3) parámetro de salida ──────────────────────────────────
+//
+// La estructura se modifica en el sitio y el valor de retorno
+// queda libre para decir otra cosa — aquí, cuántas casillas se
+// pintaron. Es lo que hace 囲碁 con su tablero de 361 puntos.
+pintar(tablero<~, desde, hasta) {
+    ? desde > hasta { <~ 0 }
+    i = desde
+    n = 0
+    @ i <= hasta {
+        tablero[i] = "█"
+        i = i + 1
+        n = n + 1
+    }
+    <~ n
+}
+
+// ═════════════════════════════════════════════════════════════
+
+>> "── (1) estado del tick: entra y sale ─────────────" ¶
+
+nave = 5
+puntos = 0
+@ d : [1, 1, -1, 1, 1, 1, 1] {
+    [nave, puntos] = paso(nave, d, puntos)
+    >> "  nave={nave}  puntos={puntos}" ¶
+}
+
+>> ¶
+>> "── (2) estado de la partida ──────────────────────" ¶
+
+// Declarado al empezar la partida, muere con ella.
+// Aquí simplemente vive en el ámbito del archivo.
+>> "  puntaje final de la partida: {puntos}" ¶
+
+>> ¶
+>> "── (3) parámetro de salida ───────────────────────" ¶
+
+tablero = []
+@ _i : 1..ANCHO { tablero = tablero $+ "·" }
+
+pintadas = pintar(tablero, 6, 11)
+>> "  pintadas: {pintadas}" ¶
+>> "  tablero:  " ¶
+fila = ""
+@ celda : tablero { fila = fila celda }
+>> "  {fila}" ¶
+
+>> ¶
+>> "── (4) estado de sesión con ° ────────────────────" ¶
+
+// °total no está declarada en ninguna parte. En su primer uso vale
+// 0 (el neutro de +=) y queda anclada POR ENCIMA del bucle, así que
+// sigue existiendo cuando el bucle termina.
+@ partida : [30, 50, 20] {
+    °total += partida
+    marcas = °marcas$+ partida
+}
+>> "  total acumulado: {total}" ¶
+>> "  marcas: " marcas ¶
+
+// La forma sufija hace lo contrario: se ancla DENTRO del bucle y
+// muere con él. Útil para un acumulador que no debe escaparse.
+@ x : [1, 2, 3] {
+    x° += x
+}
+// `x` ya no existe aquí — murió con el bucle.
+
+>> ¶
+>> "── (5) estado de módulo ──────────────────────────" ¶
+
+>> "  idioma inicial: " ses::idioma() ¶
+ses::fijar_idioma("en")
+>> "  tras fijar:     " ses::idioma() ¶
+
+ses::sumar_partida()
+ses::sumar_partida()
+>> "  partidas vistas por el módulo: " ses::partidas() ¶
+
+>> ¶
+>> "Ninguna función de este archivo recibió el idioma" ¶
+>> "como parámetro. Vive en el módulo, y eso es lo que" ¶
+>> "hace que un juego pueda cambiar de idioma sin" ¶
+>> "tocar la firma de sus funciones de dibujo." ¶

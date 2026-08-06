@@ -1,0 +1,58 @@
+// ============================================================
+// idioma/español.zy — español (es), idioma base
+// Contrato: texto · marcador · frase_partida
+//
+// Este es el idioma en el que está escrito el programa, así que
+// esta tabla despliega cada concepto en la forma en que se lee.
+// No es una función identidad: "menú.velocidad" se abre aquí como
+// "Elige tu velocidad:".
+// ============================================================
+
+# .idioma_español {
+
+    #> { texto, marcador, frase_partida }
+
+    texto(clave) {
+        <~ ?? clave {
+            "idioma.nombre"     => "Español"
+
+            "menú.título1"      => "A T R A P A"
+            "menú.título2"      => "Z Y M B O L"
+            "menú.velocidad"    => "Elige tu velocidad:"
+            "menú.lento"        => "Lento"
+            "menú.normal"       => "Normal"
+            "menú.rápido"       => "Rápido"
+            "menú.demencial"    => "Demencial"
+            "menú.idioma"       => "L = idioma"
+            "menú.empezar"      => "↑↓ elegir · ↵ empezar"
+
+            "juego.vidas"       => "vidas"
+            "juego.salir"       => "Q = salir · P = pausa"
+
+            "pausa.título"      => "P A U S A"
+            "pausa.continuar"   => "P para continuar"
+
+            "fin.título1"       => "S E   A C A B Ó"
+            "fin.puntaje"       => "Puntaje"
+            "fin.récord"        => "Récord"
+            "fin.nuevo"         => "Nueva partida"
+            "fin.salir"         => "Salir"
+
+            "marcador.puntos"   => "PUNTOS"
+
+            // El caso identidad: una clave sin traducir se devuelve
+            // a sí misma. Es lo que hace decidible la puerta de
+            // completitud de pruebas/verificación.zy.
+            _                   => clave
+        }
+    }
+
+    // Frases compuestas. Una tabla estática no puede llevar un
+    // número en medio, así que las compone cada idioma.
+    marcador(puntos) { <~ " ✦ PUNTOS {puntos} ✦ " }
+
+    frase_partida(n) {
+        ? n == 1 { <~ "Primera partida de la sesión" }
+        <~ "Partida {n} de la sesión"
+    }
+}

@@ -1,0 +1,101 @@
+// ============================================================
+// despacho.zy — el despachador de idioma
+//
+// Toda cadena que ve el jugador pasa por aquí, y solo por aquí.
+//
+// El idioma activo vive como ESTADO DE MÓDULO: se comparte por
+// ruta de archivo, así que cualquier módulo que importe este ve la
+// misma selección sin que nadie tenga que pasar un parámetro de
+// idioma por la cadena de llamadas.
+//
+// Las claves están en español porque el programa está escrito en
+// español. Cada una lleva prefijo de dominio ("menú.título", nunca
+// "título"): así una clave no puede coincidir jamás con su propia
+// traducción, y la comprobación «traducción == clave ⇒ falta»
+// sigue siendo decidible también en el idioma base.
+//
+// Añadir un idioma son TRES ediciones: escribir idioma/<nombre>.zy
+// contra el contrato de tres funciones, importarlo aquí, y añadir
+// una rama a cada reparto. Ni una línea del código de dibujo.
+//
+// Ojo al nombre del módulo: lleva un punto delante
+// (# .idioma_despacho). Un módulo dentro de un subdirectorio tiene
+// que declarar su ruta, y el punto inicial es lo que hace que el
+// nombre valga tanto al importarlo como al comprobar el archivo
+// suelto con `zymbol check`.
+// ============================================================
+
+# .idioma_despacho {
+
+    <# ./español => es
+    <# ./english => en
+    <# ./日本語  => ja
+
+    #> { fijar, actual, rotar, idiomas, claves, texto, marcador, frase_partida }
+
+    // Estado del módulo. El español va primero porque el programa
+    // está escrito en español.
+    idioma_actual = "es"
+
+    // Códigos ISO 639-1. Son un convenio internacional y no se
+    // traducen: son de los pocos contratos con el exterior que se
+    // quedan en ASCII, junto con los formatos de datos en disco y
+    // las teclas físicas del teclado.
+    idiomas() { <~ ["es", "en", "ja"] }
+
+    fijar(código) { idioma_actual = código }
+    actual() { <~ idioma_actual }
+
+    // Rotar son dos funciones y no una: una pura que calcula y otra
+    // sin valor de retorno que escribe. Separar el cálculo del
+    // efecto es buena forma, y además evita un caso que fue un bug
+    // silencioso del intérprete antes de la v0.0.8.
+    _siguiente() {
+        lista = idiomas()
+        n = lista$#
+        pos = 0
+        i = 1
+        @ i <= n {
+            ? lista[i] == idioma_actual { pos = i }
+            i++
+        }
+        ? pos == 0 || pos == n { pos = 0 }
+        <~ lista[pos + 1]
+    }
+
+    rotar() { fijar(_siguiente()) }
+
+    // Los tres repartos. Añadir un idioma es añadir una línea a
+    // cada uno de estos tres.
+    texto(clave) {
+        ? idioma_actual == "en" { <~ en::texto(clave) }
+        ? idioma_actual == "ja" { <~ ja::texto(clave) }
+        <~ es::texto(clave)
+    }
+
+    marcador(puntos) {
+        ? idioma_actual == "en" { <~ en::marcador(puntos) }
+        ? idioma_actual == "ja" { <~ ja::marcador(puntos) }
+        <~ es::marcador(puntos)
+    }
+
+    frase_partida(n) {
+        ? idioma_actual == "en" { <~ en::frase_partida(n) }
+        ? idioma_actual == "ja" { <~ ja::frase_partida(n) }
+        <~ es::frase_partida(n)
+    }
+
+    // El catálogo maestro: el contrato que todo idioma tiene que
+    // cumplir. La puerta de completitud lo recorre contra cada
+    // idioma registrado.
+    claves() {
+        <~ [
+            "idioma.nombre",
+            "menú.título", "menú.velocidad", "menú.lento",
+            "menú.normal", "menú.rápido", "menú.idioma", "menú.empezar",
+            "juego.puntos", "juego.vidas",
+            "fin.título", "fin.puntaje", "fin.récord",
+            "fin.nuevo", "fin.salir"
+        ]
+    }
+}

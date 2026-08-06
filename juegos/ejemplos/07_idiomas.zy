@@ -1,0 +1,117 @@
+// ============================================================
+// 07_idiomas.zy — el mismo panel en tres idiomas
+//
+// Demuestra el despachador de idioma/despacho.zy:
+//   · el idioma vive como estado de módulo — ninguna función de
+//     este archivo lleva un parámetro de idioma
+//   · el mismo código construye el panel en los tres
+//   · las frases compuestas las compone cada idioma
+//   · una clave sin traducir se devuelve a sí misma
+//
+// Ejecutar:  zymbol run juegos/ejemplos/07_idiomas.zy
+//            zymbol run --vm juegos/ejemplos/07_idiomas.zy
+// ============================================================
+
+<# ./idioma/despacho => idioma
+<# ./marco => marco
+<# ./texto => txt
+
+// Fíjate en la firma: NO recibe el idioma. No lo necesita — lo
+// pide al despachador, que lo tiene guardado. Esta es la función
+// que en la versión mala del juego llevaba 79 líneas de ramas.
+panel_menu(sel) {
+    etiquetas = [
+        idioma::texto("menú.lento"),
+        idioma::texto("menú.normal"),
+        idioma::texto("menú.rápido")
+    ]
+
+    líneas = [
+        marco.CENTRADO $+ idioma::texto("menú.título"),
+        marco.SEPARADOR,
+        idioma::texto("menú.velocidad"),
+        ""
+    ]
+
+    i = 1
+    @ i <= 3 {
+        líneas = líneas $+ marco::fila_menú(i, etiquetas[i], i == sel)
+        i++
+    }
+
+    líneas = líneas $+ ""
+    líneas = líneas $+ (idioma::texto("menú.idioma") $+ ":  " $+ idioma::texto("idioma.nombre"))
+
+    <~ marco::construir(líneas, 3)
+}
+
+panel_fin(puntos, récord) {
+    líneas = [
+        marco.CENTRADO $+ idioma::texto("fin.título"),
+        marco.SEPARADOR,
+        idioma::texto("fin.puntaje") $+ ":  {puntos}",
+        idioma::texto("fin.récord")  $+ ":  {récord}",
+        marco.SEPARADOR,
+        idioma::texto("fin.nuevo"),
+        idioma::texto("fin.salir")
+    ]
+    <~ marco::construir(líneas, 3)
+}
+
+mostrar(filas) {
+    @ f : filas { >> "   " f ¶ }
+    >> ¶
+}
+
+// ═════════════════════════════════════════════════════════════
+
+>> "── el mismo código, tres idiomas ─────────────────" ¶
+>> ¶
+
+@ código : idioma::idiomas() {
+    idioma::fijar(código)
+    >> "  [" código "] " idioma::texto("idioma.nombre") ¶
+    mostrar(panel_menu(2))
+}
+
+>> "── rotar el idioma desde dentro ──────────────────" ¶
+>> ¶
+>> "  Quien arranca el juego en un idioma que no lee no" ¶
+>> "  puede saber que existe otro archivo de arranque:" ¶
+>> "  esa información está escrita en el idioma que no" ¶
+>> "  lee. Por eso el cambio tiene que estar DENTRO." ¶
+>> ¶
+
+@ _v : 1..4 {
+    >> "  actual: " idioma::actual() "   → " idioma::texto("menú.empezar") ¶
+    idioma::rotar()
+}
+
+>> ¶
+>> "── frases compuestas ─────────────────────────────" ¶
+>> ¶
+>> "  Un número en medio de una frase no cabe en una" ¶
+>> "  tabla: lo compone cada idioma." ¶
+>> ¶
+
+@ código : idioma::idiomas() {
+    idioma::fijar(código)
+    >> "  [" código "] " idioma::marcador(7) ¶
+    >> "       " idioma::frase_partida(1) ¶
+    >> "       " idioma::frase_partida(12) ¶
+}
+
+>> ¶
+>> "── el caso identidad ─────────────────────────────" ¶
+>> ¶
+>> "  Al inglés le falta \"fin.récord\" a propósito." ¶
+>> "  Una clave sin traducir se devuelve a sí misma:" ¶
+>> "  no revienta, no cae al idioma base, se VE." ¶
+>> ¶
+
+idioma::fijar("en")
+mostrar(panel_fin(340, 512))
+
+>> "  Esa línea que dice «fin.récord: 512» es el fallo" ¶
+>> "  visible. La lección 08 lo convierte en una prueba" ¶
+>> "  automática que no deja publicar el juego así." ¶

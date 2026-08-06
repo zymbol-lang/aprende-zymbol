@@ -1,0 +1,84 @@
+// ============================================================
+// idioma/despacho.zy — el despachador de idioma
+//
+// Toda cadena que ve el jugador pasa por aquí, y solo por aquí.
+// El idioma activo vive como estado de módulo: se comparte por
+// ruta de archivo, así que cualquier módulo que importe este ve la
+// misma selección sin que nadie pase un parámetro de idioma por la
+// cadena de llamadas. Por eso ninguna función de dibujo.zy lleva
+// uno, y por eso el juego puede cambiar de idioma sin desmontar la
+// pila de llamadas.
+//
+// Añadir un idioma son tres ediciones: escribir
+// idioma/<nombre>.zy contra el contrato de tres funciones,
+// importarlo aquí y añadir una rama a cada reparto. Ni una línea
+// de dibujo.zy se toca.
+// ============================================================
+
+# .idioma_despacho {
+
+    <# ./español => es
+    <# ./english => en
+
+    #> { fijar, actual, rotar, idiomas, claves, texto, marcador, frase_partida }
+
+    // Estado del módulo.
+    idioma_actual = "es"
+
+    // Códigos ISO 639-1: un convenio internacional, no se traducen.
+    // El español va primero porque el programa está escrito en él.
+    idiomas() { <~ ["es", "en"] }
+
+    fijar(código) { idioma_actual = código }
+    actual() { <~ idioma_actual }
+
+    // Dos funciones y no una: una pura que calcula, otra sin valor
+    // de retorno que escribe. Separar el cálculo del efecto es
+    // buena forma, y evita un caso que fue un fallo silencioso del
+    // tree-walker antes de la v0.0.8.
+    _siguiente() {
+        lista = idiomas()
+        n = lista$#
+        pos = 0
+        i = 1
+        @ i <= n {
+            ? lista[i] == idioma_actual { pos = i }
+            i++
+        }
+        ? pos == 0 || pos == n { pos = 0 }
+        <~ lista[pos + 1]
+    }
+
+    rotar() { fijar(_siguiente()) }
+
+    texto(clave) {
+        ? idioma_actual == "en" { <~ en::texto(clave) }
+        <~ es::texto(clave)
+    }
+
+    marcador(puntos) {
+        ? idioma_actual == "en" { <~ en::marcador(puntos) }
+        <~ es::marcador(puntos)
+    }
+
+    frase_partida(n) {
+        ? idioma_actual == "en" { <~ en::frase_partida(n) }
+        <~ es::frase_partida(n)
+    }
+
+    // El catálogo maestro: el contrato que todo idioma cumple, y
+    // que pruebas/verificación.zy recorre clave por clave.
+    claves() {
+        <~ [
+            "idioma.nombre",
+            "menú.título1", "menú.título2", "menú.velocidad",
+            "menú.lento", "menú.normal", "menú.rápido", "menú.demencial",
+            "menú.idioma", "menú.empezar",
+            "juego.vidas", "juego.salir",
+            "pausa.título", "pausa.continuar",
+            "fin.título1", "fin.puntaje", "fin.récord",
+            "fin.nuevo", "fin.salir",
+            "marcador.puntos"
+        ]
+    }
+}
