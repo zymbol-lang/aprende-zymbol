@@ -1,0 +1,176 @@
+// ============================================================
+// pruebas/reglas.zy — las reglas del juego
+//
+// logica.zy no dibuja nada: todas sus funciones reciben estado y
+// devuelven estado. Por eso se puede probar entera sin abrir una
+// terminal. Esta es la mitad comprobable de cualquier juego, y
+// suele ser la mitad donde están los bugs.
+//
+//   zymbol run pruebas/reglas.zy
+//   zymbol run --vm pruebas/reglas.zy
+// ============================================================
+
+<# ../logica => l
+
+fallos = 0
+pruebas = 0
+
+// Compara dos arrays elemento a elemento.
+//
+// ¿Por qué no `a == b` sin más? Porque `==` sobre dos arrays NO da
+// lo mismo en los dos motores de Zymbol 0.0.8: el tree-walker
+// compara el contenido y devuelve #1; la VM de registros devuelve
+// #0 aunque los arrays sean idénticos. Las tuplas sí se comparan
+// bien en ambos, así que comparar elemento a elemento funciona en
+// los dos.
+//
+// Esto se encontró escribiendo esta misma suite, y es exactamente
+// la razón por la que la lección 08 insiste en correr las pruebas
+// en `zymbol run` Y en `zymbol run --vm`: la versión anterior de
+// este archivo daba 30/30 en un motor y 25/30 en el otro.
+iguales(a, b) {
+    ? (a$#) <> (b$#) { <~ #0 }
+    i = 1
+    @ i <= (a$#) {
+        ? a[i] <> b[i] { <~ #0 }
+        i++
+    }
+    <~ #1
+}
+
+comprobar_array(nombre, real, esperado) {
+    ? iguales(real, esperado) {
+        >> "  PASA  " nombre ¶
+        <~ 0
+    }
+    >> "  FALLA " nombre "   esperado: " esperado "   real: " real ¶
+    <~ 1
+}
+
+comprobar(nombre, real, esperado) {
+    ? real == esperado {
+        >> "  PASA  " nombre ¶
+        <~ 0
+    }
+    >> "  FALLA " nombre "   esperado: " esperado "   real: " real ¶
+    <~ 1
+}
+
+>> "Atrapa — reglas" ¶
+>> ¶
+
+// ── el generador ──────────────────────────────────────────────
+
+>> "── azar ─────────────────────────────────────────" ¶
+
+// La misma semilla da la misma secuencia. Es lo que permite
+// reproducir una partida entera para perseguir un fallo.
+[a1, s1] = l::rango(12345, 1, 100)
+[a2, _s] = l::rango(12345, 1, 100)
+fallos = fallos + comprobar("misma semilla, mismo valor", a1, a2)
+pruebas = pruebas + 1
+
+// Y avanza: dos tiradas seguidas no dan lo mismo.
+[b1, _t] = l::rango(s1, 1, 100)
+? b1 == a1 {
+    >> "  FALLA la semilla no avanzó" ¶
+    fallos = fallos + 1
+} _ {
+    >> "  PASA  la semilla avanza" ¶
+}
+pruebas = pruebas + 1
+
+// El rango se respeta en muchas tiradas, no en una.
+s = 2024
+fuera = 0
+@ _i : 1..2000 {
+    [v, s] = l::rango(s, 5, 9)
+    ? v < 5 || v > 9 { fuera = fuera + 1 }
+}
+fallos = fallos + comprobar("2000 tiradas dentro de [5,9]", fuera, 0)
+pruebas = pruebas + 1
+
+// ── la cesta ──────────────────────────────────────────────────
+
+>> ¶
+>> "── cesta ────────────────────────────────────────" ¶
+
+// Ocupa tres columnas: la suya y una a cada lado.
+fallos = fallos + comprobar("atrapa por la izquierda", l::atrapada(10, 9), #1)
+fallos = fallos + comprobar("atrapa en el centro",     l::atrapada(10, 10), #1)
+fallos = fallos + comprobar("atrapa por la derecha",   l::atrapada(10, 11), #1)
+fallos = fallos + comprobar("no llega más allá",       l::atrapada(10, 12), #0)
+pruebas = pruebas + 4
+
+// Los límites. Un juego que deja salir la cesta del tablero
+// dibuja encima del marco.
+fallos = fallos + comprobar("tope izquierdo", l::mover_cesta(3, '←', 40), 3)
+fallos = fallos + comprobar("tope derecho",   l::mover_cesta(40, '→', 40), 40)
+fallos = fallos + comprobar("se mueve",       l::mover_cesta(10, '→', 40), 11)
+fallos = fallos + comprobar("A y D también",  l::mover_cesta(10, 'a', 40), 9)
+fallos = fallos + comprobar("otra tecla no",  l::mover_cesta(10, 'z', 40), 10)
+pruebas = pruebas + 5
+
+// ── la caída ──────────────────────────────────────────────────
+
+>> ¶
+>> "── caída ────────────────────────────────────────" ¶
+
+// AN=40, AL=15 → el suelo (la cesta) está en la fila 16.
+
+// Una pieza a media altura solo baja una fila.
+[p1, pt1, v1, c1] = l::caer([(5, 10, 1)], 20, 40, 15, 0, 3)
+fallos = fallos + comprobar_array("baja una fila",      p1, [(6, 10, 1)])
+fallos = fallos + comprobar("no toca los puntos", pt1, 0)
+fallos = fallos + comprobar("no toca las vidas",  v1, 3)
+fallos = fallos + comprobar_array("marca su celda vieja para borrar", c1, [(5, 10)])
+pruebas = pruebas + 4
+
+// Buena atrapada: +10 y desaparece de la lista.
+[p2, pt2, v2, _c] = l::caer([(15, 20, 1)], 20, 40, 15, 0, 3)
+fallos = fallos + comprobar_array("buena atrapada: fuera", p2, [])
+fallos = fallos + comprobar("buena atrapada: +10",   pt2, 10)
+fallos = fallos + comprobar("buena atrapada: vidas", v2, 3)
+pruebas = pruebas + 3
+
+// Buena que se cae al suelo: cuesta una vida.
+[_p, pt3, v3, _d] = l::caer([(15, 2, 1)], 20, 40, 15, 50, 3)
+fallos = fallos + comprobar("buena perdida: -1 vida", v3, 2)
+fallos = fallos + comprobar("buena perdida: puntos intactos", pt3, 50)
+pruebas = pruebas + 2
+
+// Mala atrapada: cuesta una vida.
+[_q, pt4, v4, _e] = l::caer([(15, 20, 2)], 20, 40, 15, 50, 3)
+fallos = fallos + comprobar("mala atrapada: -1 vida", v4, 2)
+fallos = fallos + comprobar("mala atrapada: puntos intactos", pt4, 50)
+pruebas = pruebas + 2
+
+// Mala esquivada: no pasa nada. Es lo que hace que esquivar sea
+// una jugada y no una omisión.
+[_r, pt5, v5, _f] = l::caer([(15, 2, 2)], 20, 40, 15, 50, 3)
+fallos = fallos + comprobar("mala esquivada: vidas intactas", v5, 3)
+fallos = fallos + comprobar("mala esquivada: puntos intactos", pt5, 50)
+pruebas = pruebas + 2
+
+// Varias piezas a la vez, que es el caso real.
+[p6, pt6, v6, c6] = l::caer([(15, 20, 1), (5, 3, 1), (15, 30, 2)], 20, 40, 15, 0, 3)
+fallos = fallos + comprobar_array("solo sobrevive la que iba por el aire", p6, [(6, 3, 1)])
+fallos = fallos + comprobar("la buena sumó",   pt6, 10)
+fallos = fallos + comprobar("la mala esquivada no quitó vida", v6, 3)
+fallos = fallos + comprobar("tres celdas que borrar", c6$#, 3)
+pruebas = pruebas + 4
+
+// Ninguna pieza llega nunca a la fila de la cesta: si la pisara,
+// el borrado de su posición vieja se comería el dibujo de la cesta.
+[p7, _g2, _h2, _i2] = l::caer([(15, 20, 1), (15, 2, 1)], 20, 40, 15, 0, 3)
+fallos = fallos + comprobar_array("nadie se queda en la fila del suelo", p7, [])
+pruebas = pruebas + 1
+
+// ── veredicto ─────────────────────────────────────────────────
+
+>> ¶
+? fallos == 0 {
+    >> "PASA — {pruebas}/{pruebas}" ¶
+} _ {
+    >> "FALLA — {fallos} de {pruebas}" ¶
+}

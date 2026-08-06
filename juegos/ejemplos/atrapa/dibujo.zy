@@ -1,0 +1,273 @@
+// ============================================================
+// dibujo.zy — todo el output: tablero, piezas, menús, paneles
+//
+// Ninguna cadena visible se escribe aquí: todas vienen de
+// idioma/despacho, que guarda el idioma activo como estado de
+// módulo. Por eso ninguna función de este archivo lleva un
+// parámetro de idioma.
+//
+// Ningún ancho se teclea aquí tampoco. Los tres paneles se
+// construyen con marco::construir a partir del texto ya traducido,
+// y el marcador se centra midiéndolo.
+// ============================================================
+
+# dibujo {
+
+    <# ./idioma/despacho => idioma
+    <# ./texto => txt
+    <# ./marco => marco
+
+    #> { menu, tablero_inicial, tick, pausa, fin, cesta_mover }
+
+    // Índices de color ANSI 256, en un solo sitio.
+    BORDE  := 8     // gris oscuro
+    BUENA  := 10    // verde
+    MALA   := 9     // rojo
+    CESTA  := 14    // cian
+    ACENTO := 11    // amarillo
+    TEXTO  := 15    // blanco
+
+    GLIFO_CESTA := "╰─╯"
+
+    // ── ayudas de composición ────────────────────────────────
+
+    // Dibuja las filas de un marco ya construido desde (f0, c0).
+    _pintar(filas, f0, c0, color) {
+        i = 1
+        @ i <= (filas$#) {
+            >>~ (f0 + i - 1, c0, 0, color) > filas[i]
+            i++
+        }
+    }
+
+    // Centra un marco en el interior del tablero. El ancho se mide
+    // en columnas (txt::ancho); el alto es el número de filas ($#).
+    // Una fila es una fila; una columna no siempre es un carácter.
+    _centrar(filas, AN, AL) {
+        ancho = txt::ancho(filas[1])
+        alto  = filas$#
+        <~ (2 + (AL - alto) / 2, 2 + (AN - ancho) / 2)
+    }
+
+    _mostrar(filas, AN, AL, color) {
+        [f0, c0] = _centrar(filas, AN, AL)
+        _pintar(filas, f0, c0, color)
+    }
+
+    // El marcador va centrado sobre el borde superior. El idioma
+    // compone la insignia entera y aquí solo se mide y se centra,
+    // así que vale para "PUNTOS", para "SCORE" y para cuatro
+    // dígitos sin tocar una sola cifra.
+    _marcador(puntos, AN) {
+        insignia = idioma::marcador(puntos)
+        ancho = txt::ancho(insignia)
+        col = (AN + 2 - ancho) / 2 + 1
+
+        // Repintar antes un tramo de borde más ancho que la
+        // insignia: cuando el puntaje pasa de 9 a 10 la insignia
+        // crece y los corchetes viejos se quedarían por ahí.
+        limpio = ancho + 8
+        >>~ (1, col - 4, 0, BORDE) > ("─" $* limpio)
+
+        >>~ (1, col - 1, 0, BORDE) > "┤"
+        >>~ (1, col, 0, ACENTO) > insignia
+        >>~ (1, col + ancho, 0, BORDE) > "├"
+    }
+
+    _vidas(vidas, AN, AL) {
+        corazones = "♥ " $* vidas
+        etiqueta = "{corazones} {vidas} " $+ idioma::texto("juego.vidas") $+ " "
+        >>~ (AL + 2, 3, 0, MALA) > txt::derecha(etiqueta, 20)
+    }
+
+    // ── menú de velocidad ────────────────────────────────────
+
+    // Devuelve el retardo en ms. El menú es datos, no dibujo: una
+    // lista de etiquetas y sus retardos. La marca "►" se pone antes
+    // de medir, así el marco tiene sitio para ella en cualquier
+    // idioma y las filas no se mueven al mover el cursor.
+    menu(AN, AL) {
+        sel = 1
+        retardos = [140, 110, 80, 50]
+
+        @:sel {
+            >>!
+            etiquetas = [
+                idioma::texto("menú.lento"),
+                idioma::texto("menú.normal"),
+                idioma::texto("menú.rápido"),
+                idioma::texto("menú.demencial")
+            ]
+
+            líneas = [
+                marco.CENTRADO $+ idioma::texto("menú.título2"),
+                marco.CENTRADO $+ idioma::texto("menú.título1"),
+                marco.SEPARADOR,
+                idioma::texto("menú.velocidad"),
+                ""
+            ]
+
+            i = 1
+            @ i <= 4 {
+                fila = marco::fila_menú(i, etiquetas[i], i == sel)
+                ms = retardos[i]
+                líneas = líneas $+ (txt::derecha(fila, 18) $+ " {ms} ms")
+                i++
+            }
+
+            líneas = líneas $+ marco.SEPARADOR
+            líneas = líneas $+ (marco.CENTRADO $+ idioma::texto("menú.empezar"))
+            líneas = líneas $+ (marco.CENTRADO $+ idioma::texto("menú.idioma"))
+
+            filas = marco::construir(líneas, 3)
+            _mostrar(filas, AN, AL, TEXTO)
+
+            <<| tecla
+
+            ? tecla == '↑' {
+                sel = sel - 1
+                ? sel < 1 { sel = 4 }
+            }
+            ? tecla == '↓' {
+                sel = sel + 1
+                ? sel > 4 { sel = 1 }
+            }
+            ? tecla == '1' { sel = 1 }
+            ? tecla == '2' { sel = 2 }
+            ? tecla == '3' { sel = 3 }
+            ? tecla == '4' { sel = 4 }
+
+            // El idioma se cambia aquí mismo. Quien arranca el
+            // juego en un idioma que no lee no puede saber que
+            // existe otro archivo de arranque — esa información
+            // está escrita en el idioma que no lee.
+            ? tecla == 'l' || tecla == 'L' { idioma::rotar() }
+
+            ? tecla == '\n' { @:sel! }
+        }
+
+        <~ retardos[sel]
+    }
+
+    // ── tablero ──────────────────────────────────────────────
+
+    tablero_inicial(cesta, vidas, puntos, AN, AL) {
+        >>!
+        i = 1
+        @ i <= AN + 2 {
+            >>~ (1, i, 0, BORDE) > "─"
+            >>~ (AL + 2, i, 0, BORDE) > "─"
+            i++
+        }
+        i = 2
+        @ i <= AL + 1 {
+            >>~ (i, 1, 0, BORDE) > "│"
+            >>~ (i, AN + 2, 0, BORDE) > "│"
+            i++
+        }
+        // Las esquinas van al final: el bucle vertical pisaría el
+        // primer y el último carácter del bucle horizontal.
+        >>~ (1, 1, 0, BORDE) > "╭"
+        >>~ (1, AN + 2, 0, BORDE) > "╮"
+        >>~ (AL + 2, 1, 0, BORDE) > "╰"
+        >>~ (AL + 2, AN + 2, 0, BORDE) > "╯"
+
+        >>~ (AL + 1, cesta - 1, 0, CESTA) > GLIFO_CESTA
+        _marcador(puntos, AN)
+        _vidas(vidas, AN, AL)
+        >>~ (AL + 2, AN - 20, 0, BORDE) > (" " $+ idioma::texto("juego.salir") $+ " ")
+    }
+
+    // Delta rendering: solo las celdas que dejaron de ser lo que
+    // eran. `caídas` son las posiciones viejas de las piezas, que
+    // hay que borrar ANTES de dibujar las nuevas — si una pieza
+    // nueva cae donde estaba otra, borrar después la borraría.
+    tick(piezas, caídas, puntos, AN) {
+        @ v : caídas {
+            [f, c] = v
+            >>~ (f, c, 0, 0) > " "
+        }
+        @ p : piezas {
+            [f, c, tipo] = p
+            ? tipo == 1 {
+                >>~ (f, c, 0, BUENA) > "●"
+            } _ {
+                >>~ (f, c, 0, MALA) > "✖"
+            }
+        }
+        _marcador(puntos, AN)
+    }
+
+    // La cesta solo se redibuja cuando se mueve, y solo sus tres
+    // columnas más la que abandona.
+    cesta_mover(vieja, nueva, AL) {
+        ? vieja == nueva { <~ 0 }
+        >>~ (AL + 1, vieja - 1, 0, 0) > "   "
+        >>~ (AL + 1, nueva - 1, 0, CESTA) > GLIFO_CESTA
+        <~ 1
+    }
+
+    // ── paneles ──────────────────────────────────────────────
+
+    pausa(AN, AL) {
+        líneas = [
+            marco.CENTRADO $+ idioma::texto("pausa.título"),
+            marco.SEPARADOR,
+            marco.CENTRADO $+ idioma::texto("pausa.continuar")
+        ]
+        _mostrar(marco::construir(líneas, 3), AN, AL, ACENTO)
+
+        @:pausa {
+            <<| t
+            ? t == 'p' || t == 'P' { @:pausa! }
+        }
+    }
+
+    // Devuelve 'n' (nueva partida) o 's' (salir).
+    fin(puntos, récord, partidas, AN, AL) {
+        sel = 1
+
+        @:menu {
+            >>!
+            etiquetas = [
+                idioma::texto("fin.nuevo"),
+                idioma::texto("fin.salir")
+            ]
+
+            líneas = [
+                marco.CENTRADO $+ idioma::texto("fin.título1"),
+                marco.SEPARADOR,
+                idioma::texto("fin.puntaje") $+ ":  {puntos}",
+                idioma::texto("fin.récord")  $+ ":  {récord}",
+                idioma::frase_partida(partidas),
+                marco.SEPARADOR,
+                marco::fila_menú(1, etiquetas[1], sel == 1),
+                marco::fila_menú(2, etiquetas[2], sel == 2),
+                marco.SEPARADOR,
+                marco.CENTRADO $+ idioma::texto("menú.idioma")
+            ]
+
+            _mostrar(marco::construir(líneas, 3), AN, AL, TEXTO)
+
+            <<| tecla
+
+            ? tecla == '↑' {
+                sel = sel - 1
+                ? sel < 1 { sel = 2 }
+            }
+            ? tecla == '↓' {
+                sel = sel + 1
+                ? sel > 2 { sel = 1 }
+            }
+            ? tecla == 'l' || tecla == 'L' { idioma::rotar() }
+            ? tecla == '\n' { @:menu! }
+            ? tecla == 'q' || tecla == 'Q' {
+                sel = 2
+                @:menu!
+            }
+        }
+
+        ? sel == 2 { <~ 's' }
+        <~ 'n'
+    }
+}

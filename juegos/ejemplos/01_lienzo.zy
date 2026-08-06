@@ -1,0 +1,77 @@
+// ============================================================
+// 01_lienzo.zy — la terminal como rejilla de celdas
+//
+// Los seis operadores del nivel, en el programa más pequeño que
+// los usa a todos: mide la terminal, dibuja un marco, mueve un
+// triángulo con las flechas y sale con q.
+//
+// Ejecutar:  zymbol run juegos/ejemplos/01_lienzo.zy
+// (necesita una terminal de verdad — >>| no arranca si la salida
+//  está redirigida a un archivo)
+// ============================================================
+
+// Índices de color ANSI 256, con nombre y en un solo sitio.
+// Son constantes, así que se ven desde cualquier parte del archivo.
+MARCO  := 8     // gris oscuro
+NAVE   := 10    // verde claro
+TEXTO  := 15    // blanco
+
+>>!
+[filas, cols] = >>?
+
+// Una terminal muy pequeña no da para jugar. Se avisa y se sale,
+// en vez de dibujar algo roto.
+? filas < 8 || cols < 30 {
+    >> "Necesito al menos 30x8 — tu terminal mide {cols}x{filas}" ¶
+} _ {
+
+    // `pasos` se declara AQUÍ, fuera del bloque, porque la última
+    // línea del programa lo usa. Una variable creada dentro de >>|
+    // muere con el bloque; desde fuera ya no existe.
+    pasos = 0
+
+    >>| {
+        // ── marco: las filas 1 y `filas` de lado a lado ──────
+        i = 1
+        @ i <= cols {
+            >>~ (1, i, 0, MARCO) > "─"
+            >>~ (filas, i, 0, MARCO) > "─"
+            i++
+        }
+
+        // La nave empieza centrada.
+        f = filas / 2
+        c = cols / 2
+
+        @:juego {
+            // Lectura NO bloqueante: si nadie pulsa nada, el bucle
+            // sigue girando igual. Esa es la diferencia entre un
+            // juego en tiempo real y un menú.
+            <<|? tecla
+
+            ? tecla == 'q' || tecla == 'Q' { @:juego! }
+
+            // Borrar la celda vieja ANTES de calcular la nueva.
+            // Sin esta línea la nave deja un rastro de triángulos.
+            >>~ (f, c) > " "
+
+            // Las flechas llegan como los glifos ↑ ↓ ← →, no como
+            // letras, así que WASD queda libre y se acepta también.
+            ? tecla == '↑' || tecla == 'w' { ? f > 2         { f = f - 1 } }
+            ? tecla == '↓' || tecla == 's' { ? f < filas - 1 { f = f + 1 } }
+            ? tecla == '←' || tecla == 'a' { ? c > 1         { c = c - 1 } }
+            ? tecla == '→' || tecla == 'd' { ? c < cols      { c = c + 1 } }
+
+            ? tecla <> '\0' { pasos = pasos + 1 }
+
+            >>~ (f, c, 0, NAVE) > "▲"
+            >>~ (1, 3, 0, TEXTO) > " fila {f}  col {c}  teclas {pasos} — q para salir "
+
+            // El retardo ES la velocidad del juego.
+            @~ 60
+        }
+    }
+
+    // Fuera del bloque, la terminal ya está como estaba.
+    >> "Terminal restaurada tras {pasos} pulsaciones." ¶
+}

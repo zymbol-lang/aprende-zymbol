@@ -1,0 +1,50 @@
+// ============================================================
+// español.zy — el idioma base
+//
+// Este es el idioma en el que está escrito el programa, así que
+// esta tabla despliega cada concepto en la forma en que se lee.
+// NO es una función identidad: la clave "menú.velocidad" se abre
+// aquí como "Elige tu velocidad:".
+// ============================================================
+
+# .idioma_español {
+
+    #> { texto, marcador, frase_partida }
+
+    // El catálogo entero es un ?? usado como expresión.
+    texto(clave) {
+        <~ ?? clave {
+            "idioma.nombre"     => "Español"
+
+            "menú.título"       => "A T R A P A"
+            "menú.velocidad"    => "Elige tu velocidad:"
+            "menú.lento"        => "Lento"
+            "menú.normal"       => "Normal"
+            "menú.rápido"       => "Rápido"
+            "menú.idioma"       => "Idioma"
+            "menú.empezar"      => "Empezar"
+
+            "juego.puntos"      => "PUNTOS"
+            "juego.vidas"       => "Vidas"
+
+            "fin.título"        => "F I N"
+            "fin.puntaje"       => "Puntaje"
+            "fin.récord"        => "Récord"
+            "fin.nuevo"         => "Nueva partida"
+            "fin.salir"         => "Salir"
+
+            // El caso identidad: una clave sin traducir se devuelve
+            // a sí misma. Es lo que hace la comprobación decidible.
+            _                   => clave
+        }
+    }
+
+    // Frases compuestas: una tabla estática no puede tener un
+    // número en medio.
+    marcador(puntos) { <~ " ✦ PUNTOS {puntos} ✦ " }
+
+    frase_partida(n) {
+        ? n == 1 { <~ "Primera partida de la sesión" }
+        <~ "Partida {n} de la sesión"
+    }
+}

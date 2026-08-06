@@ -1,0 +1,159 @@
+// ============================================================
+// pruebas/verificación.zy — la puerta de completitud
+//
+// Recorre el catálogo maestro contra todos los idiomas
+// registrados, el base incluido. Un idioma al que le falte una
+// clave la devuelve tal cual, y eso hace la comprobación
+// decidible: como las claves llevan prefijo de dominio, ninguna
+// puede coincidir con su propia traducción — tampoco en español.
+//
+// Y comprueba lo que de verdad rompe un TUI multiidioma: que los
+// paneles sigan cuadrando cuando el texto cambia de idioma.
+//
+//   zymbol run pruebas/verificación.zy
+//   zymbol run --vm pruebas/verificación.zy
+// ============================================================
+
+<# ../idioma/despacho => idioma
+<# ../texto => txt
+<# ../marco => marco
+
+claves = idioma::claves()
+lista  = idioma::idiomas()
+n_claves = claves$#
+n_idiomas = lista$#
+
+>> "Atrapa — verificación de i18n" ¶
+>> "claves: {n_claves}   idiomas: {n_idiomas}" ¶
+>> ¶
+
+// ── 1. toda clave resuelve en todo idioma ────────────────────
+
+>> "── claves ───────────────────────────────────────" ¶
+faltan = 0
+
+@ código : lista {
+    idioma::fijar(código)
+    nombre = idioma::texto("idioma.nombre")
+    ausentes = 0
+
+    @ clave : claves {
+        ? (idioma::texto(clave)) == clave {
+            ? ausentes == 0 { >> "  [" código "] " nombre ¶ }
+            >> "      FALTA  " clave ¶
+            ausentes = ausentes + 1
+        }
+    }
+
+    ? ausentes == 0 {
+        >> "  [" código "] " (txt::derecha(nombre, 10)) "  {n_claves}/{n_claves}  OK" ¶
+    } _ {
+        >> "      → {ausentes} sin traducir" ¶
+    }
+
+    faltan = faltan + ausentes
+}
+
+// ── 2. las frases compuestas, a ojo ──────────────────────────
+//
+// Una búsqueda estática solo puede faltar; una frase compuesta
+// puede estar mal. 0 · 7 · 1234 son cero, un dígito y cuatro
+// dígitos: donde se rompe un marcador con el ancho supuesto.
+// 1 y 12 son las dos ramas de plural.
+
+>> ¶
+>> "── frases compuestas (revisar a ojo) ────────────" ¶
+@ código : lista {
+    idioma::fijar(código)
+    >> "  [" código "]" (idioma::marcador(0)) "·" (idioma::marcador(7)) "·" (idioma::marcador(1234)) ¶
+    >> "        " (idioma::frase_partida(1)) ¶
+    >> "        " (idioma::frase_partida(12)) ¶
+}
+
+// ── 3. los tres paneles cuadran en todos los idiomas ─────────
+
+>> ¶
+>> "── marcos ───────────────────────────────────────" ¶
+descuadres = 0
+
+// El menú de velocidad, tal y como lo arma dibujo.zy.
+_menú() {
+    líneas = [
+        marco.CENTRADO $+ idioma::texto("menú.título2"),
+        marco.CENTRADO $+ idioma::texto("menú.título1"),
+        marco.SEPARADOR,
+        idioma::texto("menú.velocidad"),
+        ""
+    ]
+    i = 1
+    @ i <= 4 {
+        etiqueta = ?? i {
+            1 => idioma::texto("menú.lento")
+            2 => idioma::texto("menú.normal")
+            3 => idioma::texto("menú.rápido")
+            _ => idioma::texto("menú.demencial")
+        }
+        fila = marco::fila_menú(i, etiqueta, i == 1)
+        líneas = líneas $+ (txt::derecha(fila, 18) $+ " 140 ms")
+        i++
+    }
+    líneas = líneas $+ marco.SEPARADOR
+    líneas = líneas $+ (marco.CENTRADO $+ idioma::texto("menú.empezar"))
+    <~ marco::construir(líneas, 3)
+}
+
+_pausa() {
+    <~ marco::construir([
+        marco.CENTRADO $+ idioma::texto("pausa.título"),
+        marco.SEPARADOR,
+        marco.CENTRADO $+ idioma::texto("pausa.continuar")
+    ], 3)
+}
+
+// Con 1234 puntos a propósito: un puntaje de cuatro dígitos es
+// donde se descuadra un panel construido para dos.
+_fin() {
+    <~ marco::construir([
+        marco.CENTRADO $+ idioma::texto("fin.título1"),
+        marco.SEPARADOR,
+        idioma::texto("fin.puntaje") $+ ":  1234",
+        idioma::texto("fin.récord")  $+ ":  9999",
+        idioma::frase_partida(12),
+        marco.SEPARADOR,
+        marco::fila_menú(1, idioma::texto("fin.nuevo"), #1),
+        marco::fila_menú(2, idioma::texto("fin.salir"), #0)
+    ], 3)
+}
+
+// Un panel bien construido tiene TODAS sus filas del mismo ancho
+// en columnas de terminal. Se mide con txt::ancho, nunca con $#:
+// una prueba que cuente grafemas daría PASA sobre un panel roto.
+revisar(código, nombre, filas) {
+    esperado = txt::ancho(filas[1])
+    malas = 0
+    @ f : filas {
+        ? txt::ancho(f) <> esperado { malas = malas + 1 }
+    }
+    ? malas == 0 {
+        >> "  [" código "] " (txt::derecha(nombre, 8)) " {esperado} columnas — cuadra" ¶
+        <~ 0
+    }
+    >> "  [" código "] " (txt::derecha(nombre, 8)) " {malas} filas descuadradas" ¶
+    <~ malas
+}
+
+@ código : lista {
+    idioma::fijar(código)
+    descuadres = descuadres + revisar(código, "menú",  _menú())
+    descuadres = descuadres + revisar(código, "pausa", _pausa())
+    descuadres = descuadres + revisar(código, "fin",   _fin())
+}
+
+// ── veredicto ────────────────────────────────────────────────
+
+>> ¶
+? faltan == 0 && descuadres == 0 {
+    >> "PASA — {n_claves} claves × {n_idiomas} idiomas, 3 paneles cuadrados" ¶
+} _ {
+    >> "FALLA — {faltan} claves sin traducir, {descuadres} filas descuadradas" ¶
+}

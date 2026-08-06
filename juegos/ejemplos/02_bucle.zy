@@ -1,0 +1,128 @@
+// ============================================================
+// 02_bucle.zy — dos bucles anidados, tres formas de salir
+//
+// Juego de reflejos: aparece una letra en un sitio al azar del
+// tablero. Púlsala antes de que se acabe el tiempo. Cinco rondas
+// por partida; al final se pregunta si quieres otra.
+//
+// Lo que hay que buscar al leerlo:
+//   · las cinco fases de un tick, en orden
+//   · @:ronda!  — la ronda termina (acierto, fallo o tiempo)
+//   · @:partida! — el jugador se va del juego entero
+//   · @:partida> — la terminal cambió de tamaño: la partida no vale
+//
+// Ejecutar:  zymbol run juegos/ejemplos/02_bucle.zy
+// ============================================================
+
+<# std/random => azar
+
+MARCO  := 8
+DIANA  := 11
+BIEN   := 10
+MAL    := 9
+TEXTO  := 15
+
+LETRAS := "asdfghjkl"
+RONDAS := 5
+
+// Dibuja el marco del tablero y la línea de estado.
+tablero(filas, cols, ronda, aciertos) {
+    >>!
+    i = 1
+    @ i <= cols {
+        >>~ (1, i, 0, MARCO) > "─"
+        >>~ (filas - 1, i, 0, MARCO) > "─"
+        i++
+    }
+    >>~ (1, 3, 1, TEXTO) > " ronda {ronda}/{RONDAS}   aciertos {aciertos} "
+    >>~ (filas, 2, 0, MARCO) > "q = salir"
+}
+
+>>!
+[filas, cols] = >>?
+
+? filas < 10 || cols < 30 {
+    >> "Necesito al menos 30x10 — tu terminal mide {cols}x{filas}" ¶
+} _ {
+
+    // Vive fuera del bloque TUI para poder leerse al final.
+    total = 0
+
+    >>| {
+        ult_filas = filas
+        ult_cols  = cols
+
+        @:partida {
+            aciertos = 0
+            ronda = 1
+
+            @ ronda <= RONDAS {
+                // La diana cae dentro del marco, nunca encima de él.
+                df = azar::entero(2, filas - 2)
+                dc = azar::entero(2, cols - 1)
+                li = azar::entero(1, LETRAS$#)
+                letra = LETRAS$[li..li]
+
+                tablero(filas, cols, ronda, aciertos)
+                >>~ (df, dc, 1, DIANA) > letra
+
+                // 40 vueltas de 50 ms = 2 segundos por ronda.
+                restante = 40
+
+                @:ronda {
+                    // (1) leer
+                    <<|? tecla
+
+                    // (2) actualizar — aquí el estado es el reloj
+                    restante = restante - 1
+
+                    // El redimensionado invalida la partida entera:
+                    // el tablero medía otra cosa cuando empezó.
+                    [fa, ca] = >>?
+                    ? fa <> ult_filas || ca <> ult_cols {
+                        filas = fa
+                        cols  = ca
+                        ult_filas = fa
+                        ult_cols  = ca
+                        @:partida>
+                    }
+
+                    ? tecla == 'q' || tecla == 'Q' { @:partida! }
+
+                    // (3) comprobar el final de la ronda
+                    ? tecla == letra {
+                        aciertos = aciertos + 1
+                        >>~ (df, dc, 1, BIEN) > letra
+                        @~ 150
+                        @:ronda!
+                    }
+
+                    ? tecla <> '\0' || restante <= 0 {
+                        >>~ (df, dc, 1, MAL) > letra
+                        @~ 150
+                        @:ronda!
+                    }
+
+                    // (4) dibujar: solo la barra de tiempo cambia
+                    >>~ (filas - 1, 2, 0, DIANA) > ("█" $* (restante / 2))
+                    >>~ (filas - 1, 2 + restante / 2, 0, MARCO) > "──────────────────────"
+
+                    // (5) dormir
+                    @~ 50
+                }
+
+                ronda = ronda + 1
+            }
+
+            total = total + aciertos
+
+            >>!
+            >>~ (filas / 2,     4, 1, TEXTO) > "Acertaste {aciertos} de {RONDAS}"
+            >>~ (filas / 2 + 2, 4, 0, TEXTO) > "¿otra partida?  s / n"
+            <<| resp
+            ? resp <> 's' && resp <> 'S' { @:partida! }
+        }
+    }
+
+    >> "Aciertos en toda la sesión: {total}" ¶
+}

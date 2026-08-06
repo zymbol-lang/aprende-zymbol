@@ -1,0 +1,27 @@
+// ============================================================
+// sesion.zy — estado de módulo
+//
+// Un módulo puede tener variables propias. No son globales — nadie
+// de fuera las ve — pero persisten entre llamadas a sus funciones.
+// Es donde vive el estado que pertenece a un subsistema y no a la
+// partida: el idioma activo, el tema de fichas, el volumen.
+//
+// Un archivo de módulo contiene SOLO la declaración del módulo.
+// Poner código suelto debajo es un error de sintaxis, no un
+// descuido tolerado: si el archivo es un módulo, es un módulo.
+// ============================================================
+
+# sesion {
+
+    #> { fijar_idioma, idioma, sumar_partida, partidas }
+
+    // Estado del módulo: se inicializa una vez, al cargarlo.
+    idioma_actual = "es"
+    jugadas = 0
+
+    fijar_idioma(código) { idioma_actual = código }
+    idioma() { <~ idioma_actual }
+
+    sumar_partida() { jugadas = jugadas + 1 }
+    partidas() { <~ jugadas }
+}

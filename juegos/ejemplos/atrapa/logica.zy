@@ -1,0 +1,104 @@
+// ============================================================
+// logica.zy — reglas del juego: azar, caída, choques
+//
+// AN = ancho interior del tablero, AL = alto interior.
+// Área de juego: filas 2..AL+1, columnas 2..AN+1.
+// La cesta vive en la fila AL+1 y ocupa tres columnas.
+//
+// Una pieza es una tupla (fila, col, tipo):
+//   tipo 1 = buena — atraparla suma 10, dejarla caer cuesta vida
+//   tipo 2 = mala  — atraparla cuesta vida, dejarla caer no hace nada
+//
+// Aleatorio: LCG (Numerical Recipes) en Zymbol puro. La semilla se
+// pasa explícitamente entre llamadores — sin estado oculto. La
+// semilla inicial la produce una sola llamada al shell, al
+// arrancar; un <\ \> por tick no cabe en un juego de 60 ms.
+// ============================================================
+
+# logica {
+
+    #> { lcg_sig, rango, nueva_pieza, caer, mover_cesta, atrapada }
+
+    BUENA := 1
+    MALA  := 2
+
+    lcg_sig(semilla) {
+        <~ (1664525 * semilla + 1013904223) % 2147483647
+    }
+
+    // Entero en [min, max]. Devuelve el valor Y la semilla
+    // avanzada: quien llama tiene que recoger las dos cosas, o el
+    // generador se queda clavado.
+    rango(semilla, min, max) {
+        sig = lcg_sig(semilla)
+        val = sig % (max - min + 1) + min
+        <~ (val, sig)
+    }
+
+    // Una pieza nueva en la fila de arriba. Una de cada cuatro es
+    // mala. Devuelve (pieza, semilla).
+    nueva_pieza(AN, semilla) {
+        [c, s1] = rango(semilla, 2, AN + 1)
+        [t, s2] = rango(s1, 1, 4)
+        tipo = BUENA
+        ? t == 4 { tipo = MALA }
+        <~ ((2, c, tipo), s2)
+    }
+
+    // Baja todas las piezas una fila y resuelve qué pasa con las
+    // que llegan al suelo.
+    //
+    // Devuelve (piezas, puntos, vidas, caídas) donde `caídas` son
+    // las posiciones que hay que borrar de la pantalla — el dibujo
+    // no puede saberlas por su cuenta una vez movidas las piezas.
+    caer(piezas, cesta, AN, AL, puntos, vidas) {
+        vivas = []
+        caídas = []
+
+        @ p : piezas {
+            [f, c, tipo] = p
+            nf = f + 1
+            caídas = caídas $+ (f, c)
+
+            // La cesta vive en la fila AL+1, así que una pieza que
+            // llega a esa fila se resuelve y NO se dibuja nunca ahí.
+            // Si las piezas pisaran la fila de la cesta, el borrado
+            // de su posición vieja se comería el dibujo de la cesta.
+            ? nf >= AL + 1 {
+                // Llegó al suelo: ¿estaba la cesta debajo?
+                ? atrapada(cesta, c) {
+                    ? tipo == BUENA {
+                        puntos = puntos + 10
+                    } _ {
+                        vidas = vidas - 1
+                    }
+                } _ {
+                    // Dejar caer una buena SÍ cuesta vida. Sin esto
+                    // el juego no tiene final: quien no mueve la
+                    // cesta no pierde nunca, y un juego que no se
+                    // puede perder tampoco se puede ganar.
+                    ? tipo == BUENA { vidas = vidas - 1 }
+                }
+            } _ {
+                vivas = vivas $+ (nf, c, tipo)
+            }
+        }
+
+        <~ (vivas, puntos, vidas, caídas)
+    }
+
+    // La cesta ocupa tres columnas: cesta-1, cesta, cesta+1.
+    atrapada(cesta, col) {
+        <~ col >= cesta - 1 && col <= cesta + 1
+    }
+
+    // Mueve la cesta sin dejar que se salga del tablero.
+    mover_cesta(cesta, tecla, AN) {
+        nueva = cesta
+        ? tecla == '←' || tecla == 'a' || tecla == 'A' { nueva = cesta - 1 }
+        ? tecla == '→' || tecla == 'd' || tecla == 'D' { nueva = cesta + 1 }
+        ? nueva < 3      { nueva = 3 }
+        ? nueva > AN     { nueva = AN }
+        <~ nueva
+    }
+}

@@ -1,0 +1,124 @@
+// ============================================================
+// juego.zy — el bucle de partida
+//
+// El juego entero vive aquí para que los puntos de entrada sean lo
+// que deben ser: un archivo por idioma cuyo único trabajo es
+// elegir con qué idioma arranca la primera pantalla.
+// Ver atrapa.zy y catch.zy.
+//
+// Controles: ← → o A/D — P pausa — Q salir — L idioma (en menús)
+// ============================================================
+
+# juego {
+
+    <# ./logica => l
+    <# ./dibujo => d
+    <# ./idioma/despacho => idioma
+
+    #> { iniciar }
+
+    iniciar(código) {
+        idioma::fijar(código)
+
+        // Dimensiones derivadas del tamaño real de la terminal.
+        // Ningún ancho está tecleado en el programa.
+        [filas, cols] = >>?
+        AN = cols  - 2
+        AL = filas - 3
+
+        ? filas < 12 || cols < 36 {
+            >> "Atrapa necesita al menos 36x12 — tu terminal mide {cols}x{filas}" ¶
+        } _ {
+
+            ult_filas = filas
+            ult_cols  = cols
+
+            // Semilla desde tres fuentes de entropía independientes.
+            // UNA sola llamada al shell, al arrancar: un <\ \> por
+            // tick no cabe en un juego de 50 ms.
+            _ns  = <\ "date +%N" \>
+            _pid = <\ "echo $$" \>
+            _rnd = <\ "od -An -N2 -tu2 /dev/urandom | tr -d ' \n'" \>
+            semilla = (#|_ns| + #|_pid| * 31337 + #|_rnd| * 65537) % 2147483647
+
+            >>| {
+                retardo = d::menu(AN, AL)
+
+                @:main {
+                    cesta  = AN / 2
+                    piezas = []
+                    puntos = 0
+                    vidas  = 3
+                    reloj  = 0
+
+                    d::tablero_inicial(cesta, vidas, puntos, AN, AL)
+
+                    @:game {
+                        // ── (1) leer ──────────────────────────
+                        <<|? tecla
+
+                        // Redimensionado: la partida ya no vale,
+                        // porque el tablero medía otra cosa cuando
+                        // empezó. @:main> y no @:game! — un
+                        // @:game! enseñaría la pantalla de fin de
+                        // partida con un puntaje que el jugador no
+                        // perdió.
+                        [fa, ca] = >>?
+                        ? fa <> ult_filas || ca <> ult_cols {
+                            AN = ca - 2
+                            AL = fa - 3
+                            ult_filas = fa
+                            ult_cols  = ca
+                            @:main>
+                        }
+
+                        ? tecla == 'q' || tecla == 'Q' { @:game! }
+
+                        ? tecla == 'p' || tecla == 'P' {
+                            d::pausa(AN, AL)
+                            d::tablero_inicial(cesta, vidas, puntos, AN, AL)
+                            d::tick(piezas, [], puntos, AN)
+                        }
+
+                        // ── (2) actualizar ────────────────────
+                        cesta_vieja = cesta
+                        cesta = l::mover_cesta(cesta, tecla, AN)
+
+                        reloj = reloj + 1
+                        ? reloj % 4 == 0 {
+                            [nueva, semilla] = l::nueva_pieza(AN, semilla)
+                            piezas = piezas $+ nueva
+                        }
+
+                        [piezas, puntos, vidas, caídas] =
+                            l::caer(piezas, cesta, AN, AL, puntos, vidas)
+
+                        // ── (3) comprobar el final ────────────
+                        ? vidas <= 0 { @:game! }
+
+                        // ── (4) dibujar ───────────────────────
+                        d::cesta_mover(cesta_vieja, cesta, AL)
+                        d::tick(piezas, caídas, puntos, AN)
+
+                        // ── (5) dormir ────────────────────────
+                        @~ retardo
+                    }
+
+                    // Estadísticas de sesión. ° auto-inicializa en
+                    // su primer uso y queda anclada POR ENCIMA de
+                    // @:main, así que sobrevive a la partida.
+                    °partidas += 1
+                    marcadores = °marcadores$+ puntos
+
+                    récord = 0
+                    @ m : marcadores {
+                        ? m > récord { récord = m }
+                    }
+
+                    acción = d::fin(puntos, récord, partidas, AN, AL)
+                    ? acción == 's' { @:main! }
+                }
+            }
+        }
+    }
+}
