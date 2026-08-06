@@ -1,6 +1,6 @@
 # Aprende Zymbol
 
-> **Revisado para v0.0.7 — 2026-07-03**
+> **Revisado para v0.0.8 — 2026-08-05**
 
 Bienvenido. Este es tu punto de partida para aprender a programar con **Zymbol**, un lenguaje diseñado desde cero para ser expresivo, limpio y diferente.
 
@@ -70,6 +70,22 @@ Precisión, integración con el sistema y el ecosistema completo del lenguaje.
 | 06 | [Programar en tu idioma](avanzado/06_multilingue.md) | Código 100% en español, adaptadores, `decode_map`, patrón de tres capas |
 | 07 | [Proyecto avanzado](avanzado/07_proyecto.md) | Programa completo con todo lo aprendido |
 
+### Nivel Juegos
+
+Los tres niveles anteriores enseñan el lenguaje. Este enseña a **construir algo con él**: un juego de terminal, desmontando el código real de [Serpiente](https://github.com/zymbol-lang/zySerpiente), [Hov veS](https://github.com/zymbol-lang/zyKlingonGalaxy) y [囲碁](https://github.com/zymbol-lang/zy-GO).
+
+| # | Lección | Tema |
+|---|---------|------|
+| 01 | [La terminal como lienzo](juegos/01_lienzo.md) | `>>\|`, `>>~`, `>>?`, `<<\|?`, `@~` |
+| 02 | [El bucle de juego](juegos/02_bucle.md) | `@:etiqueta`, las cinco fases de un tick, redimensionado |
+| 03 | [El estado del juego](juegos/03_estado.md) | Sin globales: tuplas de retorno, `fn(x<~)`, `°var` |
+| 04 | [Dibujar solo lo que cambió](juegos/04_dibujo.md) | Delta rendering |
+| 05 | [Azar reproducible](juegos/05_azar.md) | LCG en Zymbol puro, semilla por entropía |
+| 06 | [Marcos que se miden](juegos/06_marcos.md) | `std/term`: por qué `$#` no sirve para maquetar |
+| 07 | [Un juego en varios idiomas](juegos/07_idiomas.md) | Despachador, idioma como estado de módulo |
+| 08 | [La puerta de completitud](juegos/08_pruebas.md) | Probar un TUI y verificar traducciones |
+| 09 | [Proyecto: Atrapa](juegos/09_proyecto.md) | Un juego completo, en dos idiomas, con pruebas |
+
 ---
 
 ## Antes de empezar
@@ -106,3 +122,5 @@ Cuando algo sale mal, Zymbol te dice exactamente qué está mal y en qué línea
 ---
 
 Empieza por [la lección 01 — Instalación](basico/01_instalacion.md).
+
+Si ya sabes programar en Zymbol y lo que quieres es ver el lenguaje resolviendo un problema de verdad, salta al [Nivel Juegos](juegos/README.md).

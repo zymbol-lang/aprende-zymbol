@@ -1,6 +1,6 @@
 # Lección 05 — Repetición
 
-> **Revisado para v0.0.7 — 2026-07-03**
+> **Revisado para v0.0.8 — 2026-08-05**
 
 Imagina que quieres mostrar los números del 1 al 100. Podrías escribir 100 líneas con `>>`, pero eso sería ridículo. Para eso existen los **bucles**: bloques de código que se repiten automáticamente.
 
@@ -223,6 +223,56 @@ Fin
 ```
 
 Úsalo cuando no sabes de antemano cuántas vueltas necesitas — por ejemplo, pedir datos al usuario hasta que ingrese algo válido.
+
+---
+
+## Así se usa `@` en un juego real
+
+Un juego es, literalmente, un bucle infinito. Este es el corazón del juego [Serpiente](https://github.com/zymbol-lang/zySerpiente), con dos bucles anidados:
+
+```
+// serpiente/juego.zy
+@:main {                         // ← una partida tras otra
+    serpiente = [(fila_c, col_c), (fila_c, col_c-1), (fila_c, col_c-2)]
+    dir      = '→'
+    puntos   = 0
+
+    @:game {                     // ← un tick tras otro
+        <<|? tecla
+
+        ? tecla == 'q' || tecla == 'Q' { @:game! }
+
+        [vivo, serpiente, puntos, comio] = l::mover(serpiente, dir, comida, puntos, AN, AL, crecer)
+
+        ? !vivo { @:game! }
+
+        d::dibujar(...)
+        @~ retardo               // ← el retardo ES la velocidad del juego
+    }
+
+    // aquí se llega al morir o al salir: marcador y «¿otra partida?»
+    accion = d::fin_juego(puntos, partidas, marcadores, AN, AL)
+    ? accion == 's' { @:main! }
+}
+```
+
+Lo nuevo aquí son los **nombres de bucle**. `@:main` y `@:game` no son adornos: `@:game!` sale del bucle interno y `@:main!` sale de los dos de golpe, sin inventar una variable bandera que haya que ir mirando en cada nivel.
+
+| Sintaxis | Qué hace |
+|---|---|
+| `@:nombre { }` | Declara un bucle con nombre |
+| `@:nombre!` | Rompe **ese** bucle, esté donde esté |
+| `@:nombre>` | Salta a la siguiente vuelta de **ese** bucle |
+
+Y fíjate en las tres formas de bucle que usa el mismo juego, cada una donde toca:
+
+```
+@ i <= 5 { ... i++ }        // sé exactamente cuántas vueltas
+@ l : líneas { ... }        // tengo la lista delante
+@:game { ... }              // no sé cuándo acaba
+```
+
+El [nivel Juegos](juegos/README.md) desarrolla esto en su lección 02.
 
 ---
 

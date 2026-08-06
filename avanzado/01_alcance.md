@@ -1,6 +1,6 @@
 # Lección 01 — Alcance y tiempo de vida
 
-> **Revisado para v0.0.7 — 2026-07-12**
+> **Revisado para v0.0.8 — 2026-08-05**
 
 En las lecciones anteriores aprendiste que las variables viven dentro del bloque donde se declaran y desaparecen cuando ese bloque termina. Eso es el comportamiento predeterminado. Pero Zymbol ofrece dos mecanismos adicionales para controlar la vida de una variable con más precisión: el prefijo `_` y el operador de destrucción explícita `\`.
 
@@ -105,23 +105,25 @@ Funciona con variables regulares y con variables `_`:
 }
 ```
 
-> ⚠️ **No uses `\` dentro de funciones sobre nombres que también existen afuera.**
-> En v0.0.7, destruir una variable dentro de una función marca el **nombre** como
-> destruido para todo el programa: si quien llamó a la función tiene su propia
-> variable con ese mismo nombre, al volver de la llamada la verá "destruida" y el
-> programa fallará con `use after destruction`:
+> ℹ️ **Corregido en v0.0.8.** En v0.0.7, destruir una variable dentro de una función
+> marcaba el **nombre** como destruido para todo el programa: si quien llamaba tenía
+> su propia variable con ese nombre, al volver de la llamada la veía "destruida" y el
+> programa fallaba con `use after destruction`. Desde v0.0.8 la destrucción es local
+> al ámbito donde ocurre, en los dos motores:
 >
 > ```
 > limpiar() {
 >     x = 5
->     \ x        // marca el nombre 'x' como muerto en todo el programa
+>     \ x        // solo destruye la 'x' de esta función
 >     <~ 1
 > }
 >
 > x = 10
 > r = limpiar()
-> >> x ¶         // ❌ error: use after destruction — aunque este x nunca se tocó
+> >> x ¶         // → 10   ✓ la x de fuera nunca se tocó
 > ```
+>
+> Si ves ese error, tu binario es anterior — comprueba con `zymbol --version`.
 >
 > Regla práctica: usa `\` solo en el nivel superior del programa o con nombres que
 > no se repitan fuera de la función (los nombres `_` ayudan a garantizarlo).

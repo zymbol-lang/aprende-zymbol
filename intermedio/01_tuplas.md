@@ -1,6 +1,6 @@
 # Lección 01 — Tuplas
 
-> **Revisado para v0.0.7 — 2026-07-03**
+> **Revisado para v0.0.8 — 2026-08-05**
 
 Las listas guardan colecciones de valores del mismo tipo: una lista de números, una lista de textos. Pero hay situaciones donde necesitas agrupar valores de tipos distintos que describen una sola cosa: el nombre y la edad de una persona, las coordenadas x e y de un punto, el código y el precio de un producto.
 
@@ -110,6 +110,36 @@ dividir(a, b) {
 resultado = dividir(17, 5)
 >> resultado.cociente ¶    // → 3
 >> resultado.resto ¶       // → 2
+```
+
+### El patrón «entra y sale»
+
+Este uso de las tuplas es el que sostiene los programas grandes en Zymbol. Como las funciones no ven nada de fuera, **el estado tiene que viajar**: entra por los parámetros y sale por el valor de retorno.
+
+Esta línea es del juego [Serpiente](https://github.com/zymbol-lang/zySerpiente), y es su tick completo:
+
+```
+// serpiente/juego.zy
+[vivo, serpiente, puntos, comio] = l::mover(serpiente, dir, comida, puntos, AN, AL, crecer)
+```
+
+Siete cosas entran, cuatro salen. Y fíjate en algo que parece un error y no lo es: **`serpiente` y `puntos` están a los dos lados**. Entra el estado viejo, sale el nuevo, la variable se reasigna.
+
+```
+estado = paso(estado)
+```
+
+Ese patrón sustituye a las variables globales de otros lenguajes, y a cambio te da algo que las globales nunca dan: puedes leer la firma de una función y saber **exactamente** de qué depende y qué puede cambiar, sin leer su cuerpo.
+
+Un caso donde esto es obligatorio y no opcional: cualquier función que use azar tiene que devolver la semilla avanzada, o la siguiente llamada devuelve el mismo número.
+
+```
+// serpiente/logica.zy
+rango_aleatorio(semilla, min, max) {
+    sig = lcg_sig(semilla)
+    val = sig % (max - min + 1) + min
+    <~ (val, sig)          // ← el valor Y la semilla siguiente
+}
 ```
 
 ---

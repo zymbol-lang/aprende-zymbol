@@ -1,6 +1,6 @@
 # Lección 07 — Proyecto avanzado
 
-> **Revisado para v0.0.7 — 2026-07-03**
+> **Revisado para v0.0.8 — 2026-08-05**
 
 Esta lección no introduce sintaxis nueva. Es la oportunidad de aplicar todo lo aprendido en los tres niveles del curso en un programa real: con estructura de archivos, módulos, errores, integración con el sistema y datos compuestos.
 

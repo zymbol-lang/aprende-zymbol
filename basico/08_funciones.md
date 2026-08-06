@@ -1,6 +1,6 @@
 # Lección 08 — Funciones
 
-> **Revisado para v0.0.7 — 2026-07-12**
+> **Revisado para v0.0.8 — 2026-08-05**
 
 Hasta ahora todo el código que has escrito corre de arriba hacia abajo, una sola vez. Pero ¿qué pasa cuando necesitas hacer la misma operación en varios lugares? ¿La copias y pegas? No — para eso existen las **funciones**.
 
@@ -179,17 +179,18 @@ Esto es una ventaja: puedes usar el nombre `resultado`, `i`, `temp` adentro de c
 > >> area(2) ¶    // → 12.56
 > ```
 >
-> **Con un límite en v0.0.7**: la constante llega a la función que llamas desde tu
-> programa, pero en el intérprete por defecto **no llega** a las funciones que esa
-> función llame a su vez (incluida la recursión). Si una función que es llamada por
-> otra función necesita el valor, pásalo como parámetro:
+> Desde **v0.0.8** esto vale también en las llamadas anidadas y en la recursión: la
+> constante llega a cualquier función, la llames desde donde la llames.
 >
 > ```
 > K := 5
 > interna() { <~ K * 2 }
 > externa() { <~ interna() + K }
-> >> externa() ¶    // ❌ error en v0.0.7: 'K' is undefined (dentro de 'interna')
+> >> externa() ¶    // → 15
 > ```
+>
+> (En v0.0.7 la segunda de estas dos funciones fallaba con `'K' is undefined`. Si
+> ves ese error, tu binario es anterior — comprueba con `zymbol --version`.)
 
 ---
 
@@ -300,7 +301,37 @@ Círculo radio 3: 28.27431
 
 ---
 
+## Así se usan las funciones en un juego real
 
+Una función de [Serpiente](https://github.com/zymbol-lang/zySerpiente), tal cual está en el repositorio. Devuelve la posición de una comida nueva que no caiga encima de la serpiente:
+
+```
+// serpiente/logica.zy
+nueva_comida(serpiente, AN, AL, semilla) {
+    [r, s1] = rango_aleatorio(semilla, 2, AL + 1)
+    [c, s2] = rango_aleatorio(s1,     2, AN)
+    pos = (r, c)
+    ? _en_serpiente(serpiente, pos) {
+        [r, s1] = rango_aleatorio(s2, 2, AL + 1)
+        [c, s2] = rango_aleatorio(s1, 2, AN)
+        pos = (r, c)
+    }
+    <~ (pos, s2)
+}
+```
+
+Hay cuatro cosas nuevas aquí, y las cuatro son consecuencia del aislamiento que acabas de aprender:
+
+1. **Todo entra por la firma.** `serpiente`, `AN`, `AL` y `semilla` no son variables globales — no existen. La función solo puede ver lo que le pasas.
+2. **`<~ (pos, s2)` devuelve dos cosas a la vez**, empaquetadas en una tupla. Es lo que se hace cuando una función tiene más de una respuesta.
+3. **`[r, s1] = rango_aleatorio(...)`** desempaqueta esa tupla en dos variables de un golpe. Lo verás con detalle en el nivel intermedio.
+4. **`_en_serpiente` empieza por `_`.** Es una función privada del módulo: se usa aquí dentro y no se publica hacia fuera.
+
+Y una decisión que merece la pena entender: **hay un solo reintento, no un bucle**. Si la primera posición cae encima de la serpiente se prueba otra vez, y si esa también falla se acepta igual. Un bucle «hasta encontrar sitio» sobre un tablero casi lleno podría no terminar nunca, y el juego prefiere un fallo rarísimo y visible a un cuelgue.
+
+Si quieres ver funciones así construyendo un juego entero, ese es el [nivel Juegos](juegos/README.md).
+
+---
 
 Siguiente nivel: [Intermedio →](intermedio/README.md)
 

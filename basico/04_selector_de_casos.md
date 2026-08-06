@@ -1,6 +1,6 @@
 # Lección 04 — Selector de Casos
 
-> **Revisado para v0.0.7 — 2026-07-03**
+> **Revisado para v0.0.8 — 2026-08-05**
 
 En la lección 03 aprendiste a tomar decisiones con `?`, `_?` y `_`. Eso funciona muy bien cuando tienes dos o tres posibilidades. Pero imagina que necesitas hacer algo diferente para cada día de la semana, o para cada nota del 0 al 100, o para cada comando que escriba el usuario.
 
@@ -241,6 +241,43 @@ Resultado:
 ```
 El mes 4 es abril
 ```
+
+---
+
+## Así se usa `??` en un juego real
+
+El uso más potente de `??` no es elegir entre tres o cuatro casos: es **ser una tabla entera**. Este es el catálogo de textos en español del juego [Serpiente](https://github.com/zymbol-lang/zySerpiente), recortado:
+
+```
+// serpiente/idioma/español.zy
+texto(clave) {
+    <~ ?? clave {
+        "idioma.nombre"    => "Español"
+
+        "menú.título1"     => "Z Y M B O L"
+        "menú.título2"     => "S E R P I E N T E"
+        "menú.velocidad"   => "Elige tu velocidad:"
+        "menú.lento"       => "Lento"
+        "menú.normal"      => "Normal"
+        "menú.rápido"      => "Rápido"
+
+        "fin.título1"      => "J U E G O"
+        "fin.título2"      => "T E R M I N Ó"
+        "fin.puntaje"      => "Puntaje"
+
+        _                  => clave
+    }
+}
+```
+
+Treinta y tres casos en una función que cabe en una pantalla. Y el juego tiene otro archivo idéntico en inglés, con las mismas claves a la izquierda y otras palabras a la derecha: **cambiar de idioma es llamar a la otra función**.
+
+Dos detalles que hacen que esto funcione:
+
+- **Es `<~ ??`**, un `??` usado como expresión: devuelve el valor de la rama que casa, y la función lo devuelve a su vez. No hay ni un `>>` aquí dentro.
+- **El caso `_` devuelve la clave misma.** Si alguien pide `"fin.récord"` y nadie la tradujo, sale `fin.récord` en pantalla: raro de ver, imposible de confundir con un texto de verdad, y detectable por una prueba automática. Es mejor que devolver vacío (que se ve como un hueco) o reventar (que tira el juego por un rótulo).
+
+Si esto te ha interesado, el [nivel Juegos](juegos/README.md) construye el sistema entero.
 
 ---
 

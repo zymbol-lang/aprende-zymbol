@@ -1,6 +1,6 @@
 # Lección 05 — Tuberías
 
-> **Revisado para v0.0.7 — 2026-07-03**
+> **Revisado para v0.0.8 — 2026-08-05**
 
 Cuando encadenas varias transformaciones, el código tiende a llenarse de variables intermedias que solo existen para pasar el resultado de una operación a la siguiente:
 

@@ -1,6 +1,6 @@
 # Lección 09 — La biblioteca estándar
 
-> **Revisado para v0.0.7 — 2026-07-03**
+> **Revisado para v0.0.8 — 2026-08-05**
 
 En la lección anterior aprendiste a crear tus propios módulos. Zymbol también trae módulos **ya hechos**, listos para importar: la **biblioteca estándar**. Cubren lo que casi todo programa necesita en algún momento — matemáticas, números al azar, archivos, datos estructurados, red y bases de datos.
 
@@ -137,6 +137,39 @@ Están disponibles `get`, `post`, `post_json` y `head`. Los tres primeros acepta
 
 ---
 
+## `std/term` — medir texto en la terminal
+
+Novedad de la **v0.0.8**. Sirve para una pregunta que parece tonta y no lo es: ¿cuánto mide `"手番"` en pantalla?
+
+```
+<# std/term => t
+
+>> "手番"$# ¶                  // → 2   caracteres
+>> t::width("手番") ¶          // → 4   columnas de terminal
+```
+
+Los ideogramas CJK y la mayoría de los emoji ocupan **dos columnas cada uno**. `$#` cuenta unidades de texto, que es lo correcto para casi todo — pero si maquetas una tabla o un marco con ese número, se te descuadra en cuanto aparece un carácter ancho.
+
+```
+>> "[" t::pad_right("go", 6) "]" ¶       // → [go    ]
+>> "[" t::pad_left("go", 6) "]" ¶        // → [    go]
+>> "[" t::center("go", 6) "]" ¶          // → [  go  ]
+>> "[" t::truncate("形勢判断", 5) "]" ¶   // → [形勢]
+```
+
+| Función | Qué hace |
+|---|---|
+| `width(s)` | Ancho en columnas de terminal. Acepta texto o un solo carácter |
+| `pad_left` / `pad_right` | Rellenan con espacios hasta ocupar N columnas |
+| `center` | Centra en N columnas (la columna sobrante va a la derecha) |
+| `truncate` | Recorta a N columnas **sin partir un glifo por la mitad** |
+
+Si el texto ya es más ancho que N, las funciones de relleno lo devuelven tal cual: nunca recortan por su cuenta. Y `truncate("形勢判断", 5)` devuelve `"形勢"` (4 columnas) y no medio ideograma.
+
+> Esta biblioteca es la que hace posible que un menú cuadre igual en español, en inglés y en japonés. El [nivel Juegos](juegos/06_marcos.md) la usa para construir paneles enteros sin teclear un solo ancho.
+
+---
+
 ## `std/db` — bases de datos
 
 Para programas que guardan datos de forma permanente, `std/db` se conecta a bases de datos (SQLite, PostgreSQL y otras) a través del estándar ODBC del sistema operativo, con `connect`, `query`, `exec` y transacciones.
@@ -154,6 +187,7 @@ Para programas que guardan datos de forma permanente, `std/db` se conecta a base
 | `std/io` | Archivos | `read`, `write`, `append`, `exists`, `delete`, `list`, `mkdir` |
 | `std/json` | Datos estructurados | `decode`, `encode`, `decode_map` |
 | `std/net` | Red | `get`, `post`, `post_json`, `head` |
+| `std/term` | Medidas de terminal | `width`, `pad_left`, `pad_right`, `center`, `truncate` |
 | `std/db` | Bases de datos | `connect`, `query`, `exec`, transacciones |
 
 Y la regla de oro: **los fallos del entorno son errores suaves** (se comprueban con `$!`), **los errores de programación detienen el programa**.

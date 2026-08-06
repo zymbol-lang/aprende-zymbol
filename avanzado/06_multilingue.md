@@ -1,10 +1,23 @@
 # Lección 06 — Programar en tu idioma
 
-> **Revisado para v0.0.7 — 2026-07-03**
+> **Revisado para v0.0.8 — 2026-08-05**
 
 Ya lo habrás notado a lo largo del curso: en Zymbol **no existe ninguna palabra clave en inglés**. Una condición es `?`, una repetición es `@`, devolver un valor es `<~`. Y los nombres que tú eliges — variables, funciones, módulos — pueden estar en cualquier idioma, porque el lenguaje acepta cualquier símbolo Unicode como identificador.
 
-Esta lección lleva esa idea hasta el final: programas **completos** escritos en español (o griego, o coreano, o mandarín), bibliotecas que se publican en varios idiomas a la vez, y datos externos cuyas claves en inglés se leen en español. Todo con mecanismos que ya conoces — no hay sintaxis nueva que aprender, solo una forma nueva de usarla.
+Esta lección lleva esa idea hasta el final. Y empieza separando dos cosas que casi siempre se confunden.
+
+---
+
+## Dos problemas, dos mecanismos
+
+| Qué se traduce | Quién lo lee | Cuándo | Mecanismo |
+|---|---|---|---|
+| **Identificadores** — nombres de funciones, constantes, módulos | otro programador | al escribir código | Capas de re-exportación |
+| **Textos** — rótulos, mensajes, frases | el usuario | en ejecución | Despachador con catálogos |
+
+Confundirlos es el error del que salen todos los demás. Un catálogo de cadenas no sirve para traducir una API — nadie quiere escribir `llamar("sqrt", x)`. Y una capa de re-exportación no sirve para traducir un rótulo, porque el idioma del usuario se elige cuando el programa ya está corriendo.
+
+Esta lección cubre el primero a fondo y presenta el segundo. El [nivel Juegos](juegos/README.md) construye el segundo entero, en su lección 07.
 
 ---
 
@@ -30,7 +43,7 @@ contar_vocales(palabra) {
 >> "vocales de 'murciélago': " contar_vocales("murcielago") ¶
 ```
 
-El proyecto [Serpiente](https://github.com/zymbol-lang/zy-Serpiente) — el juego clásico de la serpiente corriendo en la terminal — está escrito **completamente en español**: tres módulos (`serpiente.zy`, `logica.zy`, `dibujo.zy`) donde cada función, cada variable y cada comentario están en el idioma de quien lo escribió. Un fragmento real de su lógica:
+El proyecto [Serpiente](https://github.com/zymbol-lang/zySerpiente) está escrito **completamente en español**: cada función, cada variable y cada comentario. Un fragmento real de su lógica:
 
 ```
 // Entero aleatorio en [min, max] — retorna (valor, semilla_siguiente)
@@ -39,24 +52,19 @@ rango_aleatorio(semilla, min, max) {
     val = sig % (max - min + 1) + min
     <~ (val, sig)
 }
-
-// Genera posición de comida sin superponerse con la serpiente
-nueva_comida(serpiente, AN, AL, semilla) {
-    [r, s1] = rango_aleatorio(semilla, 2, AL + 1)
-    [c, s2] = rango_aleatorio(s1,     2, AN)
-    ...
-}
 ```
 
-No hay ni una palabra de otro idioma interrumpiendo la lectura. Eso es imposible en los lenguajes tradicionales, donde las palabras reservadas siempre están en inglés.
+El texto completo está en un solo idioma, de principio a fin. En los lenguajes tradicionales eso no se puede conseguir: sus palabras reservadas están en inglés, así que aparecen intercaladas por muy bien elegidos que estén los nombres. Zymbol no las tiene.
+
+Y no es solo el español. [囲碁](https://github.com/zymbol-lang/zy-GO) está escrito en japonés — cada identificador, cada nombre de módulo y cada nombre de archivo usa kanji y kana — y [Hov veS](https://github.com/zymbol-lang/zyKlingonGalaxy) en klingon.
 
 ---
 
-## El único inglés que queda: la biblioteca estándar
+## Mecanismo 1: adaptar una biblioteca a tu idioma
 
-En la lección intermedia 09 usaste `std/math`, `std/io` y `std/json` — y sus funciones se llaman `sqrt`, `read`, `decode`. Es el último rincón en inglés de un programa en español.
+En la lección intermedia 09 usaste `std/math`, `std/io` y `std/json`, y sus funciones se llaman `sqrt`, `read`, `decode`. Están en inglés, como las de casi cualquier biblioteca publicada para un público internacional, y son el único tramo del programa que no elegiste tú.
 
-La solución es el mecanismo de **re-exportación** de la lección de módulos: un *adaptador* — un módulo de una página que importa la biblioteca y vuelve a publicar cada función con un nombre en español. **Cero lógica, cero costo**: al cargar el programa, cada nombre nuevo queda conectado directamente a la función original.
+Ese tramo también se adapta, con el mecanismo de **re-exportación** de la lección de módulos: un *adaptador*, un módulo de una página que importa la biblioteca y vuelve a publicar cada función con un nombre en español. **Cero lógica, cero coste**: al cargar el programa, cada nombre nuevo queda apuntando directamente a la función original.
 
 ```
 // archivo: matematica_es.zy — solo re-exporta, cero lógica
@@ -74,22 +82,7 @@ La solución es el mecanismo de **re-exportación** de la lección de módulos: 
 }
 ```
 
-```
-// archivo: archivos_es.zy — lo mismo para std/io
-# archivos_es {
-    <# std/io => _io
-
-    #> {
-        _io::read   => leer
-        _io::write  => escribir
-        _io::append => agregar
-        _io::exists => existe
-        _io::delete => borrar
-    }
-}
-```
-
-Y el programa que los usa ya no tiene una sola palabra en inglés:
+Y el programa que lo usa se lee entero en español:
 
 ```
 <# ./matematica_es => mate
@@ -102,6 +95,28 @@ arch::escribir("bitacora.txt", "todo en orden")
 ```
 
 Escribes el adaptador **una vez** y lo reutilizas en todos tus proyectos.
+
+### Un adaptador real: `std/term` en español
+
+Serpiente necesita medir texto en columnas de terminal, y esa biblioteca es `std/term`. Su adaptador es el archivo entero:
+
+```
+// serpiente/texto.zy
+# texto {
+
+    #> {
+        t::width      => ancho
+        t::pad_left   => izquierda
+        t::pad_right  => derecha
+        t::center     => centrar
+        t::truncate   => recortar
+    }
+
+    <# std/term => t
+}
+```
+
+A partir de ahí el juego escribe `txt::ancho(…)` y `txt::centrar(…)`, y ni una línea suya está en inglés.
 
 ---
 
@@ -136,7 +151,7 @@ Por ejemplo, un equipo hispanohablante publica `matematicas/module.zy` con `suma
 }
 ```
 
-El programa griego que lo consume no sabe — ni necesita saber — que la lógica está escrita en español:
+El programa griego que lo consume no sabe —ni necesita saber— que la lógica está escrita en español:
 
 ```
 <# ./matematicas/ελληνικά => μαθ
@@ -145,15 +160,123 @@ El programa griego que lo consume no sabe — ni necesita saber — que la lógi
 >> "Άθροισμα: " αποτέλεσμα ¶
 ```
 
-Cuando el equipo base agrega una función, el traductor agrega **una línea** al adaptador. Los nombres de archivo también pueden estar en cualquier alfabeto (`ελληνικά.zy`, `한국인.zy`). El repositorio del intérprete incluye este ejemplo completo con adaptadores a griego, hebreo, coreano y mandarín en [`tests/i18n/`](https://github.com/zymbol-lang/interpreter/tree/main/tests/i18n), y el documento [`I18N.md`](https://github.com/zymbol-lang/interpreter/blob/main/I18N.md) describe el patrón en detalle.
+Cuando el equipo base agrega una función, el traductor agrega **una línea** al adaptador. Fíjate en el detalle de la sintaxis: **las constantes se re-exportan con `.` y las funciones con `::`**, y así se leen luego (`μαθ.ΠΙ`, `μαθ::προσθέτω(…)`).
+
+Los nombres de archivo también pueden estar en cualquier alfabeto (`ελληνικά.zy`, `日本語.zy`).
+
+### Esto se hace con motores enteros, no con ejemplos
+
+[囲碁](https://github.com/zymbol-lang/zy-GO) está escrito en japonés y publica su motor en inglés y en español mediante dos capas de re-exportación puras:
+
+```
+// GO/api/espanol.zy
+#> {
+    盤::着手  => jugar
+    盤::新規  => nuevo
+    盤.黒     => NEGRO
+}
+```
+
+*«Alguien que no lea japonés puede escribir su propio front-end contra `en::play(...)` o `es::jugar(...)` sin abrir nunca un archivo fuente en japonés.»* Las dos capas cubren la superficie pública completa del motor — 21 nombres de un módulo, 6 de otro, 4 de un tercero — y hay una prueba que juega la misma jugada bajo los dos nombres y compara el resultado, porque un re-export roto se nota primero justo ahí.
+
+---
+
+## Mecanismo 2: los textos que lee el usuario
+
+Los adaptadores traducen nombres que tú escribes. No sirven para los rótulos, porque el idioma del usuario se elige **cuando el programa ya está corriendo**.
+
+Para eso: un **despachador**. Un solo módulo por el que pasa toda cadena visible, con el idioma activo guardado como estado de módulo.
+
+```
+// serpiente/idioma/despacho.zy
+# .idioma_despacho {
+
+    <# ./español => es
+    <# ./english => en
+
+    #> { fijar, actual, texto, idiomas, claves }
+
+    idioma_actual = "es"          // ← estado de módulo
+
+    fijar(código) { idioma_actual = código }
+
+    texto(clave) {
+        ? idioma_actual == "en" { <~ en::texto(clave) }
+        <~ es::texto(clave)
+    }
+}
+```
+
+Y cada idioma es una tabla:
+
+```
+// serpiente/idioma/español.zy
+texto(clave) {
+    <~ ?? clave {
+        "menú.velocidad"   => "Elige tu velocidad:"
+        "fin.puntaje"      => "Puntaje"
+        ...
+        _                  => clave       // ← el caso identidad
+    }
+}
+```
+
+Tres decisiones sostienen todo esto, y las tres van a contracorriente de lo habitual:
+
+**1. El idioma es estado de módulo, nunca un parámetro.** Por eso ninguna función de dibujo lleva un `idioma` que solo sirve para pasarlo hacia abajo, y por eso el programa puede cambiar de idioma sin desmontar la pila de llamadas.
+
+**2. Las claves van en el idioma del programa, no en inglés.** Si el programa está escrito en español, `"menú.velocidad"` pide un concepto en español. Meter claves inglesas en un programa español mete el inglés donde nadie lo puso — y en un lenguaje sin palabras reservadas en inglés, eso destroza la premisa.
+
+**3. Toda clave lleva prefijo de dominio** (`"menú.título"`, nunca `"título"`). No es cosmético: es lo que hace la completitud **verificable**. Como una clave sin traducir se devuelve a sí misma, «traducción igual a la clave» significa «falta la traducción» — y eso solo es decidible si una clave no puede coincidir nunca con su propia traducción, **tampoco en el idioma base**.
+
+De ahí sale la prueba que cierra el sistema, en un doble bucle:
+
+```
+@ código : idioma::idiomas() {
+    idioma::fijar(código)
+    @ clave : idioma::claves() {
+        ? (idioma::texto(clave)) == clave { >> "FALTA " clave ¶ }
+    }
+}
+```
+
+Añadir un idioma pasa a ser tres ediciones —un archivo, un import, una rama en cada reparto— y la prueba te dice al instante qué olvidaste.
+
+> Esto está desarrollado entero, con código funcionando y pruebas, en la [lección 07 del nivel Juegos](juegos/07_idiomas.md). La doctrina completa está en [USERAPPI18N.md](https://github.com/zymbol-lang/interpreter/blob/main/USERAPPI18N.md), con una lista de comprobación de 14 puntos.
+
+---
+
+## Lo que una tabla no puede: las frases
+
+Un catálogo resuelve las etiquetas. No resuelve las frases con datos dentro, porque cada idioma coloca el número donde le corresponde y no todos marcan el plural igual.
+
+Así que cada idioma implementa además unas pocas funciones que **componen**:
+
+```
+// serpiente/idioma/español.zy
+texto_partida(n) {
+    ? n == 1 { <~ "Primera partida de la sesión" }
+    <~ "Partida {n} de la sesión"
+}
+```
+
+囲碁 lleva esto a cinco idiomas con una frase que ninguna tabla podría contener:
+
+| Idioma | «blancas ganan por 1,5 puntos» |
+|---|---|
+| 日本語 | 白の1目半勝ち |
+| 한국어 | 백 1집반승 |
+| 中文 | 白胜1目半 |
+| English | White wins by 1.5 points |
+| Español | las blancas ganan por 1,5 puntos |
 
 ---
 
 ## Los datos también hablan tu idioma: `decode_map`
 
-Los adaptadores traducen **nombres de funciones**. Pero cuando pides datos a un servicio web, las claves del JSON llegan en el idioma del servicio — casi siempre inglés — y `datos.name` se cuela en tu programa en español.
+Los adaptadores traducen nombres de funciones. Pero cuando pides datos a un servicio web, las claves del JSON llegan en el idioma del servicio — casi siempre inglés — y `datos.name` se cuela en tu programa en español.
 
-Para eso `std/json` trae `decode_map` (novedad de la v0.0.7): decodifica el JSON **y** renombra las claves a cualquier profundidad, según un diccionario que tú defines — una tupla donde cada campo es la clave original y su valor es el nombre nuevo:
+Para eso `std/json` trae `decode_map`: decodifica el JSON **y** renombra las claves a cualquier profundidad, según un diccionario que tú defines — una tupla donde cada campo es la clave original y su valor es el nombre nuevo:
 
 ```
 <# ./json_es => json    // adaptador: decode_map => decodificar_con
@@ -167,13 +290,30 @@ rio = json::decodificar_con(respuesta, diccionario)
 >> rio.longitud_km ¶    // → 6800
 ```
 
-Las claves que no aparecen en el diccionario se conservan tal cual. Define el diccionario una sola vez — dentro de tu adaptador de JSON, por ejemplo — y todos tus programas leerán las respuestas de la API en español.
+Las claves que no aparecen en el diccionario se conservan tal cual. Define el diccionario una sola vez —dentro de tu adaptador de JSON, por ejemplo— y todos tus programas leerán las respuestas de la API en español.
 
 ---
 
-## Y los números: los modos numéricos
+## Y los números
 
-Recuerda la lección 04 de este nivel: con los modos numéricos (`#d0d9#` y compañía), hasta los **dígitos** de la salida pueden mostrarse en el sistema de numeración de tu cultura — devanagari, árabe-índico, tailandés… La internacionalización en Zymbol no es una biblioteca aparte: atraviesa el diseño completo del lenguaje.
+Con los modos numéricos de la [lección 04](avanzado/04_numerales.md), hasta los **dígitos** de la salida se muestran en el sistema de numeración de tu cultura. Recuerda la doctrina que viste allí: el modo aplica a todo texto que el programa genere, no solo a lo que se ve en pantalla, y validar las consecuencias es responsabilidad de quien lo declara.
+
+Donde Unicode no llega, la capa de idioma lo resuelve a mano. Hov veS tiene una función `mI'(n)` en su contrato de idioma porque el klingon escribe sus cifras en un bloque de uso privado.
+
+---
+
+## Lo que se queda en inglés
+
+Por completitud, porque no todo se traduce. Estos son contratos con el exterior y se quedan como están:
+
+| Qué | Por qué |
+|---|---|
+| Códigos ISO 639-1 (`"es"`, `"ja"`) | Convenio internacional |
+| Formatos de datos en disco | Un conjunto de datos partido en dos idiomas son dos conjuntos de datos |
+| Teclas físicas del teclado | La tecla `Q` está en el teclado, no en el idioma |
+| `json::encode` | Un JSON con dígitos devanagari no es un JSON |
+
+Y un matiz de diseño, de Serpiente: los atajos de una letra (`N` nuevo, `S` salir) se quedan **fijos en español** aunque el menú se traduzca, y las etiquetas llevan su inicial entre corchetes en el idioma que sea. *«Un atajo que cambia de tecla al cambiar de idioma es peor que un atajo fijo.»*
 
 ---
 
@@ -184,11 +324,15 @@ Recuerda la lección 04 de este nivel: con los modos numéricos (`#d0d9#` y comp
 | Identificadores en cualquier idioma | Soporte Unicode nativo — no hay palabras reservadas |
 | Biblioteca estándar en español | Adaptador que re-exporta: `_mat::sqrt => raiz` |
 | Compartir código entre idiomas | Patrón de tres capas: base → traducción → consumidor |
+| Constantes vs funciones al re-exportar | `alias.CONST` y `alias::funcion` |
+| Rótulos que lee el usuario | Despachador + catálogos, idioma como estado de módulo |
+| Claves del catálogo | En el idioma del programa, con prefijo de dominio |
+| Verificar que no falta nada | Claves × idiomas, buscando el caso identidad |
+| Frases con datos dentro | Funciones que componen, una por idioma |
 | Claves JSON en tu idioma | `json::decode_map(texto, diccionario)` |
 | Dígitos en tu sistema numérico | Modos numéricos (lección 04) |
-| Proyecto real 100% en español | [Serpiente](https://github.com/zymbol-lang/zy-Serpiente) |
 
-El ejemplo ejecutable de esta lección ([06_multilingue.zy](avanzado/ejemplos/06_multilingue.zy)) incluye los tres adaptadores en español listos para copiar a tus proyectos.
+El ejemplo ejecutable de esta lección ([06_multilingue.zy](avanzado/ejemplos/06_multilingue.zy)) incluye los adaptadores en español listos para copiar. Para el despachador completo, ve al [nivel Juegos](juegos/07_idiomas.md).
 
 ---
 

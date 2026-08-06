@@ -1,6 +1,6 @@
 # Lección 04 — Modos numéricos
 
-> **Revisado para v0.0.7 — 2026-07-03**
+> **Revisado para v0.0.8 — 2026-08-05**
 
 El sistema decimal que usamos en Occidente no es el único sistema de dígitos del mundo. El árabe-índico, el devanagari, el tailandés, el bengalí — decenas de culturas tienen sus propios sistemas de dígitos, todos igualmente válidos matemáticamente.
 
@@ -152,11 +152,50 @@ La lista completa (69 bloques) está en `interpreter/crates/zymbol-lexer/src/dig
 |---|---|
 | Modo por defecto | ASCII (`0`–`9`) |
 | Alcance del modo | Local al archivo — cada archivo empieza en ASCII |
-| Qué afecta | `>>` para Int, Float, Bool |
-| Qué no afecta | Contenido de cadenas, caracteres, corchetes de listas, paréntesis de tuplas |
+| Qué afecta | Todo número que el programa produzca como texto: `>>`, interpolación, y de ahí a donde vaya |
+| Qué no afecta | El contenido literal de las cadenas que tú escribes |
 | Punto decimal | Siempre ASCII `.` sin importar el modo activo |
 | Prefijo booleano | `#` siempre ASCII, el dígito se adapta al modo activo |
 | Resetear | `#09#` |
+
+---
+
+## Libertad y responsabilidad
+
+Aquí está la parte que hay que entender antes de usar esto en un programa de verdad, y que sorprende a casi todo el mundo la primera vez.
+
+**El modo numeral no es una opción de presentación: aplica a todo texto que el programa genere.** Si declaras `#०९#`, tus números se escriben en devanagari **en todas partes**:
+
+```
+#०९#
+n = 42
+
+archivo = "dato{n}.txt"        // → "dato४२.txt"
+<\ "echo {n}" \>               // → ejecuta: echo ४२
+? "{n}" == "42" { ... }        // → falso: "४२" no es "42"
+```
+
+Esto **no es un fallo**. Es la doctrina del lenguaje, y tiene nombre: **libertad de intención**. El programa declaró que sus números se escriben así, y Zymbol le hace caso sin preguntar dónde. Un lenguaje que decidiera por su cuenta que «aquí sí y aquí no» estaría adivinando qué querías.
+
+La contrapartida es la **responsabilidad del desarrollador**: validar las consecuencias es cosa de quien escribe el programa, no del intérprete.
+
+> **La única excepción son los formatos con gramática propia.** `json::encode` sigue emitiendo dígitos ASCII, porque un JSON con dígitos devanagari no es un JSON — ahí el contrato con el exterior manda sobre la intención del programa.
+
+### Cómo se usa esto sin hacerse daño
+
+La regla práctica cabe en una línea:
+
+> Activa el modo numeral **para presentar**, no antes de construir una ruta de archivo, una clave de datos o un comando.
+
+En un programa bien organizado eso sale solo, porque la presentación ya está separada del resto. En el juego [囲碁](https://github.com/zymbol-lang/zy-GO), por ejemplo, los registros de partidas se guardan siempre en ASCII: *«un conjunto de datos partido en dos idiomas son dos conjuntos de datos»*. Los rótulos que ve el jugador son otra cosa, y esos sí van en su escritura.
+
+Y donde Unicode no llega, se hace a mano. El juego [Hov veS](https://github.com/zymbol-lang/zyKlingonGalaxy) está en klingon, cuyas cifras viven en un bloque de uso privado, así que su capa de idioma tiene una función propia para eso:
+
+```
+mI'(n)       // un número en la escritura del idioma activo
+```
+
+Su README lo justifica en una línea que resume la lección entera: *«No es cosmética: el klingon escribe sus cifras en pIqaD y el inglés y el español en ASCII.»*
 
 ---
 
