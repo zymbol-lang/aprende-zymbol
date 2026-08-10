@@ -39,9 +39,9 @@ Una cena costó $450. Escribe un programa que calcule cuánto dejar de propina s
 ```
 Cuenta total: $450
 
-Propina 10%: $45.0   → Total: $495.0
+Propina 10%: $45     → Total: $495
 Propina 15%: $67.5   → Total: $517.5
-Propina 20%: $90.0   → Total: $540.0
+Propina 20%: $90     → Total: $540
 ```
 
 **Pista:** guarda el precio en una variable. Calcula cada propina multiplicando por el porcentaje y dividiendo entre 100.
@@ -132,10 +132,12 @@ Escribe tres funciones de conversión y un programa que muestre los resultados:
 ```
 === Conversor de unidades ===
 
-100 km      → 62.1371 millas
-25 °C       → 77.0 °F
+100 km      → 62.137100000000004 millas
+25 °C       → 77 °F
 70 kg       → 154.3234 libras
 ```
+
+**Nota:** el resultado en millas no sale exacto — es el mismo redondeo binario que afecta a cualquier lenguaje al multiplicar por `0.621371`. No es un error tuyo; verás más de esto en la lección de tipos del nivel intermedio.
 
 ---
 

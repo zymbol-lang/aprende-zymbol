@@ -26,6 +26,7 @@
   - [07 — Inspección de tipos](intermedio/07_tipos.md)
   - [08 — Módulos](intermedio/08_modulos.md)
   - [09 — La biblioteca estándar](intermedio/09_biblioteca.md)
+  - [Ejercicios](intermedio/ejercicios.md)
 
 - **Nivel Avanzado**
 
@@ -36,6 +37,7 @@
   - [04 — Modos numéricos](avanzado/04_numerales.md)
   - [05 — Herramientas del lenguaje](avanzado/05_herramientas.md)
   - [06 — Programar en tu idioma](avanzado/06_multilingue.md)
+  - [Ejercicios](avanzado/ejercicios.md)
   - [07 — Proyecto avanzado](avanzado/07_proyecto.md)
 
 - **Nivel Juegos**

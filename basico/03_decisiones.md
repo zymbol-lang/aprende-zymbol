@@ -211,6 +211,8 @@ nota = 85
 
 Esto no es un ejemplo de curso: es `logica.zy` del juego [Serpiente](https://github.com/zymbol-lang/zySerpiente), corriendo hoy. Traduce la tecla pulsada a una dirección de movimiento:
 
+> 🎮 Pruébalo ahora, sin instalar nada: [ábrelo en el playground →](https://zymbol-lang.org/playground.html?open=games/arcade/serpiente.zyp)
+
 ```
 // serpiente/logica.zy
 nueva_dir(tecla, dir) {

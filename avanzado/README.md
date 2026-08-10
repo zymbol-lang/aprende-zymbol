@@ -30,7 +30,7 @@ Se recomienda completar el [nivel intermedio](intermedio/README.md) antes de con
 
 ---
 
-Empieza por la [Lección 01 — Alcance y tiempo de vida](avanzado/01_alcance.md) y sigue en orden. Los [ejemplos](avanzado/ejemplos/) son archivos `.zy` listos para ejecutar, uno por lección.
+Empieza por la [Lección 01 — Alcance y tiempo de vida](avanzado/01_alcance.md) y sigue en orden. Los [ejemplos](https://github.com/zymbol-lang/aprende-zymbol/tree/main/avanzado/ejemplos) son archivos `.zy` listos para ejecutar, uno por lección. Los [ejercicios](avanzado/ejercicios.md) te dan práctica progresiva lección por lección, antes del proyecto final.
 
 ---
 

@@ -32,7 +32,7 @@ Al terminar estas ocho lecciones tendrás las herramientas para escribir program
 
 El [proyecto final](basico/09_proyecto.md) te propone construir uno de principio a fin. Los [ejercicios](basico/ejercicios.md) te dan práctica progresiva lección por lección.
 
-Empieza por la [Lección 01 — Instalación](basico/01_instalacion.md).
+Empieza por la [Lección 01 — Instalación](basico/01_instalacion.md). Los [ejemplos](https://github.com/zymbol-lang/aprende-zymbol/tree/main/basico/ejemplos) son archivos `.zy` listos para ejecutar, uno por lección.
 
 ---
 

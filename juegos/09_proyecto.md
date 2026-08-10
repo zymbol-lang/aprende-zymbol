@@ -175,9 +175,9 @@ Y una que vale por todas: **coge el juego, quítale `texto.zy` y `marco.zy`, y t
 
 Cuando termines de romper Atrapa, los tres proyectos de verdad te esperan, y ya sabes leerlos:
 
-- **[Serpiente](https://github.com/zymbol-lang/zySerpiente)** — el mismo esqueleto que acabas de estudiar, con delta rendering de verdad y su registro de hallazgos.
-- **[Hov veS](https://github.com/zymbol-lang/zyKlingonGalaxy)** — orquestación de cinco módulos, IA de formación, dos sistemas de proyectiles.
-- **[囲碁](https://github.com/zymbol-lang/zy-GO)** — 361 puntos de estado, recorrido recursivo de grafos, IA por capas y cinco idiomas.
+- **[Serpiente](https://github.com/zymbol-lang/zySerpiente)** — el mismo esqueleto que acabas de estudiar, con delta rendering de verdad y su registro de hallazgos. [Pruébalo aquí →](https://zymbol-lang.org/playground.html?open=games/arcade/serpiente.zyp)
+- **[Hov veS](https://github.com/zymbol-lang/zyKlingonGalaxy)** — orquestación de cinco módulos, IA de formación, dos sistemas de proyectiles. [Pruébalo aquí →](https://zymbol-lang.org/playground.html?open=games/arcade/klingon_galaxy.zyp)
+- **[囲碁](https://github.com/zymbol-lang/zy-GO)** — 361 puntos de estado, recorrido recursivo de grafos, IA por capas y cinco idiomas. [Pruébalo aquí →](https://zymbol-lang.org/playground.html?open=games/classic/go.zyp)
 
 Los tres tienen un archivo de hallazgos donde está anotado lo que se rompió y por qué. Es la parte que casi ningún proyecto publica y la que más se aprende leyendo.
 

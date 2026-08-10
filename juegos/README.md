@@ -12,11 +12,11 @@ El objeto de estudio es un juego de terminal. No porque hacer juegos sea el dest
 
 Todo lo que vas a leer aquí es código **real, publicado y en funcionamiento**. No hay fragmentos inventados para la ocasión.
 
-| Proyecto | Idioma del código | Qué aporta a este nivel |
-|---|---|---|
-| **[Serpiente](https://github.com/zymbol-lang/zySerpiente)** | español | La espina dorsal. Casi todo el código que leerás sale de aquí |
-| **[Hov veS](https://github.com/zymbol-lang/zyKlingonGalaxy)** | klingon (pIqaD) | Estado de sesión con `°`, catálogo i18n con cifras propias |
-| **[囲碁 (zy-GO)](https://github.com/zymbol-lang/zy-GO)** | japonés | Parámetros de salida `fn(x<~)`, recursión sobre grafos, 5 idiomas |
+| Proyecto | Idioma del código | Qué aporta a este nivel | Pruébalo |
+|---|---|---|---|
+| **[Serpiente](https://github.com/zymbol-lang/zySerpiente)** | español | La espina dorsal. Casi todo el código que leerás sale de aquí | [▶ Abrir](https://zymbol-lang.org/playground.html?open=games/arcade/serpiente.zyp) |
+| **[Hov veS](https://github.com/zymbol-lang/zyKlingonGalaxy)** | klingon (pIqaD) | Estado de sesión con `°`, catálogo i18n con cifras propias | [▶ Abrir](https://zymbol-lang.org/playground.html?open=games/arcade/klingon_galaxy.zyp) |
+| **[囲碁 (zy-GO)](https://github.com/zymbol-lang/zy-GO)** | japonés | Parámetros de salida `fn(x<~)`, recursión sobre grafos, 5 idiomas | [▶ Abrir](https://zymbol-lang.org/playground.html?open=games/classic/go.zyp) |
 
 Serpiente lleva la voz cantante por una razón práctica: **está escrito íntegramente en español**, igual que este curso. Cuando leas `mover(serpiente, dir, comida, puntos, AN, AL, crecer)` no estarás traduciendo mentalmente nada — es el mismo idioma en el que estás aprendiendo.
 
@@ -69,7 +69,9 @@ Las ocho primeras lecciones desmontan un juego que ya existe. La novena te hace 
 08 pruebas─┘
 ```
 
-Cada lección incluye un ejemplo ejecutable en [`juegos/ejemplos/`](juegos/ejemplos/). Los de las lecciones 01–07 son programas de una sola pantalla que aíslan un mecanismo; el de la 09 es el juego entero.
+Cada lección incluye un ejemplo ejecutable en [`juegos/ejemplos/`](https://github.com/zymbol-lang/aprende-zymbol/tree/main/juegos/ejemplos). Los de las lecciones 01–07 son programas de una sola pantalla que aíslan un mecanismo; el de la 09 es el juego entero.
+
+Este nivel no tiene una página de ejercicios aparte: sus ejercicios son [siete formas de ampliar Atrapa](juegos/09_proyecto.md#ahora-te-toca), una por cada lección del nivel, al final del proyecto final.
 
 ---
 

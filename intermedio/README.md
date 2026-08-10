@@ -28,7 +28,7 @@ La diferencia no está en aprender más sintaxis — está en cambiar cómo pien
 
 ---
 
-Empieza por la [Lección 01 — Tuplas](intermedio/01_tuplas.md) y sigue en orden. Los [ejemplos](intermedio/ejemplos/) son archivos `.zy` listos para ejecutar, uno por lección.
+Empieza por la [Lección 01 — Tuplas](intermedio/01_tuplas.md) y sigue en orden. Los [ejemplos](https://github.com/zymbol-lang/aprende-zymbol/tree/main/intermedio/ejemplos) son archivos `.zy` listos para ejecutar, uno por lección. Los [ejercicios](intermedio/ejercicios.md) te dan práctica progresiva lección por lección.
 
 ---
 

@@ -305,6 +305,8 @@ Círculo radio 3: 28.27431
 
 Una función de [Serpiente](https://github.com/zymbol-lang/zySerpiente), tal cual está en el repositorio. Devuelve la posición de una comida nueva que no caiga encima de la serpiente:
 
+> 🎮 Pruébalo ahora, sin instalar nada: [ábrelo en el playground →](https://zymbol-lang.org/playground.html?open=games/arcade/serpiente.zyp)
+
 ```
 // serpiente/logica.zy
 nueva_comida(serpiente, AN, AL, semilla) {

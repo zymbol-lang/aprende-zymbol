@@ -118,6 +118,8 @@ Este uso de las tuplas es el que sostiene los programas grandes en Zymbol. Como 
 
 Esta línea es del juego [Serpiente](https://github.com/zymbol-lang/zySerpiente), y es su tick completo:
 
+> 🎮 Pruébalo ahora, sin instalar nada: [ábrelo en el playground →](https://zymbol-lang.org/playground.html?open=games/arcade/serpiente.zyp)
+
 ```
 // serpiente/juego.zy
 [vivo, serpiente, puntos, comio] = l::mover(serpiente, dir, comida, puntos, AN, AL, crecer)
