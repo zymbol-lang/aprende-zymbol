@@ -74,6 +74,8 @@ Precisión, integración con el sistema y el ecosistema completo del lenguaje.
 
 Los tres niveles anteriores enseñan el lenguaje. Este enseña a **construir algo con él**: un juego de terminal, desmontando el código real de [Serpiente](https://github.com/zymbol-lang/zySerpiente), [Hov veS](https://github.com/zymbol-lang/zyKlingonGalaxy) y [囲碁](https://github.com/zymbol-lang/zy-GO).
 
+🎮 Pruébalos ahora mismo, sin instalar nada: [Serpiente](https://zymbol-lang.org/playground.html?open=games/arcade/serpiente.zyp) · [Hov veS](https://zymbol-lang.org/playground.html?open=games/arcade/klingon_galaxy.zyp) · [囲碁](https://zymbol-lang.org/playground.html?open=games/classic/go.zyp)
+
 | # | Lección | Tema |
 |---|---------|------|
 | 01 | [La terminal como lienzo](juegos/01_lienzo.md) | `>>\|`, `>>~`, `>>?`, `<<\|?`, `@~` |

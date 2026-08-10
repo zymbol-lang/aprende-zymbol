@@ -274,6 +274,8 @@ Registrado: Luis (id=2)
 
 Esta es la estructura completa de [Serpiente](https://github.com/zymbol-lang/zySerpiente), un juego de terminal escrito íntegramente en español:
 
+> 🎮 Pruébalo ahora, sin instalar nada: [ábrelo en el playground →](https://zymbol-lang.org/playground.html?open=games/arcade/serpiente.zyp)
+
 ```
 serpiente/
 ├── serpiente.zy    punto de entrada — preselecciona español

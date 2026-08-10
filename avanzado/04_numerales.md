@@ -189,7 +189,11 @@ La regla práctica cabe en una línea:
 
 En un programa bien organizado eso sale solo, porque la presentación ya está separada del resto. En el juego [囲碁](https://github.com/zymbol-lang/zy-GO), por ejemplo, los registros de partidas se guardan siempre en ASCII: *«un conjunto de datos partido en dos idiomas son dos conjuntos de datos»*. Los rótulos que ve el jugador son otra cosa, y esos sí van en su escritura.
 
+> 🎮 Pruébalo ahora, sin instalar nada: [ábrelo en el playground →](https://zymbol-lang.org/playground.html?open=games/classic/go.zyp)
+
 Y donde Unicode no llega, se hace a mano. El juego [Hov veS](https://github.com/zymbol-lang/zyKlingonGalaxy) está en klingon, cuyas cifras viven en un bloque de uso privado, así que su capa de idioma tiene una función propia para eso:
+
+> 🎮 Pruébalo ahora, sin instalar nada: [ábrelo en el playground →](https://zymbol-lang.org/playground.html?open=games/arcade/klingon_galaxy.zyp)
 
 ```
 mI'(n)       // un número en la escritura del idioma activo

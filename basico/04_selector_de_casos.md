@@ -248,6 +248,8 @@ El mes 4 es abril
 
 El uso más potente de `??` no es elegir entre tres o cuatro casos: es **ser una tabla entera**. Este es el catálogo de textos en español del juego [Serpiente](https://github.com/zymbol-lang/zySerpiente), recortado:
 
+> 🎮 Pruébalo ahora, sin instalar nada: [ábrelo en el playground →](https://zymbol-lang.org/playground.html?open=games/arcade/serpiente.zyp)
+
 ```
 // serpiente/idioma/español.zy
 texto(clave) {

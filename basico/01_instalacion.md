@@ -4,8 +4,12 @@
 
 Antes de escribir código necesitas tener Zymbol instalado en tu computadora. Esta lección te lleva paso a paso dependiendo de tu sistema operativo.
 
-> Si no quieres instalar nada todavía, puedes usar el **playground en línea** y escribir código directamente desde el navegador:
-> [zymbol-lang.org/playground.html](https://zymbol-lang.org/playground.html)
+> **Instalar es la opción recomendada** — tienes el intérprete completo, sin límites de tiempo de ejecución ni de tamaño de salida, y con acceso real al sistema (archivos, comandos, `std/db`). Pero si todavía no puedes instalar — estás en un equipo prestado, en el celular, o solo quieres ver si esto es para ti antes de comprometerte — el **playground en línea** es una opción real, no un sustituto a medias: corre el mismo lenguaje en el navegador, sin cuenta ni descarga.
+>
+> No nos creas la palabra. Este es `juego.zy` de Serpiente, un programa real, corriendo ahora mismo en tu navegador:
+> [ábrelo en el playground →](https://zymbol-lang.org/playground.html?open=games/arcade/serpiente.zyp)
+>
+> Casi todas las lecciones de este curso — básico e intermedio completos, y la mayor parte de avanzado — se pueden seguir enteras desde el playground: `std/io` funciona (contra un sistema de archivos en memoria, no el tuyo), y hasta el modo de terminal (`>>|`) de la lección de Juegos corre ahí. La excepción real es **avanzado 03 — Integración con el sistema** (`</ script.zy />`, `<\ cmd \>` para ejecutar programas externos) y `std/db`: eso sí necesita el intérprete instalado. Fuera de eso, una ejecución se corta a los 50 000 pasos (2 000 000 si cargas un `.zyp`, como los juegos de arriba) — de sobra para el resto del curso. El detalle completo está en [zymbol-lang.org/playground.html](https://zymbol-lang.org/playground.html).
 
 ---
 

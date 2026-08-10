@@ -45,6 +45,8 @@ contar_vocales(palabra) {
 
 El proyecto [Serpiente](https://github.com/zymbol-lang/zySerpiente) está escrito **completamente en español**: cada función, cada variable y cada comentario. Un fragmento real de su lógica:
 
+> 🎮 Pruébalo ahora, sin instalar nada: [ábrelo en el playground →](https://zymbol-lang.org/playground.html?open=games/arcade/serpiente.zyp)
+
 ```
 // Entero aleatorio en [min, max] — retorna (valor, semilla_siguiente)
 rango_aleatorio(semilla, min, max) {
@@ -167,6 +169,8 @@ Los nombres de archivo también pueden estar en cualquier alfabeto (`ελλην�
 ### Esto se hace con motores enteros, no con ejemplos
 
 [囲碁](https://github.com/zymbol-lang/zy-GO) está escrito en japonés y publica su motor en inglés y en español mediante dos capas de re-exportación puras:
+
+> 🎮 Pruébalo ahora, sin instalar nada: [ábrelo en el playground →](https://zymbol-lang.org/playground.html?open=games/classic/go.zyp)
 
 ```
 // GO/api/espanol.zy

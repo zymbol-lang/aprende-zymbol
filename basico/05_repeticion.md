@@ -230,6 +230,8 @@ Fin
 
 Un juego es, literalmente, un bucle infinito. Este es el corazón del juego [Serpiente](https://github.com/zymbol-lang/zySerpiente), con dos bucles anidados:
 
+> 🎮 Pruébalo ahora, sin instalar nada: [ábrelo en el playground →](https://zymbol-lang.org/playground.html?open=games/arcade/serpiente.zyp)
+
 ```
 // serpiente/juego.zy
 @:main {                         // ← una partida tras otra
