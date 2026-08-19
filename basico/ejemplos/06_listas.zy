@@ -9,7 +9,7 @@ frutas = ["manzana", "pera", "uva", "mango"]
 
 // --- Modificar elemento ---
 notas = [8, 7, 9, 6]
-notas[2] = 10
+notas[2]$~ 10
 >> "Notas: " notas ¶
 
 // --- Agregar ---

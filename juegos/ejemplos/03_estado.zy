@@ -39,7 +39,7 @@ pintar(tablero<~, desde, hasta) {
     i = desde
     n = 0
     @ i <= hasta {
-        tablero[i] = "█"
+        tablero[i]$~ "█"
         i = i + 1
         n = n + 1
     }
