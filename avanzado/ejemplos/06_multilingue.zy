@@ -21,7 +21,7 @@ arch::borrar("bitacora.txt")
 // --- Datos externos, en español: decode_map ---
 // Las claves de un JSON externo vienen en inglés.
 // decodificar_con las renombra al vuelo, a cualquier profundidad.
-respuesta = "\{\"name\": \"Río Amazonas\", \"length_km\": 6800}"
+respuesta = "\{\"name\": \"Río Amazonas\", \"length_km\": 6800\}"
 
 diccionario = (name: "nombre", length_km: "longitud_km")
 rio = json::decodificar_con(respuesta, diccionario)

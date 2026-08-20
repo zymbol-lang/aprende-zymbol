@@ -42,7 +42,7 @@ perdido = io::read("no_existe.txt")
 
 // --- std/json: convertir datos a texto y de vuelta ---
 >> ¶
-texto = "\{\"nombre\": \"Ana\", \"edad\": 30}"
+texto = "\{\"nombre\": \"Ana\", \"edad\": 30\}"
 persona = json::decode(texto)
 >> "nombre: " persona.nombre ¶
 >> "edad:   " persona.edad ¶
