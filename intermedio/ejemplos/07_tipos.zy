@@ -78,12 +78,12 @@ validar(texto, min, max) {
     tf = rf[1]
 
     ? (tipo <> ti) && (tipo <> tf) {
-        <~ (ok: #0, msg: "no es número")
+        <~ #(ok: #0, msg: "no es número")
     }
     ? valor < min || valor > max {
-        <~ (ok: #0, msg: "fuera de rango")
+        <~ #(ok: #0, msg: "fuera de rango")
     }
-    <~ (ok: #1, valor: valor)
+    <~ #(ok: #1, valor: valor)
 }
 
 @ t:["25", "xyz", "-5", "150", "75"] {

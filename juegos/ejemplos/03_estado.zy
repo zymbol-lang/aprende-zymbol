@@ -70,7 +70,7 @@ puntos = 0
 tablero = []
 @ _i : 1..ANCHO { tablero = tablero $+ "·" }
 
-pintadas = pintar(tablero, 6, 11)
+pintadas = pintar(tablero<~, 6, 11)
 >> "  pintadas: {pintadas}" ¶
 >> "  tablero:  " ¶
 fila = ""

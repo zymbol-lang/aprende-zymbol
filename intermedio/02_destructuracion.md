@@ -5,7 +5,7 @@
 Cuando una función devuelve una tupla o cuando recorres una lista de registros, frecuentemente necesitas extraer varios valores al mismo tiempo. Sin desestructuración, eso requiere una línea por campo:
 
 ```
-punto = (x: 10, y: 20, z: 30)
+punto = #(x: 10, y: 20, z: 30)
 x = punto.x
 y = punto.y
 z = punto.z
@@ -66,21 +66,21 @@ triple = (1, 2, 3)
 Con tuplas nombradas, especificas el campo que quieres y el nombre de la variable local que lo recibirá:
 
 ```
-persona = (nombre: "Ana", edad: 25, ciudad: "Lima")
+persona = #(nombre: "Ana", edad: 25, ciudad: "Lima")
 
-(nombre: n, edad: a) = persona    // n="Ana"  a=25
+#(nombre: n, edad: a) = persona    // n="Ana"  a=25
 ```
 
 No tienes que extraer todos los campos — solo los que necesitas:
 
 ```
-(ciudad: donde) = persona    // donde="Lima"
+#(ciudad: donde) = persona    // donde="Lima"
 ```
 
 Puedes cambiar el nombre libremente:
 
 ```
-(nombre: quien, ciudad: donde) = persona    // quien="Ana"  donde="Lima"
+#(nombre: quien, ciudad: donde) = persona    // quien="Ana"  donde="Lima"
 ```
 
 ---
@@ -91,13 +91,13 @@ Desestructurar dentro de un `@` es especialmente útil cuando recorres listas de
 
 ```
 contactos = [
-    (nombre: "Ana", tel: "555-0001"),
-    (nombre: "Luis", tel: "555-0002"),
-    (nombre: "Mía", tel: "555-0003")
+    #(nombre: "Ana", tel: "555-0001"),
+    #(nombre: "Luis", tel: "555-0002"),
+    #(nombre: "Mía", tel: "555-0003")
 ]
 
 @ c:contactos {
-    (nombre: n, tel: t) = c
+    #(nombre: n, tel: t) = c
     >> n ": " t ¶
 }
 ```
@@ -117,10 +117,10 @@ Cuando una función devuelve una tupla, la desestructuración evita crear una va
 
 ```
 dividir(a, b) {
-    <~ (cociente: a / b, resto: a % b)
+    <~ #(cociente: a / b, resto: a % b)
 }
 
-(cociente: q, resto: r) = dividir(17, 5)
+#(cociente: q, resto: r) = dividir(17, 5)
 >> "Cociente: " q ¶    // → Cociente: 3
 >> "Resto: " r ¶       // → Resto: 2
 ```
@@ -148,7 +148,7 @@ Todos los patrones se resuelven de izquierda a derecha. Si el patrón tiene más
 | Con colector | `[h, *t] = [1, 2, 3]` | `h=1 t=[2,3]` |
 | Descartar | `[x, _, z] = [1, 2, 3]` | `x=1 z=3` |
 | Tupla posicional | `(px, py) = (10, 20)` | `px=10 py=20` |
-| Tupla nombrada | `(campo: var) = tupla` | `var=tupla.campo` |
+| Tupla nombrada | `#(campo: var) = tupla` | `var=tupla.campo` |
 
 ---
 

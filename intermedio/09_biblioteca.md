@@ -109,7 +109,7 @@ persona = json::decode(texto)
 Un objeto JSON se convierte en una **tupla con campos nombrados** (lección 01), y una lista JSON en una **lista** normal. La dirección contraria es `encode`:
 
 ```
-de_vuelta = json::encode((ciudad: "Lima", habitantes: 10000000))
+de_vuelta = json::encode(#(ciudad: "Lima", habitantes: 10000000))
 >> de_vuelta ¶    // → {"ciudad":"Lima","habitantes":10000000}
 ```
 

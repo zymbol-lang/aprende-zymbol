@@ -33,9 +33,9 @@ verificar_archivo(ruta) {
     codigo_salida = lineas[-1]
 
     ? codigo_salida == "0" {
-        <~ (ok: #1, msg: "sin errores")
+        <~ #(ok: #1, msg: "sin errores")
     }
-    <~ (ok: #0, msg: check)
+    <~ #(ok: #0, msg: check)
 }
 
 // Verificar este mismo archivo

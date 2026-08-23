@@ -37,7 +37,7 @@ Cada línea del log tiene el formato:
         // Extraer fecha, hora, nivel y mensaje
         partes = linea$/" "    // dividir por espacio
         ? (partes$#) < 4 {
-            <~ (valida: #0)
+            <~ #(valida: #0)
         }
         // El mensaje son todas las palabras desde la cuarta en adelante:
         // se parte de la cuarta y se le van uniendo las siguientes

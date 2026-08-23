@@ -47,5 +47,5 @@ persona = json::decode(texto)
 >> "nombre: " persona.nombre ¶
 >> "edad:   " persona.edad ¶
 
-de_vuelta = json::encode((ciudad: "Lima", habitantes: 10000000))
+de_vuelta = json::encode(#(ciudad: "Lima", habitantes: 10000000))
 >> "codificado: " de_vuelta ¶
