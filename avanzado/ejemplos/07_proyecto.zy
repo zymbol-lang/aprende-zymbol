@@ -30,12 +30,12 @@ log_simulado = [
 parsear_linea(linea) {
     partes = linea$/" "
     ? (partes$#) < 4 {
-        <~ (valida: #0)
+        <~ #(valida: #0)
     }
     // El mensaje son todas las palabras desde la cuarta en adelante:
     // se parte de la cuarta y se le van uniendo las siguientes
     mensaje = partes$[5..-1]$< (partes[4], (acc, p) -> "{acc} {p}")
-    <~ (
+    <~ #(
         valida:   #1,
         fecha:    partes[1],
         hora:     partes[2],
@@ -51,7 +51,7 @@ calcular_metricas(entradas) {
     warns   = entradas$| (e -> e.nivel == "WARN")
     infos   = entradas$| (e -> e.nivel == "INFO")
 
-    <~ (
+    <~ #(
         total:      total,
         errores:    errores$#,
         warnings:   warns$#,

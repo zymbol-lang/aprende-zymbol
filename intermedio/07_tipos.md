@@ -168,14 +168,14 @@ validar_entrada(texto, minimo, maximo) {
     ri = 0#?   ;  ti = ri[1]
     rf = 0.0#? ;  tf = rf[1]
     ? (tipo <> ti) && (tipo <> tf) {
-        <~ (valido: #0, mensaje: "No es un número")
+        <~ #(valido: #0, mensaje: "No es un número")
     }
 
     ? valor < minimo || valor > maximo {
-        <~ (valido: #0, mensaje: "Fuera de rango ({minimo}–{maximo})")
+        <~ #(valido: #0, mensaje: "Fuera de rango ({minimo}–{maximo})")
     }
 
-    <~ (valido: #1, mensaje: "OK", valor: valor)
+    <~ #(valido: #1, mensaje: "OK", valor: valor)
 }
 
 pruebas = ["25", "abc", "-5", "150", "75"]

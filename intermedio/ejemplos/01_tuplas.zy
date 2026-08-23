@@ -2,11 +2,11 @@
 // Ejecutar: zymbol run 01_tuplas.zy
 
 // Tupla posicional (con campos nombrados para acceso seguro)
-punto = (x: 10, y: 20)
+punto = #(x: 10, y: 20)
 >> "Punto: (" punto.x ", " punto.y ")" ¶
 
 // Tupla con campos nombrados
-persona = (nombre: "Ana", edad: 25, activa: #1)
+persona = #(nombre: "Ana", edad: 25, activa: #1)
 >> persona.nombre " tiene " persona.edad " años" ¶
 
 // Inmutabilidad — actualizar crea una nueva tupla
@@ -16,13 +16,13 @@ t2 = t[2]$~ 999
 >> "Nuevo:    " t2 ¶
 
 // Tuplas anidadas
-pos    = (x: 3, y: 7)
-figura = (centro: pos, radio: 5, color: "azul")
+pos    = #(x: 3, y: 7)
+figura = #(centro: pos, radio: 5, color: "azul")
 >> "Centro en (" figura.centro.x ", " figura.centro.y "), radio " figura.radio ¶
 
 // Función que devuelve tupla
 division(a, b) {
-    <~ (cociente: a / b, resto: a % b)
+    <~ #(cociente: a / b, resto: a % b)
 }
 
 r = division(17, 5)
@@ -30,9 +30,9 @@ r = division(17, 5)
 
 // Lista de tuplas
 productos = [
-    (nombre: "pan",   precio: 1.50),
-    (nombre: "leche", precio: 2.00),
-    (nombre: "queso", precio: 4.75)
+    #(nombre: "pan",   precio: 1.50),
+    #(nombre: "leche", precio: 2.00),
+    #(nombre: "queso", precio: 4.75)
 ]
 >> ¶
 >> "=== Productos ===" ¶

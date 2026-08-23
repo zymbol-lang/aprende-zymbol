@@ -229,13 +229,13 @@ Un pequeño sistema de registro dividido en tres archivos:
 
     crear_usuario(nombre, email) {
         ? !v::es_valido_usuario(nombre) {
-            <~ (ok: #0, error: "Nombre inválido")
+            <~ #(ok: #0, error: "Nombre inválido")
         }
         ? !v::es_valido_email(email) {
-            <~ (ok: #0, error: "Email inválido")
+            <~ #(ok: #0, error: "Email inválido")
         }
         total = total + 1
-        <~ (ok: #1, id: total)
+        <~ #(ok: #1, id: total)
     }
 }
 ```

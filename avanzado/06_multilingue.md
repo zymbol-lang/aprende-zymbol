@@ -287,7 +287,7 @@ Para eso `std/json` trae `decode_map`: decodifica el JSON **y** renombra las cla
 
 respuesta = "\{\"name\": \"Río Amazonas\", \"length_km\": 6800}"
 
-diccionario = (name: "nombre", length_km: "longitud_km")
+diccionario = #(name: "nombre", length_km: "longitud_km")
 rio = json::decodificar_con(respuesta, diccionario)
 
 >> rio.nombre ¶         // → Río Amazonas

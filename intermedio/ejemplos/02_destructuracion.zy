@@ -20,26 +20,26 @@ punto = (100, 200)
 >> "px=" px "  py=" py ¶
 
 // Desestructuración de tupla con nombres
-persona = (nombre: "Luis", edad: 30, ciudad: "Lima")
-(nombre: n, ciudad: donde) = persona
+persona = #(nombre: "Luis", edad: 30, ciudad: "Lima")
+#(nombre: n, ciudad: donde) = persona
 >> n " vive en " donde ¶
 
 // En bucles
 contactos = [
-    (nombre: "Ana",  tel: "555-0001"),
-    (nombre: "Luis", tel: "555-0002"),
-    (nombre: "Mía",  tel: "555-0003")
+    #(nombre: "Ana",  tel: "555-0001"),
+    #(nombre: "Luis", tel: "555-0002"),
+    #(nombre: "Mía",  tel: "555-0003")
 ]
 >> ¶
 >> "=== Contactos ===" ¶
 @ c:contactos {
-    (nombre: nombre, tel: tel) = c
+    #(nombre: nombre, tel: tel) = c
     >> "  " nombre ": " tel ¶
 }
 
 // Valor de retorno de función
-division(a, b) { <~ (cociente: a / b, resto: a % b) }
+division(a, b) { <~ #(cociente: a / b, resto: a % b) }
 
-(cociente: q, resto: r) = division(23, 7)
+#(cociente: q, resto: r) = division(23, 7)
 >> ¶
 >> "23 / 7: cociente=" q "  resto=" r ¶
