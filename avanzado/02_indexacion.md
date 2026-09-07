@@ -171,12 +171,41 @@ m = [[1,2], [3,4]]
 
 ## Nota sobre la sintaxis antigua
 
-La forma encadenada `arr[i][j]` aún funciona pero está deprecada. La forma canónica es `arr[i>j]`:
+La forma encadenada `arr[i][j]` **no existe en Zymbol**. Un grupo de corchetes
+direcciona un elemento, por hondo que esté, y `>` es lo que va entre los pasos:
 
 ```
 m = [[1,2,3], [4,5,6], [7,8,9]]
->> m[2][3] ¶    // funciona, pero deprecada
->> m[2>3] ¶     // forma canónica
+>> m[2>3] ¶     // → 6
+>> m[2][3] ¶    // error: chained index does not exist
+```
+
+Estuvo deprecada desde la v0.0.4 y se cerró en la v0.0.9. Si vienes de C, Python
+o JavaScript, esta es la costumbre que hay que dejar: allí encadenar corchetes es
+la única manera de bajar un nivel, y aquí bajar niveles es justo lo que el
+navegador `>` dice en una sola lectura.
+
+La regla es sobre **cómo se direcciona**, no sobre qué se hace después. Da igual
+lo que venga detrás del corchete: `m[2][3]`, `m[2][3]$~ 0`, `x = m[2][3]$~ 0` y
+`m[2][3]$+ 5` caen todos por lo mismo.
+
+Lo que se prohíbe es **navegar en dos saltos**: los dos corchetes bajando por la
+misma estructura, que es justo lo que `>` hace en uno. Un corchete detrás de algo
+que no es a su vez un acceso es un grupo, no una cadena, y sigue valiendo:
+
+```
+>> [1,2,3][2] ¶                        // → 2       indexar un literal
+>> f()[2] ¶                            // → …       indexar lo que devolvió la llamada
+>> m[[1>1, 1>3] ; [3>1, 3>3]][1] ¶     // → [1, 3]  indexar lo que armó una extracción
+```
+
+La última merece explicación. Una extracción no *baja* por `m`: recoge valores de
+varios sitios y **construye una colección nueva**, que no estaba en `m`:
+
+```
+m = [[1,2,3], [4,5,6], [7,8,9]]
+esquinas = m[[1>1, 1>3] ; [3>1, 3>3]]     // → [[1, 3], [7, 9]]  — un valor nuevo
+>> esquinas[1] ¶                          // → [1, 3]            — un solo acceso
 ```
 
 ---
