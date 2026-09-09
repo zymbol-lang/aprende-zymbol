@@ -50,7 +50,7 @@
     }
 
     _mostrar(filas, AN, AL, color) {
-        [f0, c0] = _centrar(filas, AN, AL)
+        (f0, c0) = _centrar(filas, AN, AL)
         _pintar(filas, f0, c0, color)
     }
 

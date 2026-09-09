@@ -22,7 +22,7 @@
 
         // Dimensiones derivadas del tamaño real de la terminal.
         // Ningún ancho está tecleado en el programa.
-        [filas, cols] = >>?
+        (filas, cols) = >>?
         AN = cols  - 2
         AL = filas - 3
 
@@ -63,7 +63,7 @@
                         // @:game! enseñaría la pantalla de fin de
                         // partida con un puntaje que el jugador no
                         // perdió.
-                        [fa, ca] = >>?
+                        (fa, ca) = >>?
                         ? fa <> ult_filas || ca <> ult_cols {
                             AN = ca - 2
                             AL = fa - 3
@@ -86,7 +86,7 @@
 
                         reloj = reloj + 1
                         ? reloj % 4 == 0 {
-                            [nueva, semilla] = l::nueva_pieza(AN, semilla)
+                            (nueva, semilla) = l::nueva_pieza(AN, semilla)
                             piezas = piezas $+ nueva
                         }
 

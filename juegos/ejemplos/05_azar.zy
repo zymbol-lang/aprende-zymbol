@@ -33,7 +33,7 @@ rango_aleatorio(semilla, min, max) {
 
 fruta_aleatoria(semilla) {
     frutas = ["🍎", "🍊", "🍋", "🍇", "🍓", "🫐", "🍑", "🥝", "🍒", "🍉"]
-    [ind, s1] = rango_aleatorio(semilla, 1, frutas$#)
+    (ind, s1) = rango_aleatorio(semilla, 1, frutas$#)
     <~ (frutas[ind], s1)
 }
 
@@ -52,12 +52,12 @@ en_cuerpo(cuerpo, pos) {
 // puede no terminar nunca. Mejor un fallo rarísimo y visible que
 // un cuelgue.
 nueva_comida(cuerpo, AN, AL, semilla) {
-    [r, s1] = rango_aleatorio(semilla, 2, AL + 1)
-    [c, s2] = rango_aleatorio(s1,     2, AN)
+    (r, s1) = rango_aleatorio(semilla, 2, AL + 1)
+    (c, s2) = rango_aleatorio(s1,     2, AN)
     pos = (r, c)
     ? en_cuerpo(cuerpo, pos) {
-        [r, s1] = rango_aleatorio(s2, 2, AL + 1)
-        [c, s2] = rango_aleatorio(s1, 2, AN)
+        (r, s1) = rango_aleatorio(s2, 2, AL + 1)
+        (c, s2) = rango_aleatorio(s1, 2, AN)
         pos = (r, c)
     }
     <~ (pos, s2)
@@ -70,7 +70,7 @@ nueva_comida(cuerpo, AN, AL, semilla) {
 s = 12345
 tirada = ""
 @ _i : 1..8 {
-    [v, s] = rango_aleatorio(s, 1, 6)
+    (v, s) = rango_aleatorio(s, 1, 6)
     tirada = tirada "{v} "
 }
 >> "  semilla 12345 → {tirada}" ¶
@@ -80,7 +80,7 @@ tirada = ""
 s = 12345
 tirada = ""
 @ _i : 1..8 {
-    [v, s] = rango_aleatorio(s, 1, 6)
+    (v, s) = rango_aleatorio(s, 1, 6)
     tirada = tirada "{v} "
 }
 >> "  semilla 12345 → {tirada}  ← idéntica" ¶
@@ -88,7 +88,7 @@ tirada = ""
 s = 999
 tirada = ""
 @ _i : 1..8 {
-    [v, s] = rango_aleatorio(s, 1, 6)
+    (v, s) = rango_aleatorio(s, 1, 6)
     tirada = tirada "{v} "
 }
 >> "  semilla 999   → {tirada}" ¶
@@ -101,7 +101,7 @@ tirada = ""
 s = 12345
 tirada = ""
 @ _i : 1..8 {
-    [v, _basura] = rango_aleatorio(s, 1, 6)
+    (v, _basura) = rango_aleatorio(s, 1, 6)
     tirada = tirada "{v} "
 }
 >> "  sin reponer  → {tirada}  ← el generador está clavado" ¶
@@ -119,7 +119,7 @@ _rnd = <\ "od -An -N2 -tu2 /dev/urandom | tr -d ' \n'" \>
 semilla = (#|_ns| + #|_pid| * 31337 + #|_rnd| * 65537) % M
 >> "  semilla del reloj: {semilla}   ← distinta en cada ejecución" ¶
 
-[fruta, semilla] = fruta_aleatoria(semilla)
+(fruta, semilla) = fruta_aleatoria(semilla)
 >> "  fruta sorteada:    " fruta ¶
 
 >> ¶
@@ -130,7 +130,7 @@ semilla = (#|_ns| + #|_pid| * 31337 + #|_rnd| * 65537) % M
 conteo = [0, 0, 0, 0, 0, 0]
 s = 2024
 @ _i : 1..6000 {
-    [cara, s] = rango_aleatorio(s, 1, 6)
+    (cara, s) = rango_aleatorio(s, 1, 6)
     conteo[cara]$~ (conteo[cara] + 1)
 }
 
@@ -146,7 +146,7 @@ s = 2024
 cuerpo = [(5, 5), (5, 6), (5, 7), (6, 7), (7, 7)]
 s = 777
 @ _i : 1..5 {
-    [pos, s] = nueva_comida(cuerpo, 20, 10, s)
+    (pos, s) = nueva_comida(cuerpo, 20, 10, s)
     choca = en_cuerpo(cuerpo, pos)
     marca = "libre"
     ? choca { marca = "OCUPADA — el reintento también falló" }

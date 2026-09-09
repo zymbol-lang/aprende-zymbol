@@ -38,8 +38,8 @@
     // Una pieza nueva en la fila de arriba. Una de cada cuatro es
     // mala. Devuelve (pieza, semilla).
     nueva_pieza(AN, semilla) {
-        [c, s1] = rango(semilla, 2, AN + 1)
-        [t, s2] = rango(s1, 1, 4)
+        (c, s1) = rango(semilla, 2, AN + 1)
+        (t, s2) = rango(s1, 1, 4)
         tipo = BUENA
         ? t == 4 { tipo = MALA }
         <~ ((2, c, tipo), s2)

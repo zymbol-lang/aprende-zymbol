@@ -65,13 +65,13 @@ comprobar(nombre, real, esperado) {
 
 // La misma semilla da la misma secuencia. Es lo que permite
 // reproducir una partida entera para perseguir un fallo.
-[a1, s1] = l::rango(12345, 1, 100)
-[a2, _s] = l::rango(12345, 1, 100)
+(a1, s1) = l::rango(12345, 1, 100)
+(a2, _s) = l::rango(12345, 1, 100)
 fallos = fallos + comprobar("misma semilla, mismo valor", a1, a2)
 pruebas = pruebas + 1
 
 // Y avanza: dos tiradas seguidas no dan lo mismo.
-[b1, _t] = l::rango(s1, 1, 100)
+(b1, _t) = l::rango(s1, 1, 100)
 ? b1 == a1 {
     >> "  FALLA la semilla no avanzó" ¶
     fallos = fallos + 1
@@ -84,7 +84,7 @@ pruebas = pruebas + 1
 s = 2024
 fuera = 0
 @ _i : 1..2000 {
-    [v, s] = l::rango(s, 5, 9)
+    (v, s) = l::rango(s, 5, 9)
     ? v < 5 || v > 9 { fuera = fuera + 1 }
 }
 fallos = fallos + comprobar("2000 tiradas dentro de [5,9]", fuera, 0)
@@ -119,7 +119,7 @@ pruebas = pruebas + 5
 // AN=40, AL=15 → el suelo (la cesta) está en la fila 16.
 
 // Una pieza a media altura solo baja una fila.
-[p1, pt1, v1, c1] = l::caer([(5, 10, 1)], 20, 40, 15, 0, 3)
+(p1, pt1, v1, c1) = l::caer([(5, 10, 1)], 20, 40, 15, 0, 3)
 fallos = fallos + comprobar_array("baja una fila",      p1, [(6, 10, 1)])
 fallos = fallos + comprobar("no toca los puntos", pt1, 0)
 fallos = fallos + comprobar("no toca las vidas",  v1, 3)
@@ -127,33 +127,33 @@ fallos = fallos + comprobar_array("marca su celda vieja para borrar", c1, [(5, 1
 pruebas = pruebas + 4
 
 // Buena atrapada: +10 y desaparece de la lista.
-[p2, pt2, v2, _c] = l::caer([(15, 20, 1)], 20, 40, 15, 0, 3)
+(p2, pt2, v2, _c) = l::caer([(15, 20, 1)], 20, 40, 15, 0, 3)
 fallos = fallos + comprobar_array("buena atrapada: fuera", p2, [])
 fallos = fallos + comprobar("buena atrapada: +10",   pt2, 10)
 fallos = fallos + comprobar("buena atrapada: vidas", v2, 3)
 pruebas = pruebas + 3
 
 // Buena que se cae al suelo: cuesta una vida.
-[_p, pt3, v3, _d] = l::caer([(15, 2, 1)], 20, 40, 15, 50, 3)
+(_p, pt3, v3, _d) = l::caer([(15, 2, 1)], 20, 40, 15, 50, 3)
 fallos = fallos + comprobar("buena perdida: -1 vida", v3, 2)
 fallos = fallos + comprobar("buena perdida: puntos intactos", pt3, 50)
 pruebas = pruebas + 2
 
 // Mala atrapada: cuesta una vida.
-[_q, pt4, v4, _e] = l::caer([(15, 20, 2)], 20, 40, 15, 50, 3)
+(_q, pt4, v4, _e) = l::caer([(15, 20, 2)], 20, 40, 15, 50, 3)
 fallos = fallos + comprobar("mala atrapada: -1 vida", v4, 2)
 fallos = fallos + comprobar("mala atrapada: puntos intactos", pt4, 50)
 pruebas = pruebas + 2
 
 // Mala esquivada: no pasa nada. Es lo que hace que esquivar sea
 // una jugada y no una omisión.
-[_r, pt5, v5, _f] = l::caer([(15, 2, 2)], 20, 40, 15, 50, 3)
+(_r, pt5, v5, _f) = l::caer([(15, 2, 2)], 20, 40, 15, 50, 3)
 fallos = fallos + comprobar("mala esquivada: vidas intactas", v5, 3)
 fallos = fallos + comprobar("mala esquivada: puntos intactos", pt5, 50)
 pruebas = pruebas + 2
 
 // Varias piezas a la vez, que es el caso real.
-[p6, pt6, v6, c6] = l::caer([(15, 20, 1), (5, 3, 1), (15, 30, 2)], 20, 40, 15, 0, 3)
+(p6, pt6, v6, c6) = l::caer([(15, 20, 1), (5, 3, 1), (15, 30, 2)], 20, 40, 15, 0, 3)
 fallos = fallos + comprobar_array("solo sobrevive la que iba por el aire", p6, [(6, 3, 1)])
 fallos = fallos + comprobar("la buena sumó",   pt6, 10)
 fallos = fallos + comprobar("la mala esquivada no quitó vida", v6, 3)
@@ -162,7 +162,7 @@ pruebas = pruebas + 4
 
 // Ninguna pieza llega nunca a la fila de la cesta: si la pisara,
 // el borrado de su posición vieja se comería el dibujo de la cesta.
-[p7, _g2, _h2, _i2] = l::caer([(15, 20, 1), (15, 2, 1)], 20, 40, 15, 0, 3)
+(p7, _g2, _h2, _i2) = l::caer([(15, 20, 1), (15, 2, 1)], 20, 40, 15, 0, 3)
 fallos = fallos + comprobar_array("nadie se queda en la fila del suelo", p7, [])
 pruebas = pruebas + 1
 
