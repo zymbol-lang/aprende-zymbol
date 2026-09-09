@@ -71,7 +71,7 @@ pintar_delta(cuerpo, cola_vieja) {
 }
 
 >>!
-[filas, cols] = >>?
+(filas, cols) = >>?
 
 ? filas < 10 || cols < 40 {
     >> "Necesito al menos 40x10 — tu terminal mide {cols}x{filas}" ¶

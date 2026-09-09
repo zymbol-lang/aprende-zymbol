@@ -39,7 +39,7 @@ tablero(filas, cols, ronda, aciertos) {
 }
 
 >>!
-[filas, cols] = >>?
+(filas, cols) = >>?
 
 ? filas < 10 || cols < 30 {
     >> "Necesito al menos 30x10 — tu terminal mide {cols}x{filas}" ¶
@@ -78,7 +78,7 @@ tablero(filas, cols, ronda, aciertos) {
 
                     // El redimensionado invalida la partida entera:
                     // el tablero medía otra cosa cuando empezó.
-                    [fa, ca] = >>?
+                    (fa, ca) = >>?
                     ? fa <> ult_filas || ca <> ult_cols {
                         filas = fa
                         cols  = ca

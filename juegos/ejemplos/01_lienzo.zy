@@ -17,7 +17,7 @@ NAVE   := 10    // verde claro
 TEXTO  := 15    // blanco
 
 >>!
-[filas, cols] = >>?
+(filas, cols) = >>?
 
 // Una terminal muy pequeña no da para jugar. Se avisa y se sale,
 // en vez de dibujar algo roto.
