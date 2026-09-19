@@ -136,7 +136,7 @@ Es lo que separa un juego de terminal decente de uno frágil. La ventana puede c
 
 ```
 // serpiente/juego.zy
-[filas_act, cols_act] = >>?
+(filas_act, cols_act) = >>?
 ? filas_act <> ult_filas || cols_act <> ult_cols {
     AN = cols_act - 2
     AL = filas_act - 2

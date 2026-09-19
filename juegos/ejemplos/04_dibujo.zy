@@ -39,7 +39,7 @@ pintar_todo(cuerpo, filas, cols) {
 
     i = 1
     @ i <= (cuerpo$#) {
-        [f, c] = cuerpo[i]
+        (f, c) = cuerpo[i]
         color = CUERPO
         ? i == 1 { color = CABEZA }
         >>~ (f, c, 0, color) > "●"
@@ -55,15 +55,15 @@ pintar_todo(cuerpo, filas, cols) {
 // `cola_vieja` tiene que venir de fuera porque, una vez movido el
 // gusano, esa posición ya no existe en ninguna parte.
 pintar_delta(cuerpo, cola_vieja) {
-    [tf, tc] = cola_vieja
+    (tf, tc) = cola_vieja
     >>~ (tf, tc, 0, 0) > " "          // borrar SIEMPRE va primero
 
-    [hf, hc] = cuerpo[1]
+    (hf, hc) = cuerpo[1]
     >>~ (hf, hc, 0, CABEZA) > "●"
 
     // el segundo segmento deja de ser cabeza y pasa a ser cuerpo
     ? (cuerpo$#) >= 2 {
-        [sf, sc] = cuerpo[2]
+        (sf, sc) = cuerpo[2]
         >>~ (sf, sc, 0, CUERPO) > "●"
         <~ 3
     }
@@ -120,7 +120,7 @@ pintar_delta(cuerpo, cola_vieja) {
             cola_vieja = cuerpo[cuerpo$#]
 
             // ── actualizar ────────────────────────────────────
-            [hf, hc] = cuerpo[1]
+            (hf, hc) = cuerpo[1]
             nf = hf + df
             nc = hc + dc
             // rebota contra las paredes en vez de morir

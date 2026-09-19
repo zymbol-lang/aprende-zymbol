@@ -310,12 +310,12 @@ Una función de [Serpiente](https://github.com/zymbol-lang/zySerpiente), tal cua
 ```
 // serpiente/logica.zy
 nueva_comida(serpiente, AN, AL, semilla) {
-    [r, s1] = rango_aleatorio(semilla, 2, AL + 1)
-    [c, s2] = rango_aleatorio(s1,     2, AN)
+    (r, s1) = rango_aleatorio(semilla, 2, AL + 1)
+    (c, s2) = rango_aleatorio(s1,     2, AN)
     pos = (r, c)
     ? _en_serpiente(serpiente, pos) {
-        [r, s1] = rango_aleatorio(s2, 2, AL + 1)
-        [c, s2] = rango_aleatorio(s1, 2, AN)
+        (r, s1) = rango_aleatorio(s2, 2, AL + 1)
+        (c, s2) = rango_aleatorio(s1, 2, AN)
         pos = (r, c)
     }
     <~ (pos, s2)
@@ -326,7 +326,7 @@ Hay cuatro cosas nuevas aquí, y las cuatro son consecuencia del aislamiento que
 
 1. **Todo entra por la firma.** `serpiente`, `AN`, `AL` y `semilla` no son variables globales — no existen. La función solo puede ver lo que le pasas.
 2. **`<~ (pos, s2)` devuelve dos cosas a la vez**, empaquetadas en una tupla. Es lo que se hace cuando una función tiene más de una respuesta.
-3. **`[r, s1] = rango_aleatorio(...)`** desempaqueta esa tupla en dos variables de un golpe. Lo verás con detalle en el nivel intermedio.
+3. **`(r, s1) = rango_aleatorio(...)`** desempaqueta esa tupla en dos variables de un golpe. Lo verás con detalle en el nivel intermedio.
 4. **`_en_serpiente` empieza por `_`.** Es una función privada del módulo: se usa aquí dentro y no se publica hacia fuera.
 
 Y una decisión que merece la pena entender: **hay un solo reintento, no un bucle**. Si la primera posición cae encima de la serpiente se prueba otra vez, y si esa también falla se acepta igual. Un bucle «hasta encontrar sitio» sobre un tablero casi lleno podría no terminar nunca, y el juego prefiere un fallo rarísimo y visible a un cuelgue.

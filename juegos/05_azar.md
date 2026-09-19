@@ -53,7 +53,7 @@ rango_aleatorio(semilla, min, max) {
 // un emoji de fruta al azar
 fruta_aleatoria(semilla) {
     frutas = ["🍎", "🍊", "🍋", "🍇", "🍓", "🫐", "🍑", "🥝", "🍒", "🍉"]
-    [ind, s1] = rango_aleatorio(semilla, 1, 10)
+    (ind, s1) = rango_aleatorio(semilla, 1, 10)
     <~ (frutas[ind], s1)
 }
 ```
@@ -67,8 +67,8 @@ Hov veS usa exactamente las mismas constantes que Serpiente. No es pereza: es qu
 Mira otra vez las firmas. **Toda función que use azar devuelve la semilla avanzada**, y quien la llama tiene que guardarla:
 
 ```
-[comida, semilla] = l::nueva_comida(serpiente, AN, AL, semilla)
-[fruta,  semilla] = l::fruta_aleatoria(semilla)
+(comida, semilla) = l::nueva_comida(serpiente, AN, AL, semilla)
+(fruta,  semilla) = l::fruta_aleatoria(semilla)
 ```
 
 Si te olvidas de recoger `semilla`, el generador se queda clavado y la siguiente llamada devuelve el mismo número. Es un fallo que no da error: simplemente la comida siempre aparece en el mismo sitio.
@@ -129,12 +129,12 @@ Cuando Serpiente busca sitio para la comida, tiene que evitar la serpiente:
 ```
 // serpiente/logica.zy
 nueva_comida(serpiente, AN, AL, semilla) {
-    [r, s1] = rango_aleatorio(semilla, 2, AL + 1)
-    [c, s2] = rango_aleatorio(s1,     2, AN)
+    (r, s1) = rango_aleatorio(semilla, 2, AL + 1)
+    (c, s2) = rango_aleatorio(s1,     2, AN)
     pos = (r, c)
     ? _en_serpiente(serpiente, pos) {
-        [r, s1] = rango_aleatorio(s2, 2, AL + 1)
-        [c, s2] = rango_aleatorio(s1, 2, AN)
+        (r, s1) = rango_aleatorio(s2, 2, AL + 1)
+        (c, s2) = rango_aleatorio(s1, 2, AN)
         pos = (r, c)
     }
     <~ (pos, s2)

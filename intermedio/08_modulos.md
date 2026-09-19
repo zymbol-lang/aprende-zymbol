@@ -251,7 +251,7 @@ pruebas = [
 ]
 
 @ p:pruebas {
-    [n, e] = p
+    (n, e) = p
     r = reg::crear_usuario(n, e)
     ? r.ok {
         >> "Registrado: " n " (id=" r.id ")" ¶
