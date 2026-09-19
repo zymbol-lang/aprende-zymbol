@@ -90,7 +90,7 @@
                             piezas = piezas $+ nueva
                         }
 
-                        [piezas, puntos, vidas, caídas] =
+                        (piezas, puntos, vidas, caídas) =
                             l::caer(piezas, cesta, AN, AL, puntos, vidas)
 
                         // ── (3) comprobar el final ────────────

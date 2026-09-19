@@ -184,11 +184,11 @@
     // nueva cae donde estaba otra, borrar después la borraría.
     tick(piezas, caídas, puntos, AN) {
         @ v : caídas {
-            [f, c] = v
+            (f, c) = v
             >>~ (f, c, 0, 0) > " "
         }
         @ p : piezas {
-            [f, c, tipo] = p
+            (f, c, tipo) = p
             ? tipo == 1 {
                 >>~ (f, c, 0, BUENA) > "●"
             } _ {

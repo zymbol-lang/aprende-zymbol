@@ -57,9 +57,9 @@ estado = paso(estado)
 Serpiente lo hace con todo:
 
 ```
-[comida, fruta, semilla] = l::tick_comida(comio, serpiente, AN, AL, semilla, comida, fruta)
-[comida, semilla]        = l::nueva_comida(serpiente, AN, AL, semilla)
-[fruta,  semilla]        = l::fruta_aleatoria(semilla)
+(comida, fruta, semilla) = l::tick_comida(comio, serpiente, AN, AL, semilla, comida, fruta)
+(comida, semilla)        = l::nueva_comida(serpiente, AN, AL, semilla)
+(fruta,  semilla)        = l::fruta_aleatoria(semilla)
 ```
 
 ### El caso de la semilla
@@ -219,7 +219,7 @@ zymbol run --vm juegos/ejemplos/03_estado.zy    # el mismo resultado en el otro 
 | Concepto | Forma |
 |---|---|
 | Las funciones no ven el exterior | Solo parámetros (y constantes `:=` del módulo) |
-| Estado que va y viene | `[a, b, c] = paso(a, b, c)` |
+| Estado que va y viene | `(a, b, c) = paso(a, b, c)` |
 | Estructura grande o retorno ocupado | `fn(dato<~)` — parámetro de salida |
 | Estado de sesión | `°var` — auto-inicia y sobrevive al bucle |
 | Estado de subsistema | Variable de módulo |

@@ -56,7 +56,7 @@
         caídas = []
 
         @ p : piezas {
-            [f, c, tipo] = p
+            (f, c, tipo) = p
             nf = f + 1
             caídas = caídas $+ (f, c)
 
