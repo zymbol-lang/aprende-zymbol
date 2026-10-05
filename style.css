@@ -26,6 +26,8 @@
   --id:        #aaaaaa;
   --punct:     #6b7a99;
   --kw:        #00e87a;
+  --br:        #e8b04a;
+  --hot:       #ff9940;
   --mono:      'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
   --radius:    6px;
 
@@ -59,6 +61,8 @@ html.light {
   --id:        #333333;
   --punct:     #7a8598;
   --kw:        #008a48;
+  --br:        #b45309;
+  --hot:       #c05800;
 
   /* Cover light mode — azul muy suave, textos oscuros */
   --cover-bg:        #f0f4ff;
@@ -380,6 +384,8 @@ blockquote p { margin: 0; color: inherit; }
 .t-fn    { color: var(--fn); }
 .t-id    { color: var(--id); }
 .t-punct { color: var(--punct); }
+.t-br    { color: var(--br); }
+.t-hot   { color: var(--hot); font-weight: bold; }
 
 /* ─── Search bar ─── */
 .search input {
