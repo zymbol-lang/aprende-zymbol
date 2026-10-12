@@ -244,7 +244,7 @@ Un juego es, literalmente, un bucle infinito. Este es el corazón del juego [Ser
 
         ? tecla == 'q' || tecla == 'Q' { @:game! }
 
-        [vivo, serpiente, puntos, comio] = l::mover(serpiente, dir, comida, puntos, AN, AL, crecer)
+        (vivo, serpiente, puntos, comio) = l::mover(serpiente, dir, comida, puntos, AN, AL, crecer)
 
         ? !vivo { @:game! }
 

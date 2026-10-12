@@ -61,15 +61,19 @@
 
       plugins: [
         function (hook) {
-          hook.doneEach(function () {
+          // Colour every code block on the page. Called after each render, and
+          // once more when the highlighter arrives: it is an ES module loaded
+          // from the playground's site, so it can land after the first page.
+          window.zyPaint = function () {
             if (!window.zyHighlightCode) return;
             document.querySelectorAll('pre code').forEach(function (block) {
               var raw = block.textContent || '';
               if (!raw.trim()) return;
-              block.innerHTML = zyHighlightCode(raw);
+              block.innerHTML = window.zyHighlightCode(raw);
               block.className = 'language-zymbol';
             });
-          });
+          };
+          hook.doneEach(window.zyPaint);
         }
       ]
     };
@@ -83,8 +87,14 @@
   <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@2/dist/docsify-copy-code.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
 
-  <!-- Zymbol syntax highlighter (ported from playground) -->
-  <script src="zymbol-highlight.js"></script>
+  <!-- Zymbol syntax highlighter: the playground's own, not a copy (GLB-006).
+       A copy drifted from it twice; this one cannot. If the site does not load,
+       the code is shown uncoloured and nothing else breaks. -->
+  <script type="module">
+    import { highlightCode } from 'https://zymbol-lang.org/src/playground/highlight.js';
+    window.zyHighlightCode = highlightCode;
+    if (window.zyPaint) window.zyPaint();
+  </script>
 
   <!-- Theme toggle -->
   <script src="theme.js"></script>
