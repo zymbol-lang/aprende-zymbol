@@ -42,7 +42,7 @@ Y — esto es lo importante — **las tres se deshacen solas al salir del bloque
 ```
 
 ```
-[filas, cols] = >>?
+(filas, cols) = >>?
 >> "Tu terminal mide {filas} filas por {cols} columnas" ¶
 ```
 
@@ -50,7 +50,7 @@ Y — esto es lo importante — **las tres se deshacen solas al salir del bloque
 
 ```
 // serpiente/juego.zy
-[filas, cols] = >>?
+(filas, cols) = >>?
 AN = cols  - 2      // ancho interior: la terminal menos las dos columnas del marco
 AL = filas - 2      // alto  interior: la terminal menos las dos filas del marco
 ```
@@ -217,7 +217,7 @@ Un programa mínimo que usa los seis operadores: mide la terminal, dibuja un mar
 
 ```
 >>!
-[filas, cols] = >>?
+(filas, cols) = >>?
 
 >>| {
     // marco

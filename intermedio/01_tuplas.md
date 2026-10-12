@@ -122,7 +122,7 @@ Esta línea es del juego [Serpiente](https://github.com/zymbol-lang/zySerpiente)
 
 ```
 // serpiente/juego.zy
-[vivo, serpiente, puntos, comio] = l::mover(serpiente, dir, comida, puntos, AN, AL, crecer)
+(vivo, serpiente, puntos, comio) = l::mover(serpiente, dir, comida, puntos, AN, AL, crecer)
 ```
 
 Siete cosas entran, cuatro salen. Y fíjate en algo que parece un error y no lo es: **`serpiente` y `puntos` están a los dos lados**. Entra el estado viejo, sale el nuevo, la variable se reasigna.

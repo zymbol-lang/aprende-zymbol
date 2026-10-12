@@ -41,7 +41,7 @@ Aquí está el truco, y es la razón de esas dos líneas raras del tick que vist
 cola_vieja   = serpiente[serpiente$#]
 comida_vieja = comida
 
-[vivo, serpiente, puntos, comio] = l::mover(...)
+(vivo, serpiente, puntos, comio) = l::mover(...)
 ```
 
 Para **borrar** algo hay que saber dónde estaba. Y en cuanto llamas a `mover`, la posición vieja se ha perdido. Así que se guarda antes.
@@ -68,15 +68,15 @@ Once parámetros. No es una firma bonita, y no es un accidente: cada uno es una 
 ? !comio && !crecer {
     // la vieja cabeza se convierte en cuerpo
     ? serpiente$# >= 3 {
-        [py2, px2] = serpiente[2]
+        (py2, px2) = serpiente[2]
         >>~ (py2, px2, 0, VERDE) > _char_cuerpo(serpiente[1], serpiente[2], serpiente[3])
     }
     // se borra la cola vieja
-    [ty, tx] = cola_vieja
+    (ty, tx) = cola_vieja
     >>~ (ty, tx, 0, 0) > " "
     // y se redibuja el nuevo extremo de la cola
     lon = serpiente$#
-    [nty, ntx] = serpiente[lon]
+    (nty, ntx) = serpiente[lon]
     >>~ (nty, ntx, 0, VERDE) > _char_cola(serpiente[lon-1], serpiente[lon])
 }
 
@@ -97,7 +97,7 @@ No hay operador de «borrar celda». Se escribe un espacio con el color de fondo
 Y cuando lo que había ocupaba dos columnas — como un emoji — hay que borrar **dos**:
 
 ```
-[fvy, fvx] = comida_vieja
+(fvy, fvx) = comida_vieja
 >>~ (fvy, fvx, 0, 0) > "  "     // ← dos espacios: la fruta ocupa dos columnas
 ```
 
