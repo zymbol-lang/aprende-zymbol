@@ -15,9 +15,9 @@ cd "$(dirname "$0")/.."
 
 fallos=0
 
-for motor in "" "--vm"; do
+for motor in "--tw" "--vm"; do
     etiqueta="tree-walker"
-    [ -n "$motor" ] && etiqueta="VM de registros"
+    [ "$motor" = "--vm" ] && etiqueta="VM de registros"
     echo "═══ $etiqueta ═══"
 
     for prueba in pruebas/*.zy; do
